@@ -1,11 +1,12 @@
 
 #!/bin/bash
 
-tabledesc="Table"
-coldesc="Col"
+tabledesc="Table_"
+coldesc="_Col_"
 comma=" , "
 space=" "
 
+echo "" > TableMetaData
 createTable(){
 	start=$1
 	end=$2
@@ -14,7 +15,7 @@ createTable(){
 
 	for (( table=$start; table<=$end; table++ )) ;
 	do
-		echo "creating table $table"
+		
    		for (( col=$colstart; col<=$colend; col++ )) ;
         	do
                 	rand=$(($RANDOM % 4))
@@ -37,18 +38,19 @@ createTable(){
                 	fi
 
         	done
-		hive -e "create table $tabledesc$table ($str);"
+		echo "create table $tabledesc$table ($str);" >> TableMetaData
 		str=""
 	done
 }
 
 
-read -p "Enter the number of tables to be generated" tableCount
+read -p "Enter the number of tables to be generated : " tableCount
 
-read -p "Enter the percentage of small table (10 columns)" smallTableCount
+read -p "Enter the percentage of small table (10 columns) : " smallTableCount
 
-read -p "Enter the percentage of medium table (50 columns)" mediumTableCount
+read -p "Enter the percentage of medium table (50 columns) : " mediumTableCount
 
+echo "(Count of large tables is calculated automatically from the percentage of Small Tables and Medium Tables)"
 # calculating number of small tables from the percentage
 smallTableCount=`echo "$tableCount * ($smallTableCount / 100)" | bc -l`
 mediumTableCount=`echo "$tableCount * ($mediumTableCount / 100)" | bc -l`
@@ -60,17 +62,14 @@ bigTableCount=$(($tableCount - ($smallTableCount + $mediumTableCount) ))
 
 
 # createTable(Starting Table Number, Ending Table Number, Number of columns ) 
-echo "Generating $smallTableCount small tables (10 columns) "	
+	
 createTable 1 $smallTableCount 10
 
-echo "Generating $mediumTableCount medium tables (50 columns) "
+
 createTable $(($smallTableCount + 1)) $(($smallTableCount + $mediumTableCount)) 50
 
-echo "Generating $bigTableCount large tables (100 columns) "
+
 createTable $(($smallTableCount + $mediumTableCount + 1)) $(($tableCount)) 100
-
-
-hive -e "show tables;"
 
 echo "Executing the hive query - ends"
 
