@@ -5,14 +5,18 @@ tabledesc="Table_"
 coldesc="_Col_"
 comma=" , "
 space=" "
+# first argument - file name
+file=$1
 
-echo "" > TableMetaData
+if [ ! -z "$file" ]; then
+        echo "" > $file
+fi
+
 createTable(){
 	start=$1
 	end=$2
 	colstart=1
 	colend=$3
-
 	for (( table=$start; table<=$end; table++ )) ;
 	do
 		
@@ -38,7 +42,12 @@ createTable(){
                 	fi
 
         	done
-		echo "create table $tabledesc$table ($str);" >> TableMetaData
+		#check if file exists
+		if [[ -e $file ]]
+		then
+			echo "create table $tabledesc$table ($str);" >> $file
+		else
+			echo "create table $tabledesc$table ($str);"
 		str=""
 	done
 }
@@ -49,6 +58,7 @@ read -p "Enter the number of tables to be generated : " tableCount
 read -p "Enter the percentage of small table (10 columns) : " smallTableCount
 
 read -p "Enter the percentage of medium table (50 columns) : " mediumTableCount
+
 
 echo "(Count of large tables is calculated automatically from the percentage of Small Tables and Medium Tables)"
 # calculating number of small tables from the percentage
@@ -71,5 +81,5 @@ createTable $(($smallTableCount + 1)) $(($smallTableCount + $mediumTableCount)) 
 
 createTable $(($smallTableCount + $mediumTableCount + 1)) $(($tableCount)) 100
 
-echo "Executing the hive query - ends"
+echo "-Script ends- "
 
