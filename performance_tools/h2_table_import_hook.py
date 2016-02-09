@@ -77,7 +77,7 @@ for line in content:
 		start_time=""
 
 if (success==1):
-	print "Total time for small tables(10 columns)",s_ms/1000," seconds for",small_t_cnt," tables. Average small table creation time :",s_ms/(1000*small_t_cnt)
-	print "Total time for medium tables(50 columns)",m_ms/1000," seconds for",medium_t_cnt," tables. Average medium table creation time :",m_ms/(1000*medium_t_cnt)
-	print "Total time for large tables(100 columns)",l_ms/1000," seconds for",large_t_cnt," tables. Average large table creation time :",l_ms/(1000*large_t_cnt)
+	print "Total time for small tables(10 columns)",s_ms/1000," seconds for",small_t_cnt," tables. Average small table import time :",s_ms/(1000*small_t_cnt)
+	print "Total time for medium tables(50 columns)",m_ms/1000," seconds for",medium_t_cnt," tables. Average medium table import time :",m_ms/(1000*medium_t_cnt)
+	print "Total time for large tables(100 columns)",l_ms/1000," seconds for",large_t_cnt," tables. Average large table import time :",l_ms/(1000*large_t_cnt)
 		
