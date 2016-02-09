@@ -43,7 +43,10 @@ for line in content:
 		diff_ms=1000-int(st_ms)+int(end_ms)
 		diff_s=etime-stime
 		if(diff_ms>=1000):
-			diff_s=diff_s-1
+                        diff_ms=diff_ms%1000
+                elif(diff_ms<1000):
+                        if(diff_s!=0):
+                                diff_s=diff_s-1
 		if(stable_no==etable_no):
 			t_ms=(diff_s)*1000+diff_ms
 			if((stable_no>=small_s)and(stable_no<=small_e)):
@@ -56,7 +59,7 @@ for line in content:
 			assert(stable_no!=etable_no),"Incorrect log file"
 
 
-print "Total time for small tables(10 columns)",s_ms/1000," seconds for",small_e-small_s+1," tables. Average small table creation time :",s_ms/(1000*small_e-small_s+1)
-print "Total time for medium tables(50 columns)",m_ms/1000," seconds for",medium_e-medium_s+1," tables. Average medium table creation time :",m_ms/(1000*medium_e-medium_s+1)
-print "Total time for large tables(100 columns)",l_ms/1000," seconds for",large_e-large_s+1," tables. Average large table creation time :",l_ms/(1000*large_e-large_s+1)
+print "Total time for small tables(10 columns)",s_ms/1000," seconds for",small_e-small_s+1," tables. Average small table creation time :",s_ms/(1000*(small_e-small_s+1))
+print "Total time for medium tables(50 columns)",m_ms/1000," seconds for",medium_e-medium_s+1," tables. Average medium table creation time :",m_ms/(1000*(medium_e-medium_s+1))
+print "Total time for large tables(100 columns)",l_ms/1000," seconds for",large_e-large_s+1," tables. Average large table creation time :",l_ms/(1000*(large_e-large_s+1))
 
