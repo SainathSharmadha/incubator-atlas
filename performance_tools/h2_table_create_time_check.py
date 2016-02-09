@@ -25,17 +25,30 @@ medium_e=int(sys.argv[2])
 
 large_s=medium_e+1
 large_e=int(sys.argv[3])
-
+start_time=""
+success=1
+end_time="end"
 
 for line in content:
 	start_match=re.match('([2][0-9][0-9][0-9]\-[0-2][0-9]\-[0-3][0-9] [0-2][0-9]\:[0-5][0-9]\:[0-5][0-9])\,([0-9]*).*parse\.ParseDriver(.*)Parsing command\: create table Table_([0-9]*)(.*)',line);
 	end_match=re.match('([2][0-9][0-9][0-9]\-[0-2][0-9]\-[0-3][0-9] [0-2][0-9]\:[0-5][0-9]\:[0-5][0-9])\,([0-9]*)(.*)HiveServer2\-Background\-Pool(.*) hive.log \(MetaStoreUtils\.java\:updateUnpartitionedTableStatsFast(.*)Updated size of table Table_([0-9]*) to (.*)',line);
 	if start_match:
+		if(not end_time):
+                        print "Incorrect logs"
+                        print "New create table statement is being parsed. Last created table is not updated"
+                        success=0
+                        break
 		start_time=start_match.group(1)
 		stable_no=int(start_match.group(4))
 		stime=time.mktime(time.strptime(start_time, '%Y-%m-%d %H:%M:%S'));
 		st_ms=start_match.group(2)
+		end_time=""
 	if end_match:
+		if(not start_time):
+                        print "Incorrect logs"
+                        print "Updation of new table is done without updating the previous one.Parsing table command missing"
+                        success=0
+                        break
 		end_time=end_match.group(1)
 		end_ms=int(end_match.group(2))
 		etable_no=int(end_match.group(6))
@@ -56,10 +69,13 @@ for line in content:
 			elif((stable_no>=large_s)and(stable_no<=large_e)):
                         	l_ms=l_ms+t_ms
 		else:
-			assert(stable_no!=etable_no),"Incorrect log file"
+			print "Incorrect log file"
+			success=0
+			break
+		start_time=""
 
-
-print "Total time for small tables(10 columns)",s_ms/1000," seconds for",small_e-small_s+1," tables. Average small table creation time :",s_ms/(1000*(small_e-small_s+1))
-print "Total time for medium tables(50 columns)",m_ms/1000," seconds for",medium_e-medium_s+1," tables. Average medium table creation time :",m_ms/(1000*(medium_e-medium_s+1))
-print "Total time for large tables(100 columns)",l_ms/1000," seconds for",large_e-large_s+1," tables. Average large table creation time :",l_ms/(1000*(large_e-large_s+1))
+if(success==1):
+	print "Total time for small tables(10 columns)",s_ms/1000," seconds for",small_e-small_s+1," tables. Average small table creation time :",s_ms/(1000*(small_e-small_s+1))
+	print "Total time for medium tables(50 columns)",m_ms/1000," seconds for",medium_e-medium_s+1," tables. Average medium table creation time :",m_ms/(1000*(medium_e-medium_s+1))
+	print "Total time for large tables(100 columns)",l_ms/1000," seconds for",large_e-large_s+1," tables. Average large table creation time :",l_ms/(1000*(large_e-large_s+1))
 
