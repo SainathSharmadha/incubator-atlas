@@ -11,12 +11,12 @@ $ATLAS_HOME/bin/atlas_stop.py
 
 
 #Start Hadoop
-#rm -rf $HADOOP_HOME/hadoopdata
-#rm -rf $HADOOP_HOMElogs
-#hdfs namenode -format
-#$HADOOP_HOME/sbin/stop-all.sh
-#$HADOOP_HOME/sbin/start-dfs.sh
-#$HADOOP_HOME/sbin/start-yarn.sh
+rm -rf $HADOOP_HOME/hadoopdata
+rm -rf $HADOOP_HOMElogs
+$HADOOP_HOME/sbin/stop-all.sh
+hdfs namenode -format
+$HADOOP_HOME/sbin/start-dfs.sh
+$HADOOP_HOME/sbin/start-yarn.sh
 
 
 #Start zookeeper and kafka
