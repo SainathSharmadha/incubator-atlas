@@ -1,4 +1,4 @@
-package hwx.guidgen.com;
+package org.apache.atlas.performance.tools;
 
 /**
  * Created by temp on 3/16/16.

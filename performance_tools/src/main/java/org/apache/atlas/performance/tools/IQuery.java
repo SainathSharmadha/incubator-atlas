@@ -1,4 +1,4 @@
-package com.hwx.querygen;
+package org.apache.atlas.performance.tools;
 
 /**
  * Created by temp on 3/2/16.

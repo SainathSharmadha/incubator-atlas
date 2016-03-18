@@ -436,6 +436,7 @@
         <module>addons/sqoop-bridge</module>
         <module>addons/storm-bridge</module>
         <module>distro</module>
+        <module>performance_tools</module>
     </modules>
 
     <repositories>

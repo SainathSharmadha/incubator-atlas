@@ -1,4 +1,4 @@
-package com.hwx.querygen;
+package org.apache.atlas.performance.tools;
 
 import java.util.Random;
 

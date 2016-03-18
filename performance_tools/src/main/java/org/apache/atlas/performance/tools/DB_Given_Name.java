@@ -1,9 +1,6 @@
-package com.hwx.querygen;
+package org.apache.atlas.performance.tools;
 
-import com.thoughtworks.xstream.mapper.SystemAttributeAliasingMapper;
-import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
-
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
