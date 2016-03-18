@@ -1,0 +1,223 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Atlas Performance Tools
+
+
+From: 'an unknown organization'
+  - avalon-framework  avalon-framework:avalon-framework:jar:4.1.4
+
+  - XMP Library for Java (http://www.adobe.com/devnet/xmp.html) com.adobe.xmp:xmpcore:jar:5.1.2
+    License: The BSD License  (http://www.adobe.com/devnet/xmp/library/eula-xmp-library-java.html)
+  - metadata-extractor (http://code.google.com/p/metadata-extractor/) com.drewnoakes:metadata-extractor:jar:2.6.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - juniversalchardet (http://juniversalchardet.googlecode.com/) com.googlecode.juniversalchardet:juniversalchardet:jar:1.0.3
+    License: Mozilla Public License 1.1 (MPL 1.1)  (http://www.mozilla.org/MPL/MPL-1.1.html)
+  - ISO Parser (http://code.google.com/p/mp4parser/) com.googlecode.mp4parser:isoparser:jar:1.0-RC-1
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Boilerpipe -- Boilerplate Removal and Fulltext Extraction from HTML pages (http://code.google.com/p/boilerpipe/) de.l3s.boilerpipe:boilerpipe:jar:1.1.0
+    License: Apache License 2.0 
+  - The NetCDF-Java Library (http://www.unidata.ucar.edu/software/netcdf-java/) edu.ucar:netcdf:jar:4.2-min
+    License: (MIT-style) netCDF C library license.  (http://www.unidata.ucar.edu/software/netcdf/copyright.html)
+  - excalibur-datasource  excalibur-datasource:excalibur-datasource:jar:1.1.1
+
+  - excalibur-instrument  excalibur-instrument:excalibur-instrument:jar:1.0
+
+  - excalibur-logger  excalibur-logger:excalibur-logger:jar:1.1
+
+  - excalibur-pool  excalibur-pool:excalibur-pool:jar:1.2
+
+  - JavaBeans(TM) Activation Framework (http://java.sun.com/javase/technologies/desktop/javabeans/jaf/index.jsp) javax.activation:activation:jar:1.1.1
+    License: COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0  (https://glassfish.dev.java.net/public/CDDLv1.0.html)
+  - jCharts (http://jcharts.sourceforge.net/) jcharts:jcharts:jar:0.7.5
+    License: The Apache Software License, Version 1.1  (http://www.apache.org/licenses/LICENSE-1.1.txt)
+  - jdom  jdom:jdom:jar:1.0
+
+  - logkit  logkit:logkit:jar:2.0
+
+  - Apache JMeter Components (http://jmeter.apache.org/ApacheJMeter_components/) org.apache.jmeter:ApacheJMeter_components:jar:2.9
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache JMeter Core (http://jmeter.apache.org/ApacheJMeter_core/) org.apache.jmeter:ApacheJMeter_core:jar:2.9
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache JMeter HTTP (http://jmeter.apache.org/ApacheJMeter_http/) org.apache.jmeter:ApacheJMeter_http:jar:2.9
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache JMeter jorphan library (http://jmeter.apache.org/jorphan/) org.apache.jmeter:jorphan:jar:2.9
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - AspectJ runtime (http://www.aspectj.org) org.aspectj:aspectjrt:jar:1.6.11
+    License: Eclipse Public License - v 1.0  (http://www.eclipse.org/legal/epl-v10.html)
+  - BeanShell (http://www.beanshell.org/) org.beanshell:bsh:jar:2.0b5
+    License: GNU LESSER GENERAL PUBLIC LICENSE  (http://www.gnu.org/copyleft/lesser.html)
+  - Bouncy Castle CMS and S/MIME API (http://www.bouncycastle.org/java.html) org.bouncycastle:bcmail-jdk15:jar:1.45
+    License: Bouncy Castle Licence  (http://www.bouncycastle.org/licence.html)
+  - Bouncy Castle Provider (http://www.bouncycastle.org/java.html) org.bouncycastle:bcprov-jdk15:jar:1.45
+    License: Bouncy Castle Licence  (http://www.bouncycastle.org/licence.html)
+  - TagSoup (http://home.ccil.org/~cowan/XML/tagsoup/) org.ccil.cowan.tagsoup:tagsoup:jar:1.2.1
+    License: Apache License 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Ogg and Vorbis for Java, Core (https://github.com/Gagravarr/VorbisJava) org.gagravarr:vorbis-java-core:jar:0.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Ogg and Vorbis for Java, Core (https://github.com/Gagravarr/VorbisJava) org.gagravarr:vorbis-java-core:jar:0.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Tika plugin for Ogg, Vorbis and FLAC (https://github.com/Gagravarr/VorbisJava) org.gagravarr:vorbis-java-tika:jar:0.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - HTML Lexer Jar (http://htmlparser.org) org.htmlparser:htmllexer:jar:2.1
+    License: Common Public License  (http://htmlparser.sourceforge.net/cpl1.0.txt)    License: GNU Lesser General Public License  (http://htmlparser.sourceforge.net/lgpl3.0.txt)
+  - HTML Parser Jar (http://htmlparser.org) org.htmlparser:htmlparser:jar:2.1
+    License: Common Public License  (http://htmlparser.sourceforge.net/cpl1.0.txt)    License: GNU Lesser General Public License  (http://htmlparser.sourceforge.net/lgpl3.0.txt)
+  - XZ for Java (http://tukaani.org/xz/java.html) org.tukaani:xz:jar:1.0
+    License: Public Domain 
+  - oro  oro:oro:jar:2.0.8
+
+  - soap  soap:soap:jar:2.3.1
+
+  - XML Pull Parsing API (http://www.xmlpull.org) xmlpull:xmlpull:jar:1.1.3.1
+    License: Public Domain  (http://www.xmlpull.org/v1/download/unpacked/LICENSE.txt)
+
+From: 'Apache Software Foundation' (http://jakarta.apache.org/)
+  - HttpClient (http://jakarta.apache.org/httpcomponents/httpclient-3.x/) commons-httpclient:commons-httpclient:jar:3.1
+    License: Apache License  (http://www.apache.org/licenses/LICENSE-2.0)
+
+From: 'Apache Software Foundation' (http://www.apache.org)
+  - Apache Log4j (http://logging.apache.org/log4j/1.2/) log4j:log4j:bundle:1.2.17
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - JMS 1.1 (http://geronimo.apache.org/specs/geronimo-jms_1.1_spec) org.apache.geronimo.specs:geronimo-jms_1.1_spec:jar:1.1.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Streaming API for XML (STAX API 1.0) (http://geronimo.apache.org/specs/geronimo-stax-api_1.0_spec) org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:bundle:1.0.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'Apache Software Foundation' (http://www.apache.org/)
+  - Bean Scripting Framework (http://jakarta.apache.org/bsf) bsf:bsf:jar:2.4.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache POI (http://poi.apache.org/) org.apache.poi:poi:jar:3.8
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache POI (http://poi.apache.org/) org.apache.poi:poi-ooxml:jar:3.8
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache POI (http://poi.apache.org/) org.apache.poi:poi-ooxml-schemas:jar:3.8
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache POI (http://poi.apache.org/) org.apache.poi:poi-scratchpad:jar:3.8
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache XML Graphics Commons (http://xmlgraphics.apache.org/commons/) org.apache.xmlgraphics:xmlgraphics-commons:jar:1.3.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - XML Commons External Components XML APIs (http://xml.apache.org/commons/components/external/) xml-apis:xml-apis:jar:1.3.04
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'Extreme! Lab, Indiana University' (http://www.extreme.indiana.edu/)
+  - MXP1: Xml Pull Parser 3rd Edition (XPP3) (http://www.extreme.indiana.edu/xgws/xsoap/xpp/mxp1/) xpp3:xpp3_min:jar:1.1.4c
+    License: Indiana University Extreme! Lab Software License, vesion 1.1.1  (http://www.extreme.indiana.edu/viewcvs/~checkout~/XPP3/java/LICENSE.txt)    License: Public Domain  (http://creativecommons.org/licenses/publicdomain)
+
+From: 'Hamcrest' (http://code.google.com/p/hamcrest)
+  - Hamcrest Core  org.hamcrest:hamcrest-core:jar:1.1
+    License: BSD style  (http://www.opensource.org/licenses/bsd-license.php)
+
+From: 'JDOM' (http://www.jdom.org)
+  - JDOM (http://www.jdom.org) org.jdom:jdom:jar:1.1.2
+    License: Similar to Apache License but with the acknowledgment clause removed  (https://raw.github.com/hunterhacker/jdom/master/LICENSE.txt)
+
+From: 'Jodd' (http://jodd.org/)
+  - Jodd Core (http://jodd.org/jodd-core) org.jodd:jodd-core:jar:3.4.1
+    License: The New BSD License  (http://jodd.org/license.html)
+  - Jodd Lagarto (http://jodd.org/jodd-lagarto) org.jodd:jodd-lagarto:jar:3.4.1
+    License: The New BSD License  (http://jodd.org/license.html)
+
+From: 'Jonathan Hedley' (http://jonathanhedley.com/)
+  - jsoup (http://jsoup.org/) org.jsoup:jsoup:jar:1.7.1
+    License: The MIT License  (http://jsoup.com/license)
+
+From: 'JUnit' (http://www.junit.org)
+  - JUnit (http://junit.org) junit:junit:jar:4.10
+    License: Common Public License Version 1.0  (http://www.opensource.org/licenses/cpl1.0.txt)
+
+From: 'MetaStuff Ltd.' (http://sourceforge.net/projects/dom4j)
+  - dom4j (http://dom4j.org) dom4j:dom4j:jar:1.6.1
+
+
+From: 'ObjectWeb' (http://www.objectweb.org/)
+  - ASM Core (http://asm.objectweb.org/asm/) asm:asm:jar:3.1
+
+
+From: 'Oracle' (http://www.oracle.com)
+  - JavaMail API (compat) (http://kenai.com/projects/javamail/mail) javax.mail:mail:jar:1.4.4
+    License: CDDL  (http://www.sun.com/cddl)    License: GPLv2+CE  (https://glassfish.dev.java.net/public/CDDL+GPL.html)
+
+From: 'QOS.ch' (http://www.qos.ch)
+  - JUL to SLF4J bridge (http://www.slf4j.org) org.slf4j:jul-to-slf4j:jar:1.7.7
+    License: MIT License  (http://www.opensource.org/licenses/mit-license.php)
+  - SLF4J API Module (http://www.slf4j.org) org.slf4j:slf4j-api:jar:1.7.7
+    License: MIT License  (http://www.opensource.org/licenses/mit-license.php)
+  - SLF4J LOG4J-12 Binding (http://www.slf4j.org) org.slf4j:slf4j-log4j12:jar:1.7.7
+    License: MIT License  (http://www.opensource.org/licenses/mit-license.php)
+
+From: 'sourceforge' (http://sourceforge.net)
+  - JTidy (http://jtidy.sourceforge.net) net.sf.jtidy:jtidy:jar:r938
+    License: Java HTML Tidy License  (http://jtidy.svn.sourceforge.net/viewvc/jtidy/trunk/jtidy/LICENSE.txt?revision=95)
+
+From: 'Sun Microsystems' (http://java.sun.com/)
+  - ROME, RSS and atOM utilitiEs for Java (https://rome.dev.java.net/) rome:rome:jar:0.9
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'The Apache Software Foundation' (http://jakarta.apache.org)
+  - Commons JEXL (http://jakarta.apache.org/commons/jexl/) commons-jexl:commons-jexl:jar:1.1
+    License: The Apache Software License, Version 2.0  (/LICENSE.txt)
+
+From: 'The Apache Software Foundation' (http://pdfbox.apache.org)
+  - Apache FontBox (http://pdfbox.apache.org/) org.apache.pdfbox:fontbox:bundle:1.7.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache JempBox (http://www.apache.org/pdfbox-parent/jempbox/) org.apache.pdfbox:jempbox:bundle:1.7.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache PDFBox (http://www.apache.org/pdfbox-parent/pdfbox/) org.apache.pdfbox:pdfbox:bundle:1.7.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'The Apache Software Foundation' (http://www.apache.org/)
+  - Commons Codec (http://commons.apache.org/codec/) commons-codec:commons-codec:jar:1.6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Collections (http://commons.apache.org/collections/) commons-collections:commons-collections:jar:3.2.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons IO (http://commons.apache.org/io/) commons-io:commons-io:jar:2.4
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Logging (http://commons.apache.org/logging) commons-logging:commons-logging:jar:1.1.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Net (http://commons.apache.org/net/) commons-net:commons-net:jar:3.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Compress (http://commons.apache.org/compress/) org.apache.commons:commons-compress:jar:1.4.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons JEXL (http://commons.apache.org/jexl/) org.apache.commons:commons-jexl:jar:2.1.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Commons Lang (http://commons.apache.org/proper/commons-lang/) org.apache.commons:commons-lang3:jar:3.4
+    License: Apache License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache HttpClient (http://hc.apache.org/httpcomponents-client) org.apache.httpcomponents:httpclient:jar:4.4.1
+    License: Apache License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache HttpCore (http://hc.apache.org/httpcomponents-core-ga) org.apache.httpcomponents:httpcore:jar:4.4.1
+    License: Apache License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache HttpClient Mime (http://hc.apache.org/httpcomponents-client) org.apache.httpcomponents:httpmime:jar:4.4.1
+    License: Apache License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache JAMES Mime4j (Core) (http://james.apache.org/mime4j/apache-mime4j-core) org.apache.james:apache-mime4j-core:jar:0.7.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache JAMES Mime4j (DOM) (http://james.apache.org/mime4j/apache-mime4j-dom) org.apache.james:apache-mime4j-dom:jar:0.7.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Tika core (http://tika.apache.org/) org.apache.tika:tika-core:bundle:1.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Tika parsers (http://tika.apache.org/) org.apache.tika:tika-parsers:bundle:1.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Xalan Java Serializer (http://xml.apache.org/xalan-j/) xalan:serializer:jar:2.7.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Xalan Java (http://xml.apache.org/xalan-j/) xalan:xalan:jar:2.7.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Xerces2 Java Parser (http://xerces.apache.org/xerces2-j) xerces:xercesImpl:jar:2.9.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'The Mozilla Foundation' (http://www.mozilla.org)
+  - Mozilla Rhino (https://developer.mozilla.org/en/Rhino) org.mozilla:rhino:jar:1.7R4
+    License: Mozilla Public License, Version 2.0  (http://www.mozilla.org/MPL/2.0/index.txt)
+
+From: 'XmlBeans' (http://xmlbeans.apache.org/)
+  - XmlBeans (http://xmlbeans.apache.org) org.apache.xmlbeans:xmlbeans:jar:2.3.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'XStream' (http://xstream.codehaus.org)
+  - XStream Core (http://codehaus.org/xstream-parent/xstream/) com.thoughtworks.xstream:xstream:jar:1.4.2
+    License: BSD style  (http://xstream.codehaus.com/license.html)
+
+
+
+
