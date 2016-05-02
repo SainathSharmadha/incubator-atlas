@@ -21,25 +21,26 @@ import java.io.*;
  * Created by temp on 4/5/16.
  */
 public class FileBuilder {
+    String responseFileName;
 
-    public static void createFiles(Integer usersCnt) throws IOException, TransformerException, SAXException, ParserConfigurationException {
+    public void createFiles(Integer usersCnt,String responseFileName) throws IOException, TransformerException, SAXException, ParserConfigurationException {
         for (int i = 1; i <= usersCnt; i++) {
             File f;
             Writer writer;
-            f = new File("performance_tools/src/main/java/org.apache.atlas.performance.tools/Users/Atlas users 1-" + i + ".xml");
+            f = new File("performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/Atlas users 1-" + i + ".xml");
             f.createNewFile();
             writer = new FileWriter(f);
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> \n <test/>");
             writer.flush();
         }
-
-        populateFiles();
+        this.responseFileName=responseFileName;
+        populateFiles(responseFileName);
 
     }
 
 
-    public static void populateFiles() throws IOException, SAXException, ParserConfigurationException, TransformerException {
-        File source = new File("/Users/temp/29-4/dataset50k/ResponseDataSet30_80_ctas.xml");
+    public static void populateFiles(String responseFileName) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+        File source = new File(responseFileName);
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document sourceDom = builder.parse(source);
 
@@ -48,12 +49,12 @@ public class FileBuilder {
 
         NodeList httpSample = sourceDom.getElementsByTagName("httpSample");
         for (int temp = 0; temp < httpSample.getLength(); temp++) {
-            System.out.println("temp" + temp);
+            System.out.println("Sampler number :\t" + temp);
             Node sourceSection = builder.parse(new InputSource(new FileReader(source))).getElementsByTagName("httpSample").item(temp);
             Element element = (Element) sourceSection;
             String userName = element.getAttribute("tn");
 
-            target = new File("performance_tools/src/main/java/org.apache.atlas.performance.tools/Users/" + userName + ".xml");
+            target = new File("performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/" + userName + ".xml");
             targetDom = builder.parse(new InputSource(new FileReader(target)));
             Node targetSection = targetDom.getElementsByTagName("test").item(0);
 

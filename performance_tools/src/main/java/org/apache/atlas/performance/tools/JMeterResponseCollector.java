@@ -21,7 +21,7 @@ public class JMeterResponseCollector {
 
         try {
 
-            input = new FileInputStream("performance_tools/src/main/java/org.apache.atlas.performance.tools/resources/config.properties");
+            input = new FileInputStream("performance_tools/src/main/java/org/apache/atlas/performance/tools/resources/config.properties");
             prop.load(input);
             nusers=Integer.parseInt(prop.getProperty("nusers"));
             nloops=Integer.parseInt(prop.getProperty("nloops"));
@@ -48,7 +48,8 @@ public class JMeterResponseCollector {
     public static void main(String args[]) throws IOException, TransformerException, SAXException, ParserConfigurationException {
 
         getConfiguredValues();
-        FileBuilder.createFiles(nusers);
+        FileBuilder fileBuilder=new FileBuilder();
+        //fileBuilder.createFiles(nusers,responseFile);
         User.loopCount=nloops;
         QuerySet.setNumQueriesPerSet(numQueriesPerSet);
         ResultCollector rs=new ResultCollector(nusers,nloops,small_e,medium_e,large_e,cpuUsageFile,responseFile);

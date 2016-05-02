@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><test><httpSample ct="1" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="59171" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="59171" tn="Atlas users 1-10" ts="1461953069436">
+<?xml version="1.0" encoding="UTF-8"?><test><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="13652" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="13652" tn="Atlas users 1-10" ts="1462039929286">
   <responseHeader class="java.lang.String">HTTP/1.1 200 OK
-Date: Fri, 29 Apr 2016 18:04:29 GMT
+Date: Sat, 30 Apr 2016 18:12:09 GMT
 Content-Type: application/json; charset=UTF-8
 Transfer-Encoding: chunked
 Server: Jetty(9.2.12.v20150709)
@@ -9,10 +9,10 @@ Server: Jetty(9.2.12.v20150709)
   <cookies class="java.lang.String"/>
   <method class="java.lang.String">GET</method>
   <queryString class="java.lang.String"/>
-  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_19579@erie-perf-test-cluster%27</java.net.URL>
-</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="28" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="28" tn="Atlas users 1-10" ts="1461953128608">
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_4684@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="31" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="31" tn="Atlas users 1-10" ts="1462039942939">
   <responseHeader class="java.lang.String">HTTP/1.1 200 OK
-Date: Fri, 29 Apr 2016 18:05:28 GMT
+Date: Sat, 30 Apr 2016 18:12:22 GMT
 Content-Type: application/json; charset=UTF-8
 Transfer-Encoding: chunked
 Server: Jetty(9.2.12.v20150709)
@@ -21,10 +21,10 @@ Server: Jetty(9.2.12.v20150709)
   <cookies class="java.lang.String"/>
   <method class="java.lang.String">GET</method>
   <queryString class="java.lang.String"/>
-  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/db2bf6d7-9dc8-4827-8105-d997dc825ce5</java.net.URL>
-</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="121704" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="121704" tn="Atlas users 1-10" ts="1461953128637">
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/64b9ad6a-e504-4700-ade5-5e523e6ac5ec</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="11837" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11837" tn="Atlas users 1-10" ts="1462039942971">
   <responseHeader class="java.lang.String">HTTP/1.1 200 OK
-Date: Fri, 29 Apr 2016 18:05:28 GMT
+Date: Sat, 30 Apr 2016 18:12:22 GMT
 Content-Type: application/json; charset=UTF-8
 Transfer-Encoding: chunked
 Server: Jetty(9.2.12.v20150709)
@@ -33,10 +33,10 @@ Server: Jetty(9.2.12.v20150709)
   <cookies class="java.lang.String"/>
   <method class="java.lang.String">GET</method>
   <queryString class="java.lang.String"/>
-  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_19579@erie-perf-test-cluster/schema</java.net.URL>
-</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="120814" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="120814" tn="Atlas users 1-10" ts="1461953250342">
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_4684@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="9219" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9219" tn="Atlas users 1-10" ts="1462039954808">
   <responseHeader class="java.lang.String">HTTP/1.1 200 OK
-Date: Fri, 29 Apr 2016 18:07:30 GMT
+Date: Sat, 30 Apr 2016 18:12:34 GMT
 Content-Type: application/json; charset=UTF-8
 Transfer-Encoding: chunked
 Server: Jetty(9.2.12.v20150709)
@@ -45,10 +45,10 @@ Server: Jetty(9.2.12.v20150709)
   <cookies class="java.lang.String"/>
   <method class="java.lang.String">GET</method>
   <queryString class="java.lang.String"/>
-  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_19579@erie-perf-test-cluster/inputs/graph</java.net.URL>
-</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="109058" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="109058" tn="Atlas users 1-10" ts="1461953371158">
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_4684@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="15656" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="15656" tn="Atlas users 1-10" ts="1462039964027">
   <responseHeader class="java.lang.String">HTTP/1.1 200 OK
-Date: Fri, 29 Apr 2016 18:09:31 GMT
+Date: Sat, 30 Apr 2016 18:12:44 GMT
 Content-Type: application/json; charset=UTF-8
 Transfer-Encoding: chunked
 Server: Jetty(9.2.12.v20150709)
@@ -57,10 +57,10 @@ Server: Jetty(9.2.12.v20150709)
   <cookies class="java.lang.String"/>
   <method class="java.lang.String">GET</method>
   <queryString class="java.lang.String"/>
-  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_19579@erie-perf-test-cluster/outputs/graph</java.net.URL>
-</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="54266" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="54266" tn="Atlas users 1-10" ts="1461953480216">
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_4684@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="11415" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11415" tn="Atlas users 1-10" ts="1462039979683">
   <responseHeader class="java.lang.String">HTTP/1.1 200 OK
-Date: Fri, 29 Apr 2016 18:11:20 GMT
+Date: Sat, 30 Apr 2016 18:12:59 GMT
 Content-Type: application/json; charset=UTF-8
 Transfer-Encoding: chunked
 Server: Jetty(9.2.12.v20150709)
@@ -69,10 +69,10 @@ Server: Jetty(9.2.12.v20150709)
   <cookies class="java.lang.String"/>
   <method class="java.lang.String">GET</method>
   <queryString class="java.lang.String"/>
-  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_21372@erie-perf-test-cluster%27</java.net.URL>
-</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="30" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="30" tn="Atlas users 1-10" ts="1461953534482">
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_7929@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="67" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="67" tn="Atlas users 1-10" ts="1462039991098">
   <responseHeader class="java.lang.String">HTTP/1.1 200 OK
-Date: Fri, 29 Apr 2016 18:12:14 GMT
+Date: Sat, 30 Apr 2016 18:13:11 GMT
 Content-Type: application/json; charset=UTF-8
 Transfer-Encoding: chunked
 Server: Jetty(9.2.12.v20150709)
@@ -81,10 +81,10 @@ Server: Jetty(9.2.12.v20150709)
   <cookies class="java.lang.String"/>
   <method class="java.lang.String">GET</method>
   <queryString class="java.lang.String"/>
-  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/8eba08db-7f08-46e2-9115-f9d71780a5c6</java.net.URL>
-</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="107621" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="107621" tn="Atlas users 1-10" ts="1461953534512">
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/469da146-3169-43a7-a3a4-ccf6010cc2a8</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="11045" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11045" tn="Atlas users 1-10" ts="1462039991165">
   <responseHeader class="java.lang.String">HTTP/1.1 200 OK
-Date: Fri, 29 Apr 2016 18:12:14 GMT
+Date: Sat, 30 Apr 2016 18:13:11 GMT
 Content-Type: application/json; charset=UTF-8
 Transfer-Encoding: chunked
 Server: Jetty(9.2.12.v20150709)
@@ -93,5 +93,1109 @@ Server: Jetty(9.2.12.v20150709)
   <cookies class="java.lang.String"/>
   <method class="java.lang.String">GET</method>
   <queryString class="java.lang.String"/>
-  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_21372@erie-perf-test-cluster/schema</java.net.URL>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7929@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="10475" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10475" tn="Atlas users 1-10" ts="1462040002210">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:13:22 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7929@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="13481" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="13481" tn="Atlas users 1-10" ts="1462040012686">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:13:32 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7929@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="9903" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9903" tn="Atlas users 1-10" ts="1462040026167">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:13:46 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_7015@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="67" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="67" tn="Atlas users 1-10" ts="1462040036071">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:13:56 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/954e041f-2a04-4175-8448-ad4dd8acfd6b</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="10006" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10006" tn="Atlas users 1-10" ts="1462040036139">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:13:56 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7015@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="11575" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11575" tn="Atlas users 1-10" ts="1462040046146">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:14:06 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7015@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="13399" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="13399" tn="Atlas users 1-10" ts="1462040057722">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:14:17 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7015@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="7335" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="7335" tn="Atlas users 1-10" ts="1462040071121">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:14:31 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_8471@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="46" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="46" tn="Atlas users 1-10" ts="1462040078457">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:14:38 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/a369fcf7-94dc-44be-a210-14d4bb1ffc49</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="12606" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12606" tn="Atlas users 1-10" ts="1462040078504">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:14:38 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8471@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="9951" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9951" tn="Atlas users 1-10" ts="1462040091110">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:14:51 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8471@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="12331" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12331" tn="Atlas users 1-10" ts="1462040101061">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:15:01 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8471@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="8841" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="8841" tn="Atlas users 1-10" ts="1462040113392">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:15:13 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_8963@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="55" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="55" tn="Atlas users 1-10" ts="1462040122233">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:15:22 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/7f05276a-afca-4820-b4ea-70acce86a955</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="12333" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12334" tn="Atlas users 1-10" ts="1462040122289">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:15:22 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8963@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="12018" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12018" tn="Atlas users 1-10" ts="1462040134623">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:15:34 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8963@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="11891" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11891" tn="Atlas users 1-10" ts="1462040146642">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:15:46 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8963@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="7407" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="7408" tn="Atlas users 1-10" ts="1462040158533">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:15:58 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_7333@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="50" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="51" tn="Atlas users 1-10" ts="1462040165941">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:16:05 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/3deefe38-ce7a-4d1f-970f-a028f4f331a7</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="10913" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10913" tn="Atlas users 1-10" ts="1462040165992">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:16:05 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7333@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="10785" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10785" tn="Atlas users 1-10" ts="1462040176906">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:16:16 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7333@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="11141" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11141" tn="Atlas users 1-10" ts="1462040187692">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:16:27 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7333@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="9423" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9423" tn="Atlas users 1-10" ts="1462040198832">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:16:38 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_6254@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="72" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="72" tn="Atlas users 1-10" ts="1462040208256">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:16:48 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/9c8226b5-53bd-410d-8550-fe8cb4b0239a</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="12680" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12680" tn="Atlas users 1-10" ts="1462040208328">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:16:48 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6254@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="10596" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10596" tn="Atlas users 1-10" ts="1462040221008">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:17:01 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6254@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="11457" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11457" tn="Atlas users 1-10" ts="1462040231605">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:17:11 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6254@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="8956" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="8956" tn="Atlas users 1-10" ts="1462040243062">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:17:23 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_7153@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="56" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="56" tn="Atlas users 1-10" ts="1462040252019">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:17:32 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/5adf6559-4a1a-4163-a6c2-4e566e65b025</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="10541" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10541" tn="Atlas users 1-10" ts="1462040252075">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:17:32 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7153@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="12207" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12207" tn="Atlas users 1-10" ts="1462040262616">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:17:42 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7153@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="11927" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11927" tn="Atlas users 1-10" ts="1462040274823">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:17:54 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7153@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="9850" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9850" tn="Atlas users 1-10" ts="1462040286750">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:18:06 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_8797@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="78" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="78" tn="Atlas users 1-10" ts="1462040296600">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:18:16 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/f1c55da5-18fd-446e-907b-ebb5ca7beed5</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="10719" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10719" tn="Atlas users 1-10" ts="1462040296679">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:18:16 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8797@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="10955" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10955" tn="Atlas users 1-10" ts="1462040307400">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:18:27 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8797@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="10783" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10783" tn="Atlas users 1-10" ts="1462040318354">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:18:38 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8797@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="11222" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11223" tn="Atlas users 1-10" ts="1462040329137">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:18:49 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_6402@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="70" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="70" tn="Atlas users 1-10" ts="1462040340360">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:19:00 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/4b9c52f9-bbb3-4c56-9510-d5463110eed4</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="10265" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10265" tn="Atlas users 1-10" ts="1462040340430">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:19:00 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6402@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="12033" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12033" tn="Atlas users 1-10" ts="1462040350696">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:19:10 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6402@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="11595" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11595" tn="Atlas users 1-10" ts="1462040362729">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:19:22 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6402@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="9577" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9577" tn="Atlas users 1-10" ts="1462040374325">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:19:34 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_6620@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="60" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="60" tn="Atlas users 1-10" ts="1462040383903">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:19:43 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/23c05ab4-c1ca-43c2-895d-6c6ebf251582</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="11125" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11125" tn="Atlas users 1-10" ts="1462040383963">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:19:43 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6620@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="11259" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11259" tn="Atlas users 1-10" ts="1462040395088">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:19:55 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6620@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="12729" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12729" tn="Atlas users 1-10" ts="1462040406348">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:20:06 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6620@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="9931" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9931" tn="Atlas users 1-10" ts="1462040419077">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:20:19 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_8428@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="73" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="73" tn="Atlas users 1-10" ts="1462040429009">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:20:29 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/c0f5c15a-e4c7-4cf7-954f-e890d0a7af6e</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="10618" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10619" tn="Atlas users 1-10" ts="1462040429082">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:20:29 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8428@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="11099" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11099" tn="Atlas users 1-10" ts="1462040439701">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:20:39 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8428@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="10902" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10902" tn="Atlas users 1-10" ts="1462040450800">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:20:50 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8428@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="7838" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="7838" tn="Atlas users 1-10" ts="1462040461702">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:21:01 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_8811@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="72" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="72" tn="Atlas users 1-10" ts="1462040469541">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:21:09 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/7af975e7-e1bd-4d3b-9627-c66f636de7fa</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="12561" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12561" tn="Atlas users 1-10" ts="1462040469613">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:21:09 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8811@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="11065" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11065" tn="Atlas users 1-10" ts="1462040482174">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:21:22 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8811@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="12767" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12767" tn="Atlas users 1-10" ts="1462040493239">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:21:33 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8811@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="9816" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9816" tn="Atlas users 1-10" ts="1462040506006">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:21:45 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_6051@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="63" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="63" tn="Atlas users 1-10" ts="1462040515822">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:21:55 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/6d9f8efa-2a41-4cc6-b1d4-dfac3afc7fd6</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="11197" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11197" tn="Atlas users 1-10" ts="1462040515886">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:21:55 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6051@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="12610" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12610" tn="Atlas users 1-10" ts="1462040527083">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:22:07 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6051@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="12716" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12716" tn="Atlas users 1-10" ts="1462040539694">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:22:19 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_6051@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="10165" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10165" tn="Atlas users 1-10" ts="1462040552410">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:22:32 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_7291@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="73" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="73" tn="Atlas users 1-10" ts="1462040562575">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:22:42 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/6fb2f91c-c3b2-484d-be80-d92e60abf928</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="9185" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9185" tn="Atlas users 1-10" ts="1462040562649">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:22:42 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7291@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="14580" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="14580" tn="Atlas users 1-10" ts="1462040571834">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:22:51 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7291@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="15176" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="15176" tn="Atlas users 1-10" ts="1462040586414">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:23:06 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_7291@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="10305" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10305" tn="Atlas users 1-10" ts="1462040601590">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:23:21 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_3048@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="23" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="23" tn="Atlas users 1-10" ts="1462040611896">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:23:31 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/7c96e1ed-dcfb-4088-9e42-8be7a2a0971a</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="9746" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9746" tn="Atlas users 1-10" ts="1462040611919">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:23:31 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_3048@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="13113" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="13113" tn="Atlas users 1-10" ts="1462040621664">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:23:41 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_3048@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="10856" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10856" tn="Atlas users 1-10" ts="1462040634777">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:23:54 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_3048@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="9359" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9360" tn="Atlas users 1-10" ts="1462040645633">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:24:05 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_9603@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="125" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="125" tn="Atlas users 1-10" ts="1462040654993">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:24:14 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/5b38debe-a25f-4242-86e7-d7e4bc819665</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="12510" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12510" tn="Atlas users 1-10" ts="1462040655118">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:24:15 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_9603@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="12665" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12665" tn="Atlas users 1-10" ts="1462040667629">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:24:27 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_9603@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="11352" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11352" tn="Atlas users 1-10" ts="1462040680294">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:24:40 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_9603@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="9890" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="9890" tn="Atlas users 1-10" ts="1462040691648">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:24:51 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_9010@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="204" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="204" tn="Atlas users 1-10" ts="1462040701538">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:25:01 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/137dc23c-770d-4dbd-9dba-6b164a4a38fb</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="13810" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="13810" tn="Atlas users 1-10" ts="1462040701743">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:25:01 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_9010@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="12720" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12720" tn="Atlas users 1-10" ts="1462040715553">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:25:15 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_9010@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="11546" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11546" tn="Atlas users 1-10" ts="1462040728274">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:25:28 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_9010@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="10036" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10036" tn="Atlas users 1-10" ts="1462040739820">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:25:39 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_3926@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="25" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="25" tn="Atlas users 1-10" ts="1462040749856">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:25:49 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/cca61ef1-d9cd-4a43-8005-fe6cb14784e6</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="10546" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10546" tn="Atlas users 1-10" ts="1462040749881">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:25:49 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_3926@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="11942" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="11942" tn="Atlas users 1-10" ts="1462040760428">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:26:00 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_3926@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="12100" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12100" tn="Atlas users 1-10" ts="1462040772370">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:26:12 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_3926@erie-perf-test-cluster/outputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get table given name" lt="10880" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10880" tn="Atlas users 1-10" ts="1462040784470">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:26:24 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/discovery/search/dsl?query=hive_table+where+name%3D%27default.table_8329@erie-perf-test-cluster%27</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get details of a table" lt="74" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="74" tn="Atlas users 1-10" ts="1462040795350">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:26:35 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/entities/de34cce2-72b5-4c8c-8780-a3292f6b81d6</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Get schema of the table" lt="10170" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10170" tn="Atlas users 1-10" ts="1462040795424">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:26:35 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8329@erie-perf-test-cluster/schema</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage input" lt="12562" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="12562" tn="Atlas users 1-10" ts="1462040805596">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:26:45 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8329@erie-perf-test-cluster/inputs/graph</java.net.URL>
+</httpSample><httpSample ct="0" dt="text" ec="0" hn="cn060-10.l42scl.hortonworks.com" it="0" lb="Lineage output" lt="10523" na="30" ng="30" rc="200" rm="OK" s="true" sc="1" t="10523" tn="Atlas users 1-10" ts="1462040818157">
+  <responseHeader class="java.lang.String">HTTP/1.1 200 OK
+Date: Sat, 30 Apr 2016 18:26:58 GMT
+Content-Type: application/json; charset=UTF-8
+Transfer-Encoding: chunked
+Server: Jetty(9.2.12.v20150709)
+</responseHeader>
+  <responseFile class="java.lang.String"/>
+  <cookies class="java.lang.String"/>
+  <method class="java.lang.String">GET</method>
+  <queryString class="java.lang.String"/>
+  <java.net.URL>http://cn058-10.l42scl.hortonworks.com:21000/api/atlas/lineage/hive/table/default.table_8329@erie-perf-test-cluster/outputs/graph</java.net.URL>
 </httpSample></test>

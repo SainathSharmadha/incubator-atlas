@@ -59,7 +59,7 @@ public class ResultCollector {
 
             user = new User("Atlas user 1-" + i);
 
-            file = new File("src/main/Users/Atlas users 1-" + i + ".xml");
+            file = new File("performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/Atlas users 1-" + i + ".xml");
             parseFile(file,user);
         }
     }
@@ -267,6 +267,13 @@ return size;
                     qlarge.add(query.timeTaken);
 
             }
+
+            System.out.println(qname +"\n Small");
+            StatisticsEvaluator.findPercentile(qsmall,1);
+            System.out.println("Medium");
+            StatisticsEvaluator.findPercentile(qmedium,1);
+            System.out.println("Large");
+            StatisticsEvaluator.findPercentile(qlarge,1);
 
 
 
