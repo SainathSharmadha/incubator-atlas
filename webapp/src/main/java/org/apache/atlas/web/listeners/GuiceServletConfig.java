@@ -21,6 +21,7 @@ package org.apache.atlas.web.listeners;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.GuiceServletContextListener;
@@ -33,15 +34,15 @@ import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.RepositoryMetadataModule;
-import org.apache.atlas.notification.NotificationInterface;
+import org.apache.atlas.ha.HAConfiguration;
 import org.apache.atlas.notification.NotificationModule;
-import org.apache.atlas.notification.entity.NotificationEntityChangeListener;
 import org.apache.atlas.repository.graph.GraphProvider;
 import org.apache.atlas.service.Services;
-import org.apache.atlas.services.MetadataService;
-import org.apache.atlas.typesystem.types.TypeSystem;
+import org.apache.atlas.web.filters.ActiveServerFilter;
 import org.apache.atlas.web.filters.AtlasAuthenticationFilter;
 import org.apache.atlas.web.filters.AuditFilter;
+import org.apache.atlas.web.service.ActiveInstanceElectorModule;
+import org.apache.atlas.web.service.ServiceModule;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.slf4j.Logger;
@@ -57,7 +58,6 @@ public class GuiceServletConfig extends GuiceServletContextListener {
     private static final Logger LOG = LoggerFactory.getLogger(GuiceServletConfig.class);
 
     private static final String GUICE_CTX_PARAM = "guice.packages";
-    static final String HTTP_AUTHENTICATION_ENABLED = "atlas.http.authentication.enabled";
     protected volatile Injector injector;
 
     @Override
@@ -75,11 +75,26 @@ public class GuiceServletConfig extends GuiceServletContextListener {
             LoginProcessor loginProcessor = new LoginProcessor();
             loginProcessor.login();
 
-            injector = Guice.createInjector(new RepositoryMetadataModule(), new NotificationModule(),
-                    new JerseyServletModule() {
+            injector = Guice.createInjector(getRepositoryModule(), new ActiveInstanceElectorModule(),
+                    new NotificationModule(), new ServiceModule(), new JerseyServletModule() {
+
+                        private Configuration appConfiguration = null;
+
+                        private Configuration getConfiguration() {
+                            if (appConfiguration == null) {
+                                try {
+                                    appConfiguration = ApplicationProperties.get();
+                                } catch (AtlasException e) {
+                                    LOG.warn("Could not load application configuration", e);
+                                }
+                            }
+                            return appConfiguration;
+                        }
+
                         @Override
                         protected void configureServlets() {
                             filter("/*").through(AuditFilter.class);
+                            configureActiveServerFilterIfNecessary();
                             try {
                                 configureAuthenticationFilter();
                             } catch (ConfigurationException e) {
@@ -95,14 +110,24 @@ public class GuiceServletConfig extends GuiceServletContextListener {
                             serve("/" + AtlasClient.BASE_URI + "*").with(GuiceContainer.class, params);
                         }
 
+                        private void configureActiveServerFilterIfNecessary() {
+                            Configuration configuration = getConfiguration();
+                            if ((configuration == null) ||
+                                    !HAConfiguration.isHAEnabled(configuration)) {
+                                LOG.info("HA configuration is disabled, not activating ActiveServerFilter");
+                            } else {
+                                filter("/*").through(ActiveServerFilter.class);
+                            }
+                        }
+
                         private void configureAuthenticationFilter() throws ConfigurationException {
-                            try {
-                                Configuration configuration = ApplicationProperties.get();
-                                if (Boolean.valueOf(configuration.getString(HTTP_AUTHENTICATION_ENABLED))) {
-                                    filter("/*").through(AtlasAuthenticationFilter.class);
-                                }
-                            } catch (AtlasException e) {
-                                LOG.warn("Error loading configuration and initializing authentication filter", e);
+                            Configuration configuration = getConfiguration();
+                            if (configuration == null) {
+                                throw new ConfigurationException("Could not load application configuration");
+                            }
+                            if (Boolean.valueOf(configuration.getString(AtlasClient.HTTP_AUTHENTICATION_ENABLED))) {
+                                LOG.info("Enabling AuthenticationFilter");
+                                filter("/*").through(AtlasAuthenticationFilter.class);
                             }
                         }
                     });
@@ -113,13 +138,16 @@ public class GuiceServletConfig extends GuiceServletContextListener {
         return injector;
     }
 
+    protected Module getRepositoryModule() {
+        return new RepositoryMetadataModule();
+    }
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         super.contextInitialized(servletContextEvent);
 
         installLogBridge();
 
-        initMetadataService();
         startServices();
     }
 
@@ -148,7 +176,12 @@ public class GuiceServletConfig extends GuiceServletContextListener {
             TypeLiteral<GraphProvider<TitanGraph>> graphProviderType = new TypeLiteral<GraphProvider<TitanGraph>>() {};
             Provider<GraphProvider<TitanGraph>> graphProvider = injector.getProvider(Key.get(graphProviderType));
             final Graph graph = graphProvider.get().get();
-            graph.shutdown();
+
+            try {
+                graph.shutdown();
+            } catch(Throwable t) {
+                LOG.warn("Error while shutting down graph", t);
+            }
 
             //stop services
             stopServices();
@@ -159,18 +192,5 @@ public class GuiceServletConfig extends GuiceServletContextListener {
         LOG.debug("Stopping services");
         Services services = injector.getInstance(Services.class);
         services.stop();
-    }
-
-    // initialize the metadata service
-    private void initMetadataService() {
-        MetadataService metadataService = injector.getInstance(MetadataService.class);
-
-        // add a listener for entity changes
-        NotificationInterface notificationInterface = injector.getInstance(NotificationInterface.class);
-
-        NotificationEntityChangeListener listener =
-            new NotificationEntityChangeListener(notificationInterface, TypeSystem.getInstance());
-
-        metadataService.registerListener(listener);
     }
 }

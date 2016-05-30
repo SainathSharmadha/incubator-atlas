@@ -18,28 +18,23 @@
 
 package org.apache.atlas.storm.hook;
 
-import backtype.storm.ISubmitterHook;
-import backtype.storm.generated.Bolt;
-import backtype.storm.generated.SpoutSpec;
-import backtype.storm.generated.StormTopology;
-import backtype.storm.generated.TopologyInfo;
-import backtype.storm.utils.Utils;
-import com.sun.jersey.api.client.ClientResponse;
+import org.apache.storm.ISubmitterHook;
+import org.apache.storm.generated.Bolt;
+import org.apache.storm.generated.SpoutSpec;
+import org.apache.storm.generated.StormTopology;
+import org.apache.storm.generated.TopologyInfo;
+import org.apache.storm.utils.Utils;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasConstants;
-import org.apache.atlas.AtlasException;
-import org.apache.atlas.AtlasServiceException;
+import org.apache.atlas.fs.model.FSDataTypes;
 import org.apache.atlas.hive.bridge.HiveMetaStoreBridge;
 import org.apache.atlas.hive.model.HiveDataModelGenerator;
-import org.apache.atlas.hive.model.HiveDataTypes;
 import org.apache.atlas.hook.AtlasHook;
-import org.apache.atlas.storm.model.StormDataModel;
 import org.apache.atlas.storm.model.StormDataTypes;
 import org.apache.atlas.typesystem.Referenceable;
-import org.apache.atlas.typesystem.TypesDef;
-import org.apache.atlas.typesystem.json.TypesSerialization;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hive.conf.HiveConf;
 import org.slf4j.Logger;
@@ -70,15 +65,6 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
 
     public static final String HBASE_NAMESPACE_DEFAULT = "default";
 
-    private static volatile boolean typesRegistered = false;
-
-    public StormAtlasHook() {
-        super();
-    }
-
-    StormAtlasHook(AtlasClient atlasClient) {
-        super(atlasClient);
-    }
     @Override
     protected String getNumberOfRetriesPropertyKey() {
         return HOOK_NUM_RETRIES;
@@ -98,10 +84,6 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
 
         LOG.info("Collecting metadata for a new storm topology: {}", topologyInfo.get_name());
         try {
-            if( ! typesRegistered ) {
-                registerDataModel(new HiveDataModelGenerator());
-            }
-
             ArrayList<Referenceable> entities = new ArrayList<>();
             Referenceable topologyReferenceable = createTopologyInstance(topologyInfo, stormConf);
             List<Referenceable> dependentEntities = addTopologyDataSets(stormTopology, topologyReferenceable,
@@ -117,7 +99,8 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
             entities.add(topologyReferenceable);
 
             LOG.debug("notifying entities, size = {}", entities.size());
-            notifyEntities(entities);
+            String user = getUser(topologyInfo.get_owner(), null);
+            notifyEntities(user, entities);
         } catch (Exception e) {
             throw new RuntimeException("Atlas hook is unable to process the topology.", e);
         }
@@ -127,7 +110,8 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
         Referenceable topologyReferenceable = new Referenceable(
                 StormDataTypes.STORM_TOPOLOGY.getName());
         topologyReferenceable.set("id", topologyInfo.get_id());
-        topologyReferenceable.set("name", topologyInfo.get_name());
+        topologyReferenceable.set(AtlasClient.NAME, topologyInfo.get_name());
+        topologyReferenceable.set(AtlasClient.REFERENCEABLE_ATTRIBUTE_NAME, topologyInfo.get_name());
         String owner = topologyInfo.get_owner();
         if (StringUtils.isEmpty(owner)) {
             owner = ANONYMOUS_OWNER;
@@ -227,14 +211,19 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
                 break;
 
             case "HdfsBolt":
-                dataSetReferenceable = new Referenceable(StormDataTypes.HDFS_DATA_SET.getName());
+                dataSetReferenceable = new Referenceable(FSDataTypes.HDFS_PATH().toString());
                 String hdfsUri = config.get("HdfsBolt.rotationActions") == null
                         ? config.get("HdfsBolt.fileNameFormat.path")
                         : config.get("HdfsBolt.rotationActions");
-                final String hdfsPath = config.get("HdfsBolt.fsUrl") + hdfsUri;
-                dataSetReferenceable.set("pathURI", hdfsPath);
+                final String hdfsPathStr = config.get("HdfsBolt.fsUrl") + hdfsUri;
+                dataSetReferenceable.set(AtlasConstants.CLUSTER_NAME_ATTRIBUTE, getClusterName(stormConf));
+                dataSetReferenceable.set(AtlasClient.REFERENCEABLE_ATTRIBUTE_NAME, hdfsPathStr);
+                dataSetReferenceable.set("path", hdfsPathStr);
                 dataSetReferenceable.set("owner", stormConf.get("hdfs.kerberos.principal"));
-                dataSetReferenceable.set("name", hdfsPath);
+                //Fix after ATLAS-542
+//                final Path hdfsPath = new Path(hdfsPathStr);
+//                dataSetReferenceable.set(AtlasClient.NAME, hdfsPath.getName());
+                dataSetReferenceable.set(AtlasClient.NAME, hdfsPathStr);
                 break;
 
             case "HiveBolt":
@@ -244,7 +233,7 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
                 dbReferenceable.set(HiveDataModelGenerator.NAME, databaseName);
                 dbReferenceable.set(AtlasClient.REFERENCEABLE_ATTRIBUTE_NAME,
                         HiveMetaStoreBridge.getDBQualifiedName(getClusterName(stormConf), databaseName));
-                dbReferenceable.set(HiveDataModelGenerator.CLUSTER_NAME, getClusterName(stormConf));
+                dbReferenceable.set(AtlasConstants.CLUSTER_NAME_ATTRIBUTE, getClusterName(stormConf));
                 dependentEntities.add(dbReferenceable);
                 clusterName = extractComponentClusterName(new HiveConf(), stormConf);
                 final String hiveTableName = config.get("HiveBolt.options.tableName");
@@ -383,38 +372,6 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
         return String.format("%s.%s@%s", nameSpace, tableName, clusterName);
     }
 
-    public synchronized void registerDataModel(HiveDataModelGenerator dataModelGenerator) throws AtlasException,
-            AtlasServiceException {
-
-        try {
-            atlasClient.getType(HiveDataTypes.HIVE_PROCESS.getName());
-            LOG.info("Hive data model is already registered! Going ahead with registration of Storm Data model");
-        } catch(AtlasServiceException ase) {
-            if (ase.getStatus() == ClientResponse.Status.NOT_FOUND) {
-                //Expected in case types do not exist
-                LOG.info("Registering Hive data model");
-                atlasClient.createType(dataModelGenerator.getModelAsJson());
-            } else {
-                throw ase;
-            }
-        }
-
-
-        try {
-            atlasClient.getType(StormDataTypes.STORM_TOPOLOGY.getName());
-        } catch(AtlasServiceException ase) {
-            if (ase.getStatus() == ClientResponse.Status.NOT_FOUND) {
-                LOG.info("Registering Storm/Kafka data model");
-                StormDataModel.main(new String[]{});
-                TypesDef typesDef = StormDataModel.typesDef();
-                String stormTypesAsJSON = TypesSerialization.toJson(typesDef);
-                LOG.info("stormTypesAsJSON = {}", stormTypesAsJSON);
-                atlasClient.createType(stormTypesAsJSON);
-            }
-        }
-        typesRegistered = true;
-    }
-
     private String getClusterName(Map stormConf) {
         String clusterName = AtlasConstants.DEFAULT_CLUSTER_NAME;
         if (stormConf.containsKey(AtlasConstants.CLUSTER_NAME_KEY)) {
@@ -422,6 +379,4 @@ public class StormAtlasHook extends AtlasHook implements ISubmitterHook {
         }
         return clusterName;
     }
-
-
 }

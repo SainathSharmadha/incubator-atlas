@@ -17,28 +17,40 @@
  */
 'use strict';
 
-angular.module('dgc.navigation').controller('NavigationController', ['$scope', 'NavigationResource', '$cacheFactory',
-    function($scope, NavigationResource, $cacheFactory) {
+angular.module('dgc.navigation').controller('navigationController', ['$scope', 'navigationResource', '$cacheFactory', 'atlasConfig',
+    function($scope, navigationResource, $cacheFactory, atlasConfig) {
+        var limitIntialCount = 18;
+        $scope.intialCount = limitIntialCount;
 
         $scope.updateVar = function(event) {
             $scope.$$prevSibling.query = angular.element(event.target).text();
 
         };
 
+        $scope.dslQueryVal = atlasConfig.SEARCH_TYPE.dsl.value;
+
         $scope.$on('load_Traits', function() {
-            $scope.leftnav = NavigationResource.get();
+            $scope.leftnav = navigationResource.get();
         });
 
         setTimeout(function() {
-         	var httpDefaultCache = $cacheFactory.get('$http');
-            httpDefaultCache.remove('/api/atlas/types?type=TRAIT');
+            var httpDefaultCache = $cacheFactory.get('$http');
+            httpDefaultCache.remove(atlasConfig.API_ENDPOINTS.TRAITS_LIST);
         }, 3600000);
 
-        $scope.refreshTags = function(){
-        	var httpDefaultCache = $cacheFactory.get('$http');
-        	httpDefaultCache.remove('/api/atlas/types?type=TRAIT');
-        	$scope.leftnav = NavigationResource.get();
-        }; 
+        $scope.refreshTags = function() {
+            var httpDefaultCache = $cacheFactory.get('$http');
+            httpDefaultCache.remove(atlasConfig.API_ENDPOINTS.TRAITS_LIST);
+            $scope.leftnav = navigationResource.get();
+            $scope.intialCount = limitIntialCount;
+        };
 
+        $scope.showMore = function() {
+            $scope.intialCount += limitIntialCount;
+        };
+
+        $scope.filterTags = function() {
+            $scope.intialCount = limitIntialCount;
+        };
     }
 ]);

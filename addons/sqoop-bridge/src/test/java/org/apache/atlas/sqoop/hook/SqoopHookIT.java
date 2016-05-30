@@ -18,10 +18,16 @@
 
 package org.apache.atlas.sqoop.hook;
 
+import com.sun.jersey.api.client.ClientResponse;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClient;
+import org.apache.atlas.AtlasServiceException;
+import org.apache.atlas.hive.bridge.HiveMetaStoreBridge;
 import org.apache.atlas.hive.model.HiveDataTypes;
+import org.apache.atlas.sqoop.model.SqoopDataModelGenerator;
 import org.apache.atlas.sqoop.model.SqoopDataTypes;
+import org.apache.commons.configuration.Configuration;
+import org.apache.hadoop.hive.conf.HiveConf;
 import org.apache.sqoop.SqoopJobDataPublisher;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
@@ -36,12 +42,35 @@ public class SqoopHookIT {
     private static final String CLUSTER_NAME = "primary";
     public static final String DEFAULT_DB = "default";
     private static final int MAX_WAIT_TIME = 2000;
-    private AtlasClient dgiCLient;
+    private AtlasClient atlasClient;
 
     @BeforeClass
     public void setUp() throws Exception {
         //Set-up sqoop session
-        dgiCLient = new AtlasClient(ApplicationProperties.get().getString("atlas.rest.address"));
+        Configuration configuration = ApplicationProperties.get();
+        atlasClient = new AtlasClient(configuration.getString("atlas.rest.address"));
+        registerDataModels(atlasClient);
+    }
+
+    private void registerDataModels(AtlasClient client) throws Exception {
+        // Make sure hive model exists
+        HiveMetaStoreBridge hiveMetaStoreBridge = new HiveMetaStoreBridge(new HiveConf(), atlasClient);
+        hiveMetaStoreBridge.registerHiveDataModel();
+        SqoopDataModelGenerator dataModelGenerator = new SqoopDataModelGenerator();
+
+        //Register sqoop data model if its not already registered
+        try {
+            client.getType(SqoopDataTypes.SQOOP_PROCESS.getName());
+            LOG.info("Sqoop data model is already registered!");
+        } catch(AtlasServiceException ase) {
+            if (ase.getStatus() == ClientResponse.Status.NOT_FOUND) {
+                //Expected in case types do not exist
+                LOG.info("Registering Sqoop data model");
+                client.createType(dataModelGenerator.getModelAsJson());
+            } else {
+                throw ase;
+            }
+        }
     }
 
     @Test
@@ -78,8 +107,8 @@ public class SqoopHookIT {
     private String assertSqoopProcessIsRegistered(String processName) throws Exception {
         LOG.debug("Searching for sqoop process {}",  processName);
         String query = String.format(
-                "%s as t where name = '%s' select t",
-                SqoopDataTypes.SQOOP_PROCESS.getName(), processName);
+                "%s as t where %s = '%s' select t",
+                SqoopDataTypes.SQOOP_PROCESS.getName(), AtlasClient.REFERENCEABLE_ATTRIBUTE_NAME, processName);
         return assertEntityIsRegistered(query);
     }
 
@@ -87,12 +116,12 @@ public class SqoopHookIT {
         waitFor(MAX_WAIT_TIME, new Predicate() {
             @Override
             public boolean evaluate() throws Exception {
-                JSONArray results = dgiCLient.search(query);
+                JSONArray results = atlasClient.search(query);
                 return results.length() > 0;
             }
         });
 
-        JSONArray results = dgiCLient.search(query);
+        JSONArray results = atlasClient.search(query);
         JSONObject row = results.getJSONObject(0).getJSONObject("t");
 
         return row.getString("id");

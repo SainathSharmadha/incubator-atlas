@@ -18,6 +18,10 @@
 
 package org.apache.atlas.repository;
 
+import org.apache.atlas.typesystem.types.AttributeInfo;
+import org.apache.atlas.typesystem.types.DataTypes;
+import org.apache.atlas.typesystem.types.utils.TypesUtil;
+
 public final class Constants {
 
     /**
@@ -49,6 +53,7 @@ public final class Constants {
     public static final String TYPE_CATEGORY_PROPERTY_KEY = INTERNAL_PROPERTY_KEY_PREFIX + "type.category";
     public static final String VERTEX_TYPE_PROPERTY_KEY = INTERNAL_PROPERTY_KEY_PREFIX + "type";
     public static final String TYPENAME_PROPERTY_KEY = INTERNAL_PROPERTY_KEY_PREFIX + "type.name";
+    public static final String TYPEDESCRIPTION_PROPERTY_KEY = INTERNAL_PROPERTY_KEY_PREFIX + "type.description";
 
     /**
      * Trait names property key and index name.
@@ -56,9 +61,23 @@ public final class Constants {
     public static final String TRAIT_NAMES_PROPERTY_KEY = INTERNAL_PROPERTY_KEY_PREFIX + "traitNames";
 
     public static final String VERSION_PROPERTY_KEY = INTERNAL_PROPERTY_KEY_PREFIX + "version";
+    public static final String STATE_PROPERTY_KEY = INTERNAL_PROPERTY_KEY_PREFIX + "state";
+
     public static final String TIMESTAMP_PROPERTY_KEY = INTERNAL_PROPERTY_KEY_PREFIX + "timestamp";
     public static final String MODIFICATION_TIMESTAMP_PROPERTY_KEY = INTERNAL_PROPERTY_KEY_PREFIX + "modificationTimestamp";
 
+    public static AttributeInfo getAttributeInfoForSystemAttributes(String field) {
+        switch (field) {
+        case STATE_PROPERTY_KEY:
+        case GUID_PROPERTY_KEY:
+            return TypesUtil.newAttributeInfo(field, DataTypes.STRING_TYPE);
+
+        case TIMESTAMP_PROPERTY_KEY:
+        case MODIFICATION_TIMESTAMP_PROPERTY_KEY:
+            return TypesUtil.newAttributeInfo(field, DataTypes.LONG_TYPE);
+        }
+        return null;
+    }
 
     /**
      * search backing index name.

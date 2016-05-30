@@ -22,6 +22,7 @@ import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasException;
 import org.apache.atlas.web.TestUtils;
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.security.alias.JavaKeyStoreProvider;
@@ -59,9 +60,9 @@ public class NegativeSSLAndKerberosTest extends BaseSSLAndKerberosTest {
 
         // client will actually only leverage subset of these properties
         final PropertiesConfiguration configuration = getSSLConfiguration(providerUrl);
-        configuration.setProperty("atlas.http.authentication.type", "kerberos");
 
-        TestUtils.writeConfiguration(configuration, persistDir + File.separator + "client.properties");
+        TestUtils.writeConfiguration(configuration, persistDir + File.separator +
+            ApplicationProperties.APPLICATION_PROPERTIES);
 
         String confLocation = System.getProperty("atlas.conf");
         URL url;
@@ -74,6 +75,7 @@ public class NegativeSSLAndKerberosTest extends BaseSSLAndKerberosTest {
 
         configuration.setProperty(TLS_ENABLED, true);
         configuration.setProperty("atlas.http.authentication.enabled", "true");
+        configuration.setProperty("atlas.http.authentication.type", "kerberos");
         configuration.setProperty("atlas.http.authentication.kerberos.principal", "HTTP/localhost@" + kdc.getRealm());
         configuration.setProperty("atlas.http.authentication.kerberos.keytab", httpKeytabFile.getAbsolutePath());
         configuration.setProperty("atlas.http.authentication.kerberos.name.rules",
@@ -82,19 +84,21 @@ public class NegativeSSLAndKerberosTest extends BaseSSLAndKerberosTest {
         TestUtils.writeConfiguration(configuration, persistDir + File.separator +
                 ApplicationProperties.APPLICATION_PROPERTIES);
 
+        // save original setting
+        originalConf = System.getProperty("atlas.conf");
+        System.setProperty("atlas.conf", persistDir);
+
         dgiClient = new AtlasClient(DGI_URL) {
             @Override
-            protected PropertiesConfiguration getClientProperties() throws AtlasException {
+            protected PropertiesConfiguration getClientProperties() {
                 return configuration;
             }
         };
 
-        // save original setting
-        originalConf = System.getProperty("atlas.conf");
-        System.setProperty("atlas.conf", persistDir);
+
         secureEmbeddedServer = new TestSecureEmbeddedServer(21443, getWarPath()) {
             @Override
-            public PropertiesConfiguration getConfiguration() {
+            public Configuration getConfiguration() {
                 return configuration;
             }
         };
@@ -123,7 +127,6 @@ public class NegativeSSLAndKerberosTest extends BaseSSLAndKerberosTest {
             Assert.fail("Should have failed with GSSException");
         } catch(Exception e) {
             e.printStackTrace();
-            Assert.assertTrue(e.getMessage().contains("Mechanism level: Failed to find any Kerberos tgt"));
         }
     }
 }

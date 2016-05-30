@@ -18,12 +18,13 @@
 
 'use strict';
 
-angular.module('dgc.tags').factory('TagClasses', ['lodash', function ClassFactory(_) {
+angular.module('dgc.tags').factory('tagClasses', ['lodash', function classFactory(_) {
 
     function Tag(props) {
         return _.merge({
             superTypes: [],
             typeName: null,
+            typeDescription: null,
             attributeDefinitions: []
         }, props);
     }
@@ -47,7 +48,7 @@ angular.module('dgc.tags').factory('TagClasses', ['lodash', function ClassFactor
         this.id = classId;
         this.name = className;
 
-        this.addTag = function AddTag(props) {
+        this.addTag = function addTag(props) {
             var tag = new Tag(_.merge({
                 hierarchicalMetaTypeName: className
             }, props));
@@ -56,12 +57,12 @@ angular.module('dgc.tags').factory('TagClasses', ['lodash', function ClassFactor
             return this;
         };
 
-        this.clearTags = function RemoveTags() {
+        this.clearTags = function removeTags() {
             this.tags = [];
             return this;
         };
 
-        this.toJson = function CreateJson() {
+        this.toJson = function createJson() {
             var classTypeKey = (this.id.toLowerCase() + 'Types'),
                 output = {};
 
@@ -79,7 +80,7 @@ angular.module('dgc.tags').factory('TagClasses', ['lodash', function ClassFactor
     }
 
     return _.chain(classes)
-        .map(function CreateClass(className, classId) {
+        .map(function createClass(className, classId) {
             return new Class(classId, className);
         })
         .indexBy('id')

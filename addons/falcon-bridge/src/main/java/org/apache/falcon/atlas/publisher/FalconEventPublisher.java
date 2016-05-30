@@ -24,8 +24,8 @@ import org.apache.falcon.atlas.event.FalconEvent;
 /**
  * Falcon publisher for Atlas
  */
-public abstract class FalconEventPublisher {
-    public static class Data {
+public interface FalconEventPublisher {
+    class Data {
         private FalconEvent event;
 
         public Data(FalconEvent event) {
@@ -37,5 +37,5 @@ public abstract class FalconEventPublisher {
         }
     }
 
-    public abstract void publish(final Data data) throws Exception;
+    void publish(final Data data) throws Exception;
 }

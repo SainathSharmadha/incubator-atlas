@@ -17,52 +17,60 @@
  */
 'use strict';
 
-angular.module('dgc.tags.definition').controller('DefinitionTagsController', ['$scope', '$resource', '$state', '$stateParams', 'lodash', 'AttributeDefinition', 'TagClasses', 'TagsResource', 'NotificationService', 'NavigationResource', '$cacheFactory',
-    function($scope, $resource, $state, $stateParams, _, AttributeDefinition, Categories, TagsResource, NotificationService, NavigationResource, $cacheFactory) {
-        $scope.categoryList = Categories;
+angular.module('dgc.tags.definition').controller('definitionTagsController', ['$scope', '$resource', '$state', '$stateParams', 'lodash', 'attributeDefinition', 'tagClasses', 'tagsResource', 'notificationService', 'navigationResource', '$cacheFactory', 'atlasConfig',
+    function($scope, $resource, $state, $stateParams, _, attributeDefinition, categories, tagsResource, notificationService, navigationResource, $cacheFactory, atlasConfig) {
+        $scope.categoryList = categories;
         $scope.category = 'TRAIT';
         $scope.tagModel = {
             typeName: null,
+            typeDescription: null,
             superTypes: [],
             attributeDefinitions: []
         };
-        $scope.typesList = NavigationResource.get();
-
-        $scope.addAttribute = function AddAttribute() {
-            $scope.tagModel.attributeDefinitions.push(AttributeDefinition.getModel());
+        $scope.typesList = navigationResource.get();
+        $scope.newtagModel = angular.copy($scope.tagModel);
+        $scope.addAttribute = function addAttribute() {
+            $scope.tagModel.attributeDefinitions.push(attributeDefinition.getModel());
         };
 
         $scope.removeAttribute = function(index) {
             $scope.tagModel.attributeDefinitions.splice(index, 1);
         };
 
-        $scope.categoryChange = function CategorySwitched() {
-            $scope.categoryInst = Categories[$scope.category].clearTags();
+        $scope.categoryChange = function categorySwitched() {
+            $scope.categoryInst = categories[$scope.category].clearTags();
         };
 
-        $scope.refreshTags = function(){
+        $scope.reset = function() {
+            $scope.tagModel = angular.copy($scope.newtagModel);
+            $scope.selectedParent = undefined;
+        };
+
+        $scope.refreshTags = function() {
             var httpDefaultCache = $cacheFactory.get('$http');
-            httpDefaultCache.remove('/api/atlas/types?type=TRAIT');
-            $scope.typesList = NavigationResource.get();
-        }; 
+            httpDefaultCache.remove(atlasConfig.API_ENDPOINTS.TRAITS_LIST);
+            $scope.typesList = navigationResource.get();
+        };
 
         $scope.save = function saveTag(form) {
             $scope.savedTag = null;
             if (form.$valid) {
                 $scope.tagModel.superTypes = $scope.selectedParent;
-                $scope.categoryInst = Categories[$scope.category];
+                $scope.categoryInst = categories[$scope.category];
                 $scope.categoryInst.clearTags().addTag($scope.tagModel);
 
-                NotificationService.reset();
+                notificationService.reset();
                 $scope.saving = true;
 
-                TagsResource.save($scope.categoryInst.toJson()).$promise
-                    .then(function TagCreateSuccess() {
-                        NotificationService.info('"' + $scope.tagModel.typeName + '" has been created', false);
+                tagsResource.save($scope.categoryInst.toJson()).$promise
+                    .then(function tagCreateSuccess() {
+                        notificationService.info('"' + $scope.tagModel.typeName + '" has been created', false);
                         var httpDefaultCache = $cacheFactory.get('$http');
-                        httpDefaultCache.remove('/api/atlas/types?type=TRAIT');
-                    }).catch(function TagCreateFailed(error) {
-                        NotificationService.error(error.data.error, false);
+                        httpDefaultCache.remove(atlasConfig.API_ENDPOINTS.TRAITS_LIST);
+                        $scope.typesList = navigationResource.get();
+                        $scope.reset();
+                    }).catch(function tagCreateFailed(error) {
+                        notificationService.error(error.data.error, false);
                     }).finally(function() {
                         $scope.saving = false;
                     });

@@ -18,8 +18,10 @@
 
 package org.apache.atlas.examples;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import org.apache.atlas.ApplicationProperties;
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasException;
@@ -37,11 +39,10 @@ import org.apache.atlas.typesystem.types.IDataType;
 import org.apache.atlas.typesystem.types.Multiplicity;
 import org.apache.atlas.typesystem.types.StructTypeDefinition;
 import org.apache.atlas.typesystem.types.TraitType;
-import org.apache.atlas.typesystem.types.TypeUtils;
 import org.apache.atlas.typesystem.types.utils.TypesUtil;
+import org.apache.atlas.utils.AuthenticationUtil;
 import org.apache.commons.configuration.Configuration;
 import org.codehaus.jettison.json.JSONArray;
-
 import java.util.List;
 
 /**
@@ -70,8 +71,24 @@ public class QuickStart {
     public static final String INPUT_TABLES_ATTRIBUTE = "inputTables";
 
     public static void main(String[] args) throws Exception {
+        String[] basicAuthUsernamePassword = null;
+        if (!AuthenticationUtil.isKerberosAuthicationEnabled()) {
+            basicAuthUsernamePassword = AuthenticationUtil.getBasicAuthenticationInput();
+        }
+
+        runQuickstart(args, basicAuthUsernamePassword);
+    }
+
+    @VisibleForTesting
+    static void runQuickstart(String[] args, String[] basicAuthUsernamePassword) throws Exception {
         String baseUrl = getServerUrl(args);
-        QuickStart quickStart = new QuickStart(baseUrl);
+        QuickStart quickStart;
+
+        if (!AuthenticationUtil.isKerberosAuthicationEnabled()) {
+            quickStart = new QuickStart(baseUrl, basicAuthUsernamePassword);
+        } else {
+            quickStart = new QuickStart(baseUrl);
+        }
 
         // Shows how to create types in Atlas for your meta model
         quickStart.createTypes();
@@ -111,9 +128,16 @@ public class QuickStart {
 
     private final AtlasClient metadataServiceClient;
 
-    QuickStart(String baseUrl) {
-        metadataServiceClient = new AtlasClient(baseUrl);
+    QuickStart(String baseUrl,String[] basicAuthUsernamePassword) {
+        String[] urls = baseUrl.split(",");
+        metadataServiceClient = new AtlasClient(urls,basicAuthUsernamePassword);
     }
+
+    QuickStart(String baseUrl) throws AtlasException {
+        String[] urls = baseUrl.split(",");
+        metadataServiceClient = new AtlasClient(urls);
+    }
+
 
     void createTypes() throws Exception {
         TypesDef typesDef = createTypeDefinitions();
@@ -128,22 +152,22 @@ public class QuickStart {
 
     TypesDef createTypeDefinitions() throws Exception {
         HierarchicalTypeDefinition<ClassType> dbClsDef = TypesUtil
-                .createClassTypeDef(DATABASE_TYPE, null,
+                .createClassTypeDef(DATABASE_TYPE, DATABASE_TYPE, null,
                         TypesUtil.createUniqueRequiredAttrDef("name", DataTypes.STRING_TYPE),
                         attrDef("description", DataTypes.STRING_TYPE), attrDef("locationUri", DataTypes.STRING_TYPE),
                         attrDef("owner", DataTypes.STRING_TYPE), attrDef("createTime", DataTypes.LONG_TYPE));
 
         HierarchicalTypeDefinition<ClassType> storageDescClsDef = TypesUtil
-                .createClassTypeDef(STORAGE_DESC_TYPE, null, attrDef("location", DataTypes.STRING_TYPE),
+                .createClassTypeDef(STORAGE_DESC_TYPE, STORAGE_DESC_TYPE, null, attrDef("location", DataTypes.STRING_TYPE),
                         attrDef("inputFormat", DataTypes.STRING_TYPE), attrDef("outputFormat", DataTypes.STRING_TYPE),
                         attrDef("compressed", DataTypes.STRING_TYPE, Multiplicity.REQUIRED, false, null));
 
         HierarchicalTypeDefinition<ClassType> columnClsDef = TypesUtil
-                .createClassTypeDef(COLUMN_TYPE, null, attrDef("name", DataTypes.STRING_TYPE),
+                .createClassTypeDef(COLUMN_TYPE, COLUMN_TYPE, null, attrDef("name", DataTypes.STRING_TYPE),
                         attrDef("dataType", DataTypes.STRING_TYPE), attrDef("comment", DataTypes.STRING_TYPE));
 
         HierarchicalTypeDefinition<ClassType> tblClsDef = TypesUtil
-                .createClassTypeDef(TABLE_TYPE, ImmutableList.of("DataSet"),
+                .createClassTypeDef(TABLE_TYPE, TABLE_TYPE, ImmutableSet.of("DataSet"),
                         new AttributeDefinition(DB_ATTRIBUTE, DATABASE_TYPE, Multiplicity.REQUIRED, false, null),
                         new AttributeDefinition("sd", STORAGE_DESC_TYPE, Multiplicity.REQUIRED, true, null),
                         attrDef("owner", DataTypes.STRING_TYPE), attrDef("createTime", DataTypes.LONG_TYPE),
@@ -155,7 +179,7 @@ public class QuickStart {
                                 Multiplicity.COLLECTION, true, null));
 
         HierarchicalTypeDefinition<ClassType> loadProcessClsDef = TypesUtil
-                .createClassTypeDef(LOAD_PROCESS_TYPE, ImmutableList.of("Process"),
+                .createClassTypeDef(LOAD_PROCESS_TYPE, LOAD_PROCESS_TYPE, ImmutableSet.of("Process"),
                         attrDef("userName", DataTypes.STRING_TYPE), attrDef("startTime", DataTypes.LONG_TYPE),
                         attrDef("endTime", DataTypes.LONG_TYPE),
                         attrDef("queryText", DataTypes.STRING_TYPE, Multiplicity.REQUIRED),
@@ -164,25 +188,25 @@ public class QuickStart {
                         attrDef("queryGraph", DataTypes.STRING_TYPE, Multiplicity.REQUIRED));
 
         HierarchicalTypeDefinition<ClassType> viewClsDef = TypesUtil
-                .createClassTypeDef(VIEW_TYPE, null,
+                .createClassTypeDef(VIEW_TYPE, VIEW_TYPE, null,
                         TypesUtil.createUniqueRequiredAttrDef("name", DataTypes.STRING_TYPE),
                         new AttributeDefinition("db", DATABASE_TYPE, Multiplicity.REQUIRED, false, null),
                         new AttributeDefinition("inputTables", DataTypes.arrayTypeName(TABLE_TYPE),
                                 Multiplicity.COLLECTION, false, null));
 
-        HierarchicalTypeDefinition<TraitType> dimTraitDef = TypesUtil.createTraitTypeDef("Dimension", null);
+        HierarchicalTypeDefinition<TraitType> dimTraitDef = TypesUtil.createTraitTypeDef("Dimension",  "Dimension Trait", null);
 
-        HierarchicalTypeDefinition<TraitType> factTraitDef = TypesUtil.createTraitTypeDef("Fact", null);
+        HierarchicalTypeDefinition<TraitType> factTraitDef = TypesUtil.createTraitTypeDef("Fact", "Fact Trait", null);
 
-        HierarchicalTypeDefinition<TraitType> piiTraitDef = TypesUtil.createTraitTypeDef("PII", null);
+        HierarchicalTypeDefinition<TraitType> piiTraitDef = TypesUtil.createTraitTypeDef("PII", "PII Trait", null);
 
-        HierarchicalTypeDefinition<TraitType> metricTraitDef = TypesUtil.createTraitTypeDef("Metric", null);
+        HierarchicalTypeDefinition<TraitType> metricTraitDef = TypesUtil.createTraitTypeDef("Metric", "Metric Trait", null);
 
-        HierarchicalTypeDefinition<TraitType> etlTraitDef = TypesUtil.createTraitTypeDef("ETL", null);
+        HierarchicalTypeDefinition<TraitType> etlTraitDef = TypesUtil.createTraitTypeDef("ETL", "ETL Trait", null);
 
-        HierarchicalTypeDefinition<TraitType> jdbcTraitDef = TypesUtil.createTraitTypeDef("JdbcAccess", null);
+        HierarchicalTypeDefinition<TraitType> jdbcTraitDef = TypesUtil.createTraitTypeDef("JdbcAccess", "JdbcAccess Trait", null);
 
-        HierarchicalTypeDefinition<TraitType> logTraitDef = TypesUtil.createTraitTypeDef("Log Data", null);
+        HierarchicalTypeDefinition<TraitType> logTraitDef = TypesUtil.createTraitTypeDef("Log Data", "LogData Trait",  null);
 
         return TypesUtil.getTypesDef(ImmutableList.<EnumTypeDefinition>of(), ImmutableList.<StructTypeDefinition>of(),
                 ImmutableList.of(dimTraitDef, factTraitDef, piiTraitDef, metricTraitDef, etlTraitDef, jdbcTraitDef, logTraitDef),
@@ -290,11 +314,11 @@ public class QuickStart {
 
         String entityJSON = InstanceSerialization.toJson(referenceable, true);
         System.out.println("Submitting new entity= " + entityJSON);
-        JSONArray guids = metadataServiceClient.createEntity(entityJSON);
+        List<String> guids = metadataServiceClient.createEntity(entityJSON);
         System.out.println("created instance for type " + typeName + ", guid: " + guids);
 
         // return the Id for created instance with guid
-        return new Id(guids.getString(guids.length()-1), referenceable.getId().getVersion(),
+        return new Id(guids.get(guids.size() - 1), referenceable.getId().getVersion(),
                 referenceable.getTypeName());
     }
 
@@ -352,7 +376,8 @@ public class QuickStart {
     throws Exception {
         Referenceable referenceable = new Referenceable(LOAD_PROCESS_TYPE, traitNames);
         // super type attributes
-        referenceable.set("name", name);
+        referenceable.set(AtlasClient.NAME, name);
+        referenceable.set(AtlasClient.REFERENCEABLE_ATTRIBUTE_NAME, name);
         referenceable.set("description", description);
         referenceable.set(INPUTS_ATTRIBUTE, inputTables);
         referenceable.set(OUTPUTS_ATTRIBUTE, outputTables);

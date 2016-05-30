@@ -18,6 +18,7 @@
 
 package org.apache.atlas;
 
+import com.google.inject.Binder;
 import com.google.inject.Singleton;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.multibindings.Multibinder;
@@ -25,21 +26,30 @@ import com.google.inject.throwingproviders.ThrowingProviderBinder;
 import com.thinkaurelius.titan.core.TitanGraph;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.apache.atlas.discovery.DiscoveryService;
-import org.apache.atlas.discovery.HiveLineageService;
+import org.apache.atlas.discovery.DataSetLineageService;
 import org.apache.atlas.discovery.LineageService;
-import org.apache.atlas.discovery.SearchIndexer;
 import org.apache.atlas.discovery.graph.GraphBackedDiscoveryService;
+import org.apache.atlas.listener.EntityChangeListener;
 import org.apache.atlas.listener.TypesChangeListener;
 import org.apache.atlas.repository.MetadataRepository;
+import org.apache.atlas.repository.audit.EntityAuditListener;
+import org.apache.atlas.repository.audit.EntityAuditRepository;
+import org.apache.atlas.repository.audit.HBaseBasedAuditRepository;
+import org.apache.atlas.repository.graph.DeleteHandler;
 import org.apache.atlas.repository.graph.GraphBackedMetadataRepository;
 import org.apache.atlas.repository.graph.GraphBackedSearchIndexer;
 import org.apache.atlas.repository.graph.GraphProvider;
+import org.apache.atlas.repository.graph.SoftDeleteHandler;
 import org.apache.atlas.repository.graph.TitanGraphProvider;
 import org.apache.atlas.repository.typestore.GraphBackedTypeStore;
 import org.apache.atlas.repository.typestore.ITypeStore;
+import org.apache.atlas.service.Service;
 import org.apache.atlas.services.DefaultMetadataService;
+import org.apache.atlas.services.IBootstrapTypesRegistrar;
 import org.apache.atlas.services.MetadataService;
+import org.apache.atlas.services.ReservedTypesRegistrar;
 import org.apache.atlas.typesystem.types.TypeSystem;
+import org.apache.atlas.typesystem.types.TypeSystemProvider;
 
 /**
  * Guice module for Repository module.
@@ -49,9 +59,6 @@ public class RepositoryMetadataModule extends com.google.inject.AbstractModule {
     @Override
     protected void configure() {
         // special wiring for Titan Graph
-
-
-
         ThrowingProviderBinder.create(binder()).bind(GraphProvider.class, TitanGraph.class).to(TitanGraphProvider.class)
                 .asEagerSingleton();
 
@@ -59,7 +66,7 @@ public class RepositoryMetadataModule extends com.google.inject.AbstractModule {
         // bind the MetadataRepositoryService interface to an implementation
         bind(MetadataRepository.class).to(GraphBackedMetadataRepository.class).asEagerSingleton();
 
-        bind(TypeSystem.class).in(Singleton.class);
+        bind(TypeSystem.class).toProvider(TypeSystemProvider.class).in(Singleton.class);
 
         // bind the ITypeStore interface to an implementation
         bind(ITypeStore.class).to(GraphBackedTypeStore.class).asEagerSingleton();
@@ -71,14 +78,44 @@ public class RepositoryMetadataModule extends com.google.inject.AbstractModule {
         // bind the MetadataService interface to an implementation
         bind(MetadataService.class).to(DefaultMetadataService.class).asEagerSingleton();
 
+        bind(IBootstrapTypesRegistrar.class).to(ReservedTypesRegistrar.class);
+
         // bind the DiscoveryService interface to an implementation
         bind(DiscoveryService.class).to(GraphBackedDiscoveryService.class).asEagerSingleton();
 
-        bind(LineageService.class).to(HiveLineageService.class).asEagerSingleton();
+        bind(LineageService.class).to(DataSetLineageService.class).asEagerSingleton();
+
+        bindAuditRepository(binder());
+
+        bind(DeleteHandler.class).to(getDeleteHandler()).asEagerSingleton();
+
+        //Add EntityAuditListener as EntityChangeListener
+        Multibinder<EntityChangeListener> entityChangeListenerBinder =
+                Multibinder.newSetBinder(binder(), EntityChangeListener.class);
+        entityChangeListenerBinder.addBinding().to(EntityAuditListener.class);
 
         MethodInterceptor interceptor = new GraphTransactionInterceptor();
         requestInjection(interceptor);
         bindInterceptor(Matchers.any(), Matchers.annotatedWith(GraphTransaction.class), interceptor);
     }
 
+    protected void bindAuditRepository(Binder binder) {
+        //Map EntityAuditRepository interface to hbase based implementation
+        binder.bind(EntityAuditRepository.class).to(HBaseBasedAuditRepository.class).asEagerSingleton();
+
+        //Add HBaseBasedAuditRepository to service so that connection is closed at shutdown
+        Multibinder<Service> serviceBinder = Multibinder.newSetBinder(binder, Service.class);
+        serviceBinder.addBinding().to(HBaseBasedAuditRepository.class);
+    }
+
+    private static final String DELETE_HANDLER_IMPLEMENTATION_PROPERTY = "atlas.DeleteHandler.impl";
+
+    private Class<? extends DeleteHandler> getDeleteHandler() {
+        try {
+            return ApplicationProperties.getClass(DELETE_HANDLER_IMPLEMENTATION_PROPERTY,
+                    SoftDeleteHandler.class.getName(), DeleteHandler.class);
+        } catch (AtlasException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

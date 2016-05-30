@@ -18,7 +18,10 @@
 
 package org.apache.atlas;
 
+import org.apache.atlas.security.SecurityProperties;
+import org.apache.atlas.setup.SetupException;
 import org.apache.atlas.web.service.EmbeddedServer;
+import org.apache.atlas.web.setup.AtlasSetup;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Option;
@@ -44,6 +47,7 @@ public final class Atlas {
     private static final String ATLAS_LOG_DIR = "atlas.log.dir";
     public static final String ATLAS_SERVER_HTTPS_PORT = "atlas.server.https.port";
     public static final String ATLAS_SERVER_HTTP_PORT = "atlas.server.http.port";
+    public static final String ATLAS_SERVER_RUN_SETUP_KEY = "atlas.server.run.setup.on.start";
 
     private static EmbeddedServer server;
 
@@ -96,15 +100,34 @@ public final class Atlas {
 
         setApplicationHome();
         Configuration configuration = ApplicationProperties.get();
-        final String enableTLSFlag = configuration.getString("atlas.enableTLS");
+        final String enableTLSFlag = configuration.getString(SecurityProperties.TLS_ENABLED);
         final int appPort = getApplicationPort(cmd, enableTLSFlag, configuration);
+        System.setProperty(AtlasConstants.SYSTEM_PROPERTY_APP_PORT, String.valueOf(appPort));
         final boolean enableTLS = isTLSEnabled(enableTLSFlag, appPort);
-        configuration.setProperty("atlas.enableTLS", String.valueOf(enableTLS));
+        configuration.setProperty(SecurityProperties.TLS_ENABLED, String.valueOf(enableTLS));
 
+        runSetupIfRequired(configuration);
         showStartupInfo(buildConfiguration, enableTLS, appPort);
 
         server = EmbeddedServer.newServer(appPort, appPath, enableTLS);
         server.start();
+    }
+
+    private static void runSetupIfRequired(Configuration configuration) throws SetupException {
+        boolean shouldRunSetup = configuration.getBoolean(ATLAS_SERVER_RUN_SETUP_KEY, false);
+        if (shouldRunSetup) {
+            LOG.warn("Running setup per configuration {}.", ATLAS_SERVER_RUN_SETUP_KEY);
+            AtlasSetup atlasSetup = new AtlasSetup();
+            try {
+                atlasSetup.run();
+            } catch (SetupException se) {
+                LOG.error("Failed running setup. Will not start the server.");
+                throw se;
+            }
+            LOG.warn("Finished running setup.");
+        } else {
+            LOG.info("Not running setup per configuration {}.", ATLAS_SERVER_RUN_SETUP_KEY);
+        }
     }
 
     private static void setApplicationHome() {
@@ -147,7 +170,7 @@ public final class Atlas {
 
     private static boolean isTLSEnabled(String enableTLSFlag, int appPort) {
         return Boolean.valueOf(StringUtils.isEmpty(enableTLSFlag) ?
-                System.getProperty("atlas.enableTLS", (appPort % 1000) == 443 ? "true" : "false") : enableTLSFlag);
+                System.getProperty(SecurityProperties.TLS_ENABLED, (appPort % 1000) == 443 ? "true" : "false") : enableTLSFlag);
     }
 
     private static void showStartupInfo(PropertiesConfiguration buildConfiguration, boolean enableTLS, int appPort) {

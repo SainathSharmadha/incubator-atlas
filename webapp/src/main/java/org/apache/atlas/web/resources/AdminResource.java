@@ -18,6 +18,9 @@
 
 package org.apache.atlas.web.resources;
 
+import com.google.inject.Inject;
+import org.apache.atlas.AtlasClient;
+import org.apache.atlas.web.service.ServiceState;
 import org.apache.atlas.web.util.Servlets;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -41,6 +44,12 @@ import javax.ws.rs.core.Response;
 public class AdminResource {
 
     private Response version;
+    private ServiceState serviceState;
+
+    @Inject
+    public AdminResource(ServiceState serviceState) {
+        this.serviceState = serviceState;
+    }
 
     /**
      * Fetches the thread stack dump for this application.
@@ -97,5 +106,19 @@ public class AdminResource {
         }
 
         return version;
+    }
+
+    @GET
+    @Path("status")
+    @Produces(Servlets.JSON_MEDIA_TYPE)
+    public Response getStatus() {
+        JSONObject responseData = new JSONObject();
+        try {
+            responseData.put(AtlasClient.STATUS, serviceState.getState().toString());
+            Response response = Response.ok(responseData).build();
+            return response;
+        } catch (JSONException e) {
+            throw new WebApplicationException(Servlets.getErrorResponse(e, Response.Status.INTERNAL_SERVER_ERROR));
+        }
     }
 }

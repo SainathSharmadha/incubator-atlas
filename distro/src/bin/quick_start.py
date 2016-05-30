@@ -19,37 +19,13 @@ import os
 import sys
 
 import atlas_config as mc
-
-ATLAS_LOG_OPTS="-Datlas.log.dir=%s -Datlas.log.file=quick_start.log"
-ATLAS_COMMAND_OPTS="-Datlas.home=%s"
-DEFAULT_JVM_OPTS="-Xmx1024m -Dlog4j.configuration=atlas-log4j.xml"
+import atlas_client_cmdline as cmdline
 
 def main():
 
-    atlas_home = mc.atlasDir()
-    confdir = mc.dirMustExist(mc.confDir(atlas_home))
-    mc.executeEnvSh(confdir)
-    logdir = mc.dirMustExist(mc.logDir(atlas_home))
-
-    #create sys property for conf dirs
-    jvm_opts_list = (ATLAS_LOG_OPTS % logdir).split()
-
-    cmd_opts = (ATLAS_COMMAND_OPTS % atlas_home)
-    jvm_opts_list.extend(cmd_opts.split())
-
-    default_jvm_opts = DEFAULT_JVM_OPTS
-    atlas_jvm_opts = os.environ.get(mc.ATLAS_OPTS, default_jvm_opts)
-    jvm_opts_list.extend(atlas_jvm_opts.split())
-
-    #expand web app dir
-    web_app_dir = mc.webAppDir(atlas_home)
-    mc.expandWebApp(atlas_home)
-
-    p = os.pathsep
-    atlas_classpath = confdir + p \
-                       + os.path.join(web_app_dir, "atlas", "WEB-INF", "classes" ) + p \
-                       + os.path.join(web_app_dir, "atlas", "WEB-INF", "lib", "*" )  + p \
-                       + os.path.join(atlas_home, "libext", "*")
+    conf_dir = cmdline.setup_conf_dir()
+    jvm_opts_list = cmdline.setup_jvm_opts_list(conf_dir, 'quick_start.log')
+    atlas_classpath = cmdline.get_atlas_classpath(conf_dir)
 
     process = mc.java("org.apache.atlas.examples.QuickStart", sys.argv[1:], atlas_classpath, jvm_opts_list)
     return process.wait()

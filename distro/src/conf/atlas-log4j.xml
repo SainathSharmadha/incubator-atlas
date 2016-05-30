@@ -55,13 +55,13 @@
         <appender-ref ref="FILE"/>
     </logger>
 
-    <logger name="AUDIT">
+    <logger name="AUDIT" additivity="false">
         <level value="info"/>
         <appender-ref ref="AUDIT"/>
     </logger>
 
     <root>
-        <priority value="info"/>
+        <priority value="warn"/>
         <appender-ref ref="FILE"/>
     </root>
 

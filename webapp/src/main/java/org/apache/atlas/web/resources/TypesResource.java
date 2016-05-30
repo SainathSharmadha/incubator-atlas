@@ -45,6 +45,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class TypesResource {
      * domain. Could represent things like Hive Database, Hive Table, etc.
      */
     @POST
-    @Consumes(Servlets.JSON_MEDIA_TYPE)
+    @Consumes({Servlets.JSON_MEDIA_TYPE, MediaType.APPLICATION_JSON})
     @Produces(Servlets.JSON_MEDIA_TYPE)
     public Response submit(@Context HttpServletRequest request) {
         try {
@@ -120,7 +121,7 @@ public class TypesResource {
      * @return
      */
     @PUT
-    @Consumes(Servlets.JSON_MEDIA_TYPE)
+    @Consumes({Servlets.JSON_MEDIA_TYPE, MediaType.APPLICATION_JSON})
     @Produces(Servlets.JSON_MEDIA_TYPE)
     public Response update(@Context HttpServletRequest request) {
         try {
@@ -214,7 +215,7 @@ public class TypesResource {
         } catch (IllegalArgumentException | AtlasException ie) {
             LOG.error("Unsupported typeName while retrieving type list {}", type);
             throw new WebApplicationException(
-                    Servlets.getErrorResponse("Unsupported type " + type, Response.Status.BAD_REQUEST));
+                    Servlets.getErrorResponse(new Exception("Unsupported type " + type, ie), Response.Status.BAD_REQUEST));
         } catch (Throwable e) {
             LOG.error("Unable to get types list", e);
             throw new WebApplicationException(Servlets.getErrorResponse(e, Response.Status.INTERNAL_SERVER_ERROR));

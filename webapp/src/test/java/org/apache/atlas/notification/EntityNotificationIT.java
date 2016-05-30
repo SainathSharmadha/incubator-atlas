@@ -18,7 +18,7 @@
 
 package org.apache.atlas.notification;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -102,6 +102,26 @@ public class EntityNotificationIT extends BaseResourceIT {
                 newNotificationPredicate(EntityNotification.OperationType.ENTITY_UPDATE, HIVE_TABLE_TYPE, guid));
     }
 
+    @Test
+    public void testDeleteEntity() throws Exception {
+        final String tableName = "table-" + randomString();
+        final String dbName = "db-" + randomString();
+        Referenceable tableInstance = createHiveTableInstance(dbName, tableName);
+        final Id tableId = createInstance(tableInstance);
+        final String guid = tableId._getId();
+
+        waitForNotification(notificationConsumer, MAX_WAIT_TIME,
+            newNotificationPredicate(EntityNotification.OperationType.ENTITY_CREATE, HIVE_TABLE_TYPE, guid));
+
+        final String property = "name";
+        final String name = (String) tableInstance.get(property);
+
+        serviceClient.deleteEntity(HIVE_TABLE_TYPE, property, name);
+
+        waitForNotification(notificationConsumer, MAX_WAIT_TIME,
+            newNotificationPredicate(EntityNotification.OperationType.ENTITY_DELETE, HIVE_TABLE_TYPE, guid));
+    }
+
     @Test(dependsOnMethods = "testCreateEntity")
     public void testAddTrait() throws Exception {
         String superSuperTraitName = "SuperTrait" + randomString();
@@ -181,7 +201,7 @@ public class EntityNotificationIT extends BaseResourceIT {
 
     private void createTrait(String traitName, String ... superTraitNames) throws Exception {
         HierarchicalTypeDefinition<TraitType> trait =
-            TypesUtil.createTraitTypeDef(traitName, ImmutableList.copyOf(superTraitNames));
+            TypesUtil.createTraitTypeDef(traitName, ImmutableSet.copyOf(superTraitNames));
 
         String traitDefinitionJSON = TypesSerialization$.MODULE$.toJson(trait, true);
         LOG.debug("Trait definition = " + traitDefinitionJSON);

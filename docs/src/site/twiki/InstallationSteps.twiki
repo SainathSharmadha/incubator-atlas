@@ -18,6 +18,17 @@ mvn clean package -Pdist
 
 </verbatim>
 
+To build a distribution that packages HBase and Solr, build with the embedded_services profile.
+
+<verbatim>
+
+mvn clean package -Pdist,embedded_services
+
+</verbatim>
+
+Using the embedded_services profile will configure Atlas so that an HBase instance and a Solr instance will be started
+and stopped along with the Atlas server by default.
+
 Tar can be found in atlas/distro/target/apache-atlas-${project.version}-bin.tar.gz
 
 Tar is structured as follows
@@ -32,8 +43,9 @@ Tar is structured as follows
    |- cputil.py
 |- conf
    |- atlas-application.properties
-   |- client.properties
    |- atlas-env.sh
+   |- hbase
+      |- hbase-site.xml.template
    |- log4j.xml
    |- solr
       |- currency.xml
@@ -45,9 +57,16 @@ Tar is structured as follows
       |- stopwords.txt
       |- synonyms.txt
 |- docs
+|- hbase
+   |- bin
+   |- conf
+   ...
 |- server
    |- webapp
       |- atlas.war
+|- solr
+   |- bin
+   ...
 |- README
 |- NOTICE.txt
 |- LICENSE.txt
@@ -56,16 +75,29 @@ Tar is structured as follows
 
 </verbatim>
 
+Note that if the embedded_services profile is specified for the build then HBase and Solr are included in the
+distribution.
+
+In this case, a standalone instance of HBase can be started as the default storage backend for the graph repository.
+During Atlas installation the conf/hbase/hbase-site.xml.template gets expanded and moved to hbase/conf/hbase-site.xml
+for the initial standalone HBase configuration.  To configure ATLAS
+graph persistence for a different HBase instance, please see "Graph persistence engine - HBase" in the
+[[Configuration][Configuration]] section.
+
+Also, a standalone instance of Solr can be started as the default search indexing backend.  To configure ATLAS search
+indexing for a different Solr instance please see "Graph Search Index - Solr" in the
+[[Configuration][Configuration]] section.
+
 ---+++ Installing & Running Atlas
 
-*Installing Atlas*
+---++++ Installing Atlas
 <verbatim>
 tar -xzvf apache-atlas-${project.version}-bin.tar.gz
 
 cd atlas-${project.version}
 </verbatim>
 
-*Configuring Atlas*
+---++++ Configuring Atlas
 
 By default config directory used by Atlas is {package dir}/conf. To override this set environment
 variable ATLAS_CONF to the path of the conf dir.
@@ -110,6 +142,28 @@ executed. The following environment variables are available to set.
 #export ATLAS_EXPANDED_WEBAPP_DIR=
 </verbatim>
 
+*Settings to support large number of metadata objects*
+
+If you plan to store several tens of thousands of metadata objects, it is recommended that you use values
+tuned for better GC performance of the JVM.
+
+The following values are common server side options:
+<verbatim>
+export ATLAS_SERVER_OPTS="-server -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+PrintTenuringDistribution -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=dumps/atlas_server.hprof -Xloggc:logs/gc-worker.log -verbose:gc -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=1m -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCTimeStamps"
+</verbatim>
+
+The =-XX:SoftRefLRUPolicyMSPerMB= option was found to be particularly helpful to regulate GC performance for
+query heavy workloads with many concurrent users.
+
+The following values are recommended for JDK 7:
+<verbatim>
+export ATLAS_SERVER_HEAP="-Xms15360m -Xmx15360m -XX:MaxNewSize=3072m -XX:PermSize=100M -XX:MaxPermSize=512m"
+</verbatim>
+
+The following values are recommended for JDK 8:
+<verbatim>
+export ATLAS_SERVER_HEAP="-Xms15360m -Xmx15360m -XX:MaxNewSize=5120m -XX:MetaspaceSize=100M -XX:MaxMetaspaceSize=512m"
+</verbatim>
 
 *NOTE for Mac OS users*
 If you are using a Mac OS, you will need to configure the ATLAS_SERVER_OPTS (explained above).
@@ -151,14 +205,14 @@ For configuring Titan to work with Solr, please follow the instructions below
       $SOLR_HOME/bin/solr start -c -z <zookeeper_host:port> -p 8983
       </verbatim>
 
-   * Run the following commands from SOLR_HOME directory to create collections in Solr corresponding to the indexes that Atlas uses. In the case that the ATLAS and SOLR instance are on 2 different hosts,
+   * Run the following commands from SOLR_BIN (e.g. $SOLR_HOME/bin) directory to create collections in Solr corresponding to the indexes that Atlas uses. In the case that the ATLAS and SOLR instance are on 2 different hosts,
   first copy the required configuration files from ATLAS_HOME/conf/solr on the ATLAS instance host to the Solr instance host. SOLR_CONF in the below mentioned commands refer to the directory where the solr configuration files
   have been copied to on Solr host:
 
 <verbatim>
-  bin/solr create -c vertex_index -d SOLR_CONF -shards #numShards -replicationFactor #replicationFactor
-  bin/solr create -c edge_index -d SOLR_CONF -shards #numShards -replicationFactor #replicationFactor
-  bin/solr create -c fulltext_index -d SOLR_CONF -shards #numShards -replicationFactor #replicationFactor
+  $SOLR_BIN/solr create -c vertex_index -d SOLR_CONF -shards #numShards -replicationFactor #replicationFactor
+  $SOLR_BIN/solr create -c edge_index -d SOLR_CONF -shards #numShards -replicationFactor #replicationFactor
+  $SOLR_BIN/solr create -c fulltext_index -d SOLR_CONF -shards #numShards -replicationFactor #replicationFactor
 </verbatim>
 
   Note: If numShards and replicationFactor are not specified, they default to 1 which suffices if you are trying out solr with ATLAS on a single node instance.
@@ -166,6 +220,9 @@ For configuring Titan to work with Solr, please follow the instructions below
   The number of shards cannot exceed the total number of Solr nodes in your !SolrCloud cluster.
 
   The number of replicas (replicationFactor) can be set according to the redundancy required.
+
+  Also note that solr will automatically be called to create the indexes when the Atlas server is started if the
+  SOLR_BIN and SOLR_CONF environment variables are set and the search indexing backend is set to 'solr5'.
 
    * Change ATLAS configuration to point to the Solr instance setup. Please make sure the following configurations are set to the below values in ATLAS_HOME/conf/atlas-application.properties
 <verbatim>
@@ -185,7 +242,25 @@ Pre-requisites for running Solr in cloud mode
   * !SolrCloud has support for replication and sharding. It is highly recommended to use !SolrCloud with at least two Solr nodes running on different servers with replication enabled.
     If using !SolrCloud, then you also need !ZooKeeper installed and configured with 3 or 5 !ZooKeeper nodes
 
-*Starting Atlas Server*
+---++++ Setting up Atlas
+
+There are a few steps that setup dependencies of Atlas. One such example is setting up the Titan schema
+in the storage backend of choice. In a simple single server setup, these are automatically setup with default
+configuration when the server first accesses these dependencies.
+
+However, there are scenarios when we may want to run setup steps explicitly as one time operations. For example, in a
+multiple server scenario using [[HighAvailability][High Availability]], it is preferable to run setup steps from one
+of the server instances the first time, and then start the services.
+
+To run these steps one time, execute the command =bin/atlas_start.py -setup= from a single Atlas server instance.
+
+However, the Atlas server does take care of parallel executions of the setup steps. Also, running the setup steps multiple
+times is idempotent. Therefore, if one chooses to run the setup steps as part of server startup, for convenience,
+then they should enable the configuration option =atlas.server.run.setup.on.start= by defining it with the value =true=
+in the =atlas-application.properties= file.
+
+---++++ Starting Atlas Server
+
 <verbatim>
 bin/atlas_start.py [-port <port>]
 </verbatim>
@@ -194,7 +269,8 @@ By default,
    * To change the port, use -port option.
    * atlas server starts with conf from {package dir}/conf. To override this (to use the same conf with multiple atlas upgrades), set environment variable ATLAS_CONF to the path of conf dir
 
-*Using Atlas*
+---+++ Using Atlas
+
    * Quick start model - sample model and data
 <verbatim>
   bin/quick_start.py [<atlas endpoint>]
@@ -231,7 +307,21 @@ By default,
 Once atlas is started, you can view the status of atlas entities using the Web-based dashboard. You can open your browser at the corresponding port to use the web UI.
 
 
-*Stopping Atlas Server*
+---+++ Stopping Atlas Server
+
 <verbatim>
 bin/atlas_stop.py
 </verbatim>
+
+---+++ Known Issues
+
+---++++ Setup
+
+If the setup of Atlas service fails due to any reason, the next run of setup (either by an explicit invocation of
+=atlas_start.py -setup= or by enabling the configuration option =atlas.server.run.setup.on.start=) will fail with
+a message such as =A previous setup run may not have completed cleanly.=. In such cases, you would need to manually
+ensure the setup can run and delete the Zookeeper node at =/apache_atlas/setup_in_progress= before attempting to
+run setup again.
+
+If the setup failed due to HBase Titan schema setup errors, it may be necessary to repair the HBase schema. If no
+data has been stored, one can also disable and drop the 'titan' schema in HBase to let setup run again.

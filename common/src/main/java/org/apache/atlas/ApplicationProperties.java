@@ -17,7 +17,7 @@
  */
 package org.apache.atlas;
 
-import org.apache.commons.configuration.CompositeConfiguration;
+import org.apache.atlas.security.InMemoryJAASConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -36,21 +35,29 @@ public final class ApplicationProperties extends PropertiesConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationProperties.class);
 
     public static final String APPLICATION_PROPERTIES = "atlas-application.properties";
-    public static final String CLIENT_PROPERTIES = "client.properties";
 
-    private static Configuration instance = null;
+    private static volatile Configuration instance = null;
 
     private ApplicationProperties(URL url) throws ConfigurationException {
         super(url);
+    }
+
+    public static void forceReload() {
+        if (instance != null) {
+            synchronized (ApplicationProperties.class) {
+                if (instance != null) {
+                    instance = null;
+                }
+            }
+        }
     }
 
     public static Configuration get() throws AtlasException {
         if (instance == null) {
             synchronized (ApplicationProperties.class) {
                 if (instance == null) {
-                    Configuration applicationProperties = get(APPLICATION_PROPERTIES);
-                    Configuration clientProperties = get(CLIENT_PROPERTIES);
-                    instance = new CompositeConfiguration(Arrays.asList(applicationProperties, clientProperties));
+                    instance = get(APPLICATION_PROPERTIES);
+                    InMemoryJAASConfiguration.init(instance);
                 }
             }
         }
@@ -85,5 +92,24 @@ public final class ApplicationProperties extends PropertiesConfiguration {
 
     public static Configuration getSubsetConfiguration(Configuration inConf, String prefix) {
         return inConf.subset(prefix);
+    }
+
+    public static Class getClass(String propertyName, String defaultValue, Class assignableClass)
+        throws AtlasException {
+        try {
+            Configuration configuration = get();
+            String propertyValue = configuration.getString(propertyName, defaultValue);
+            Class<?> clazz = Class.forName(propertyValue);
+            if (assignableClass == null || assignableClass.isAssignableFrom(clazz)) {
+                return clazz;
+            } else {
+                String message = "Class " + clazz.getName() + " specified in property " + propertyName
+                        + " is not assignable to class " + assignableClass.getName();
+                LOG.error(message);
+                throw new AtlasException(message);
+            }
+        } catch (Exception e) {
+            throw new AtlasException(e);
+        }
     }
 }

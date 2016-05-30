@@ -35,7 +35,6 @@ public enum StormDataTypes {
     KAFKA_TOPIC,  // kafka data set
     JMS_TOPIC,  // jms data set
     HBASE_TABLE,  // hbase table data set
-    HDFS_DATA_SET,  // HDFS data set
     ;
 
     public String getName() {

@@ -19,8 +19,11 @@
 package org.apache.atlas.falcon.model;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+
 import org.apache.atlas.AtlasClient;
 import org.apache.atlas.AtlasException;
+import org.apache.atlas.addons.ModelDefinitionDump;
 import org.apache.atlas.typesystem.TypesDef;
 import org.apache.atlas.typesystem.json.TypesSerialization;
 import org.apache.atlas.typesystem.types.AttributeDefinition;
@@ -54,7 +57,6 @@ public class FalconDataModelGenerator {
     private final Map<String, StructTypeDefinition> structTypeDefinitionMap;
 
     public static final String NAME = "name";
-    public static final String PROCESS_NAME = "processName";
     public static final String TIMESTAMP = "timestamp";
     public static final String USER = "owned-by";
     public static final String TAGS = "tag-classification";
@@ -104,8 +106,6 @@ public class FalconDataModelGenerator {
 
     private void createProcessEntityClass() throws AtlasException {
         AttributeDefinition[] attributeDefinitions = new AttributeDefinition[]{
-                new AttributeDefinition(PROCESS_NAME, DataTypes.STRING_TYPE.getName(), Multiplicity.REQUIRED, false,
-                        null),
                 new AttributeDefinition(TIMESTAMP, DataTypes.LONG_TYPE.getName(), Multiplicity.REQUIRED, false,
                         null),
                 new AttributeDefinition(USER, DataTypes.STRING_TYPE.getName(), Multiplicity.REQUIRED, false,
@@ -115,8 +115,8 @@ public class FalconDataModelGenerator {
                         Multiplicity.OPTIONAL, false, null),};
 
         HierarchicalTypeDefinition<ClassType> definition =
-                new HierarchicalTypeDefinition<>(ClassType.class, FalconDataTypes.FALCON_PROCESS_ENTITY.getName(),
-                        ImmutableList.of(AtlasClient.PROCESS_SUPER_TYPE), attributeDefinitions);
+                new HierarchicalTypeDefinition<>(ClassType.class, FalconDataTypes.FALCON_PROCESS_ENTITY.getName(), null,
+                    ImmutableSet.of(AtlasClient.PROCESS_SUPER_TYPE), attributeDefinitions);
         classTypeDefinitions.put(FalconDataTypes.FALCON_PROCESS_ENTITY.getName(), definition);
         LOG.debug("Created definition for {}", FalconDataTypes.FALCON_PROCESS_ENTITY.getName());
     }
@@ -130,7 +130,14 @@ public class FalconDataModelGenerator {
 
     public static void main(String[] args) throws Exception {
         FalconDataModelGenerator falconDataModelGenerator = new FalconDataModelGenerator();
-        System.out.println("falconDataModelAsJSON = " + falconDataModelGenerator.getModelAsJson());
+        String modelAsJson = falconDataModelGenerator.getModelAsJson();
+
+        if (args.length == 1) {
+            ModelDefinitionDump.dumpModelToFile(args[0], modelAsJson);
+            return;
+        }
+
+        System.out.println("falconDataModelAsJSON = " + modelAsJson);
 
         TypesDef typesDef = falconDataModelGenerator.getTypesDef();
         for (EnumTypeDefinition enumType : typesDef.enumTypesAsJavaList()) {

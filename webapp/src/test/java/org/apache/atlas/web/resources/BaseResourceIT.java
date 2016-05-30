@@ -20,6 +20,7 @@ package org.apache.atlas.web.resources;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -48,11 +49,11 @@ import org.apache.atlas.typesystem.types.StructTypeDefinition;
 import org.apache.atlas.typesystem.types.TraitType;
 import org.apache.atlas.typesystem.types.TypeUtils;
 import org.apache.atlas.typesystem.types.utils.TypesUtil;
+import org.apache.atlas.utils.AuthenticationUtil;
 import org.apache.atlas.utils.ParamChecker;
 import org.apache.atlas.web.util.Servlets;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.RandomStringUtils;
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +75,8 @@ public abstract class BaseResourceIT {
     protected WebResource service;
     protected AtlasClient serviceClient;
     public static final Logger LOG = LoggerFactory.getLogger(BaseResourceIT.class);
-    protected static final int MAX_WAIT_TIME = 1000;
+    protected static final int MAX_WAIT_TIME = 60000;
+    protected String baseUrl;
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -82,11 +84,16 @@ public abstract class BaseResourceIT {
         DefaultClientConfig config = new DefaultClientConfig();
         Client client = Client.create(config);
         Configuration configuration = ApplicationProperties.get();
-        String baseUrl = configuration.getString(ATLAS_REST_ADDRESS, "http://localhost:21000/");
+        baseUrl = configuration.getString(ATLAS_REST_ADDRESS, "http://localhost:21000/");
         client.resource(UriBuilder.fromUri(baseUrl).build());
 
         service = client.resource(UriBuilder.fromUri(baseUrl).build());
-        serviceClient = new AtlasClient(baseUrl);
+
+        if (!AuthenticationUtil.isKerberosAuthicationEnabled()) {
+            serviceClient = new AtlasClient(new String[]{baseUrl}, new String[]{"admin", "admin"});
+        } else {
+            serviceClient = new AtlasClient(baseUrl);
+        }
     }
 
     protected void createType(TypesDef typesDef) throws Exception {
@@ -122,12 +129,12 @@ public abstract class BaseResourceIT {
 
         String entityJSON = InstanceSerialization.toJson(referenceable, true);
         System.out.println("Submitting new entity= " + entityJSON);
-        JSONArray guids = serviceClient.createEntity(entityJSON);
+        List<String> guids = serviceClient.createEntity(entityJSON);
         System.out.println("created instance for type " + typeName + ", guid: " + guids);
 
         // return the reference to created instance with guid
-        if (guids.length() > 0) {
-            return new Id(guids.getString(guids.length() - 1), 0, referenceable.getTypeName());
+        if (guids.size() > 0) {
+            return new Id(guids.get(guids.size() - 1), 0, referenceable.getTypeName());
         }
         return null;
     }
@@ -158,7 +165,7 @@ public abstract class BaseResourceIT {
         EnumTypeDefinition enumTypeDefinition = new EnumTypeDefinition("tableType", values);
 
         HierarchicalTypeDefinition<ClassType> tblClsDef = TypesUtil
-                .createClassTypeDef(HIVE_TABLE_TYPE, ImmutableList.of("DataSet"),
+                .createClassTypeDef(HIVE_TABLE_TYPE, ImmutableSet.of("DataSet"),
                         attrDef("owner", DataTypes.STRING_TYPE), attrDef("createTime", DataTypes.LONG_TYPE),
                         attrDef("lastAccessTime", DataTypes.DATE_TYPE),
                         attrDef("temporary", DataTypes.BOOLEAN_TYPE),
@@ -170,7 +177,7 @@ public abstract class BaseResourceIT {
                 new AttributeDefinition("serde2", "serdeType", Multiplicity.OPTIONAL, false, null));
 
         HierarchicalTypeDefinition<ClassType> loadProcessClsDef = TypesUtil
-                .createClassTypeDef(HIVE_PROCESS_TYPE, ImmutableList.of("Process"),
+                .createClassTypeDef(HIVE_PROCESS_TYPE, ImmutableSet.of("Process"),
                         attrDef("userName", DataTypes.STRING_TYPE), attrDef("startTime", DataTypes.INT_TYPE),
                         attrDef("endTime", DataTypes.LONG_TYPE),
                         attrDef("queryText", DataTypes.STRING_TYPE, Multiplicity.REQUIRED),
@@ -179,20 +186,20 @@ public abstract class BaseResourceIT {
                         attrDef("queryGraph", DataTypes.STRING_TYPE, Multiplicity.REQUIRED));
 
         HierarchicalTypeDefinition<TraitType> classificationTrait = TypesUtil
-                .createTraitTypeDef("classification", ImmutableList.<String>of(),
+                .createTraitTypeDef("classification", ImmutableSet.<String>of(),
                         TypesUtil.createRequiredAttrDef("tag", DataTypes.STRING_TYPE));
         HierarchicalTypeDefinition<TraitType> piiTrait =
-                TypesUtil.createTraitTypeDef("pii", ImmutableList.<String>of());
+                TypesUtil.createTraitTypeDef("pii", ImmutableSet.<String>of());
         HierarchicalTypeDefinition<TraitType> phiTrait =
-                TypesUtil.createTraitTypeDef("phi", ImmutableList.<String>of());
+                TypesUtil.createTraitTypeDef("phi", ImmutableSet.<String>of());
         HierarchicalTypeDefinition<TraitType> pciTrait =
-                TypesUtil.createTraitTypeDef("pci", ImmutableList.<String>of());
+                TypesUtil.createTraitTypeDef("pci", ImmutableSet.<String>of());
         HierarchicalTypeDefinition<TraitType> soxTrait =
-                TypesUtil.createTraitTypeDef("sox", ImmutableList.<String>of());
+                TypesUtil.createTraitTypeDef("sox", ImmutableSet.<String>of());
         HierarchicalTypeDefinition<TraitType> secTrait =
-                TypesUtil.createTraitTypeDef("sec", ImmutableList.<String>of());
+                TypesUtil.createTraitTypeDef("sec", ImmutableSet.<String>of());
         HierarchicalTypeDefinition<TraitType> financeTrait =
-                TypesUtil.createTraitTypeDef("finance", ImmutableList.<String>of());
+                TypesUtil.createTraitTypeDef("finance", ImmutableSet.<String>of());
 
         TypesDef typesDef = TypesUtil.getTypesDef(ImmutableList.of(enumTypeDefinition),
                 ImmutableList.of(structTypeDefinition),
