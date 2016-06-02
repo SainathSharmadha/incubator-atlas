@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools;
+package org.apache.atlas.performance.tools.result_collector;
 
 
 public class Query {

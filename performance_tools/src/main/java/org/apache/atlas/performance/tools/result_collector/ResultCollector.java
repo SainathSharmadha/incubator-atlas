@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools;
+package org.apache.atlas.performance.tools.result_collector;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,17 +27,17 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by temp on 4/5/16.
- */
+
 public class ResultCollector {
     int usersCnt;
     int loopCount;
@@ -77,7 +77,7 @@ public class ResultCollector {
 
             user = new User("Atlas user 1-" + i);
 
-            file = new File("performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/Atlas users 1-" + i + ".xml");
+            file = new File("incubator-atlas/performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/Atlas users 1-" + i + ".xml");
             parseFile(file,user);
         }
     }

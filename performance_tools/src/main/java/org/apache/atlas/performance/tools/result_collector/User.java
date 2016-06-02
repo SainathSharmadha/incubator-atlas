@@ -16,25 +16,18 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools;
+package org.apache.atlas.performance.tools.result_collector;
 
 
-public class TimeUtils {
-
-    public static String getFormattedTime(Long timeTaken){
-        String ftime="";
-        long totalTime =timeTaken;
-        long millis=totalTime%1000;
-        long time = totalTime / 1000;
-        String seconds = Integer.toString((int)(time % 60));
-        String minutes = Integer.toString((int)((time % 3600) / 60));
-        String hours = Integer.toString((int)(time / 3600));
-
-        if(!minutes.equals("0"))
-            ftime = ftime +minutes+" mins ";
-        if(!seconds.equals("0"))
-            ftime = ftime +seconds+ " secs ";
-        ftime=ftime+millis+ " ms ";
-        return ftime;
+public class User {
+    static Integer loopCount;
+    String userName;
+    QuerySet[] querySets;
+    User(String userName) {
+        this.userName=userName;
+        querySets = new QuerySet[loopCount];
+        for(int i=0;i<loopCount;i++){
+            querySets[i]=new QuerySet();
+        }
     }
 }

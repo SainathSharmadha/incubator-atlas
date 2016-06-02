@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools;
+package org.apache.atlas.performance.tools.result_collector;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -28,16 +28,12 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 
-/**
- * Created by temp on 4/5/16.
- */
 public class FileBuilder {
     String responseFileName;
 
@@ -45,7 +41,8 @@ public class FileBuilder {
         for (int i = 1; i <= usersCnt; i++) {
             File f;
             Writer writer;
-            f = new File("performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/Atlas users 1-" + i + ".xml");
+
+            f = new File("incubator-atlas/performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/Atlas users 1-" + i + ".xml");
             f.createNewFile();
             writer = new FileWriter(f);
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> \n <test/>");
@@ -72,7 +69,7 @@ public class FileBuilder {
             Element element = (Element) sourceSection;
             String userName = element.getAttribute("tn");
 
-            target = new File("performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/" + userName + ".xml");
+            target = new File("incubator-atlas/performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/" + userName + ".xml");
             targetDom = builder.parse(new InputSource(new FileReader(target)));
             Node targetSection = targetDom.getElementsByTagName("test").item(0);
 

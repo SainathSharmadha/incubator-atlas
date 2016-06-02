@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools;
+package org.apache.atlas.performance.tools.result_collector;
 
 import java.util.ArrayList;
 import java.util.Collections;

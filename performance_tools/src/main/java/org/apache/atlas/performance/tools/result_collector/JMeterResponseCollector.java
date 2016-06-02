@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools;
+package org.apache.atlas.performance.tools.result_collector;
 
+import org.apache.atlas.performance.tools.result_collector.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,9 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * Created by temp on 4/20/16.
- */
+
 public class JMeterResponseCollector {
     private static Integer nusers,nloops,numQueriesPerSet,small_e,medium_e,large_e;
     private static String cpuUsageFile,responseFile;
@@ -39,7 +38,7 @@ public class JMeterResponseCollector {
 
         try {
 
-            input = new FileInputStream("performance_tools/src/main/java/org/apache/atlas/performance/tools/resources/config.properties");
+            input = new FileInputStream("incubator-atlas/performance_tools/src/main/java/org/apache/atlas/performance/tools/resources/config.properties");
             prop.load(input);
             nusers=Integer.parseInt(prop.getProperty("nusers"));
             nloops=Integer.parseInt(prop.getProperty("nloops"));
@@ -67,7 +66,7 @@ public class JMeterResponseCollector {
 
         getConfiguredValues();
         FileBuilder fileBuilder=new FileBuilder();
-        //fileBuilder.createFiles(nusers,responseFile);
+       // fileBuilder.createFiles(nusers,responseFile);
         User.loopCount=nloops;
         QuerySet.setNumQueriesPerSet(numQueriesPerSet);
         ResultCollector rs=new ResultCollector(nusers,nloops,small_e,medium_e,large_e,cpuUsageFile,responseFile);

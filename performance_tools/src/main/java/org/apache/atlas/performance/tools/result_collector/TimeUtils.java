@@ -16,23 +16,25 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools;
-import java.util.ArrayList;
+package org.apache.atlas.performance.tools.result_collector;
 
-/**
- * Created by temp on 3/23/16.
- */
-public class QuerySet {
-    static Integer numQueriesPerSet;
-    public boolean isSuccess;
-    public static void setNumQueriesPerSet(Integer numQueriesPerSet) {
-        QuerySet.numQueriesPerSet = numQueriesPerSet;
-    }
 
-    ArrayList<Query> querySet=new ArrayList<Query>();
+public class TimeUtils {
 
-    public void addToQuerySet(Query query)
-    {
-        this.querySet.add(query);
+    public static String getFormattedTime(Long timeTaken){
+        String ftime="";
+        long totalTime =timeTaken;
+        long millis=totalTime%1000;
+        long time = totalTime / 1000;
+        String seconds = Integer.toString((int)(time % 60));
+        String minutes = Integer.toString((int)((time % 3600) / 60));
+        String hours = Integer.toString((int)(time / 3600));
+
+        if(!minutes.equals("0"))
+            ftime = ftime +minutes+" mins ";
+        if(!seconds.equals("0"))
+            ftime = ftime +seconds+ " secs ";
+        ftime=ftime+millis+ " ms ";
+        return ftime;
     }
 }
