@@ -17,6 +17,8 @@ From: 'an unknown organization'
     License: Mozilla Public License 1.1 (MPL 1.1)  (http://www.mozilla.org/MPL/MPL-1.1.html)
   - ISO Parser (http://code.google.com/p/mp4parser/) com.googlecode.mp4parser:isoparser:jar:1.0-RC-1
     License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - commons-beanutils  commons-beanutils:commons-beanutils:jar:1.7.0
+
   - Boilerpipe -- Boilerplate Removal and Fulltext Extraction from HTML pages (http://code.google.com/p/boilerpipe/) de.l3s.boilerpipe:boilerpipe:jar:1.1.0
     License: Apache License 2.0 
   - The NetCDF-Java Library (http://www.unidata.ucar.edu/software/netcdf-java/) edu.ucar:netcdf:jar:4.2-min
@@ -156,7 +158,13 @@ From: 'Sun Microsystems' (http://java.sun.com/)
   - ROME, RSS and atOM utilitiEs for Java (https://rome.dev.java.net/) rome:rome:jar:0.9
     License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
 
+From: 'The Apache Software Foundation' (http://commons.apache.org/)
+  - Commons Configuration (http://commons.apache.org/${pom.artifactId.substring(8)}/) commons-configuration:commons-configuration:jar:1.6
+    License: The Apache Software License, Version 2.0  (/LICENSE.txt)
+
 From: 'The Apache Software Foundation' (http://jakarta.apache.org)
+  - Digester (http://jakarta.apache.org/commons/digester/) commons-digester:commons-digester:jar:1.8
+    License: The Apache Software License, Version 2.0  (/LICENSE.txt)
   - Commons JEXL (http://jakarta.apache.org/commons/jexl/) commons-jexl:commons-jexl:jar:1.1
     License: The Apache Software License, Version 2.0  (/LICENSE.txt)
 
@@ -169,11 +177,15 @@ From: 'The Apache Software Foundation' (http://pdfbox.apache.org)
     License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 From: 'The Apache Software Foundation' (http://www.apache.org/)
+  - Commons BeanUtils Core (http://commons.apache.org/beanutils/) commons-beanutils:commons-beanutils-core:jar:1.8.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
   - Commons Codec (http://commons.apache.org/codec/) commons-codec:commons-codec:jar:1.6
     License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
-  - Commons Collections (http://commons.apache.org/collections/) commons-collections:commons-collections:jar:3.2.1
-    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Commons Collections (http://commons.apache.org/collections/) commons-collections:commons-collections:jar:3.2.2
+    License: Apache License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
   - Commons IO (http://commons.apache.org/io/) commons-io:commons-io:jar:2.4
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Lang (http://commons.apache.org/lang/) commons-lang:commons-lang:jar:2.4
     License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
   - Commons Logging (http://commons.apache.org/logging) commons-logging:commons-logging:jar:1.1.1
     License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)

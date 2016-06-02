@@ -1,19 +1,25 @@
 products:
    src/main/java/org/apache/atlas/performance/tools/FileBuilder.java -> target/classes/org/apache/atlas/performance/tools/FileBuilder.class
    src/main/java/org/apache/atlas/performance/tools/JMeterResponseCollector.java -> target/classes/org/apache/atlas/performance/tools/JMeterResponseCollector.class
+   src/main/java/org/apache/atlas/performance/tools/PropertiesFileReader.java -> target/classes/org/apache/atlas/performance/tools/PropertiesFileReader.class
    src/main/java/org/apache/atlas/performance/tools/Query.java -> target/classes/org/apache/atlas/performance/tools/Query.class
    src/main/java/org/apache/atlas/performance/tools/QuerySet.java -> target/classes/org/apache/atlas/performance/tools/QuerySet.class
    src/main/java/org/apache/atlas/performance/tools/ResultCollector.java -> target/classes/org/apache/atlas/performance/tools/ResultCollector.class
    src/main/java/org/apache/atlas/performance/tools/StatisticsEvaluator.java -> target/classes/org/apache/atlas/performance/tools/StatisticsEvaluator.class
+   src/main/java/org/apache/atlas/performance/tools/TablesGenerator.java -> target/classes/org/apache/atlas/performance/tools/TablesGenerator.class
    src/main/java/org/apache/atlas/performance/tools/TimeUtils.java -> target/classes/org/apache/atlas/performance/tools/TimeUtils.class
    src/main/java/org/apache/atlas/performance/tools/User.java -> target/classes/org/apache/atlas/performance/tools/User.class
 binary dependencies:
    src/main/java/org/apache/atlas/performance/tools/FileBuilder.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
    src/main/java/org/apache/atlas/performance/tools/JMeterResponseCollector.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
+   src/main/java/org/apache/atlas/performance/tools/PropertiesFileReader.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
+   src/main/java/org/apache/atlas/performance/tools/PropertiesFileReader.java -> /Users/temp/.m2/repository/commons-configuration/commons-configuration/1.6/commons-configuration-1.6.jar
    src/main/java/org/apache/atlas/performance/tools/Query.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
    src/main/java/org/apache/atlas/performance/tools/QuerySet.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
    src/main/java/org/apache/atlas/performance/tools/ResultCollector.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
    src/main/java/org/apache/atlas/performance/tools/StatisticsEvaluator.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
+   src/main/java/org/apache/atlas/performance/tools/TablesGenerator.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
+   src/main/java/org/apache/atlas/performance/tools/TablesGenerator.java -> /Users/temp/.m2/repository/commons-configuration/commons-configuration/1.6/commons-configuration-1.6.jar
    src/main/java/org/apache/atlas/performance/tools/TimeUtils.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
    src/main/java/org/apache/atlas/performance/tools/User.java -> /Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre/lib/rt.jar
 source dependencies:
@@ -23,6 +29,7 @@ source dependencies:
    src/main/java/org/apache/atlas/performance/tools/JMeterResponseCollector.java -> src/main/java/org/apache/atlas/performance/tools/QuerySet.java
    src/main/java/org/apache/atlas/performance/tools/JMeterResponseCollector.java -> src/main/java/org/apache/atlas/performance/tools/ResultCollector.java
    src/main/java/org/apache/atlas/performance/tools/JMeterResponseCollector.java -> src/main/java/org/apache/atlas/performance/tools/User.java
+   src/main/java/org/apache/atlas/performance/tools/PropertiesFileReader.java -> src/main/java/org/apache/atlas/performance/tools/PropertiesFileReader.java
    src/main/java/org/apache/atlas/performance/tools/Query.java -> src/main/java/org/apache/atlas/performance/tools/Query.java
    src/main/java/org/apache/atlas/performance/tools/QuerySet.java -> src/main/java/org/apache/atlas/performance/tools/Query.java
    src/main/java/org/apache/atlas/performance/tools/QuerySet.java -> src/main/java/org/apache/atlas/performance/tools/QuerySet.java
@@ -34,6 +41,8 @@ source dependencies:
    src/main/java/org/apache/atlas/performance/tools/ResultCollector.java -> src/main/java/org/apache/atlas/performance/tools/User.java
    src/main/java/org/apache/atlas/performance/tools/StatisticsEvaluator.java -> src/main/java/org/apache/atlas/performance/tools/StatisticsEvaluator.java
    src/main/java/org/apache/atlas/performance/tools/StatisticsEvaluator.java -> src/main/java/org/apache/atlas/performance/tools/TimeUtils.java
+   src/main/java/org/apache/atlas/performance/tools/TablesGenerator.java -> src/main/java/org/apache/atlas/performance/tools/PropertiesFileReader.java
+   src/main/java/org/apache/atlas/performance/tools/TablesGenerator.java -> src/main/java/org/apache/atlas/performance/tools/TablesGenerator.java
    src/main/java/org/apache/atlas/performance/tools/TimeUtils.java -> src/main/java/org/apache/atlas/performance/tools/TimeUtils.java
    src/main/java/org/apache/atlas/performance/tools/User.java -> src/main/java/org/apache/atlas/performance/tools/QuerySet.java
    src/main/java/org/apache/atlas/performance/tools/User.java -> src/main/java/org/apache/atlas/performance/tools/User.java
@@ -41,9 +50,11 @@ external dependencies:
 class names:
    src/main/java/org/apache/atlas/performance/tools/FileBuilder.java -> org.apache.atlas.performance.tools.FileBuilder
    src/main/java/org/apache/atlas/performance/tools/JMeterResponseCollector.java -> org.apache.atlas.performance.tools.JMeterResponseCollector
+   src/main/java/org/apache/atlas/performance/tools/PropertiesFileReader.java -> org.apache.atlas.performance.tools.PropertiesFileReader
    src/main/java/org/apache/atlas/performance/tools/Query.java -> org.apache.atlas.performance.tools.Query
    src/main/java/org/apache/atlas/performance/tools/QuerySet.java -> org.apache.atlas.performance.tools.QuerySet
    src/main/java/org/apache/atlas/performance/tools/ResultCollector.java -> org.apache.atlas.performance.tools.ResultCollector
    src/main/java/org/apache/atlas/performance/tools/StatisticsEvaluator.java -> org.apache.atlas.performance.tools.StatisticsEvaluator
+   src/main/java/org/apache/atlas/performance/tools/TablesGenerator.java -> org.apache.atlas.performance.tools.TablesGenerator
    src/main/java/org/apache/atlas/performance/tools/TimeUtils.java -> org.apache.atlas.performance.tools.TimeUtils
    src/main/java/org/apache/atlas/performance/tools/User.java -> org.apache.atlas.performance.tools.User
