@@ -31,39 +31,11 @@ import java.text.ParseException;
 import java.util.Properties;
 
 public class JMeterResponseCollector {
-    private static Integer nusers,nloops,numQueriesPerSet,small_e,medium_e,large_e;
-    static void getConfiguredValues(){
-        Properties prop = new Properties();
-        InputStream input = null;
 
-        try {
-
-            input = new FileInputStream("src/main/java/com/hwx/resources/config.properties");
-            prop.load(input);
-            nusers=Integer.parseInt(prop.getProperty("nusers"));
-            nloops=Integer.parseInt(prop.getProperty("nloops"));
-            numQueriesPerSet=Integer.parseInt(prop.getProperty("numQueriesPerSet"));
-            small_e=Integer.parseInt(prop.getProperty("small_e"));
-            medium_e=Integer.parseInt(prop.getProperty("medium_e"));
-            large_e=Integer.parseInt(prop.getProperty("large_e"));
-
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
     public static void main(String args[]) throws IOException, TransformerException, SAXException, ParserConfigurationException, ParseException, ConfigurationException {
         System.setProperty("atlas.perf.dir",args[0]);
         PropertiesFileReader.readPropertiesFile();
-       // FileBuilder.createFiles(PropertiesFileReader.getNumUsers());
+        FileBuilder.createFiles(PropertiesFileReader.getNumUsers());
         User.loopCount=PropertiesFileReader.getNumLoops();
         QuerySet.setNumQueriesPerSet(PropertiesFileReader.getNumQueriesPerSet());
         ResultCollector rs=new ResultCollector(PropertiesFileReader.getNumUsers(),

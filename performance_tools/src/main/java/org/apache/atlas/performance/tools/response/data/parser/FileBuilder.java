@@ -77,7 +77,7 @@ public class FileBuilder {
         NodeList httpSample = sourceDom.getElementsByTagName("httpSample");
         System.out.println(httpSample.getLength());
         for (int temp = 0; temp < httpSample.getLength(); temp++) {
-            System.out.println("temp" + temp);
+            System.out.println("Sampler no :" + temp);
 
             Node sourceSection = builder.parse(new InputSource(new FileReader(source))).getElementsByTagName("httpSample").item(temp);
             Element element = (Element) sourceSection;

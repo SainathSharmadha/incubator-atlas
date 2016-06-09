@@ -177,7 +177,7 @@ private void parseEndSamplerFile(File file) throws ParserConfigurationException,
 
     private void analyzeQuerySetsBySize() throws IOException {
 
-        //BufferedWriter buff=new BufferedWriter(new FileWriter(new File("/Users/temp/OutputFile.txt")));
+
 
         ArrayList<Long> timeQuerySet = new ArrayList<Long>();
         int i = 0;
@@ -248,7 +248,7 @@ return size;
 }
 
     private void printResultsOfQuerySets(){
-        System.out.println("Small : " + small.size()+"\n");
+        System.out.println("Number of Small Tables : " + small.size()+"\n");
         Long st = Long.valueOf(0);
         Long mt = Long.valueOf(0);
         Long lt = Long.valueOf(0);
@@ -260,35 +260,34 @@ return size;
             st = st + small.get(i);
             stimes.add(small.get(i));
         }
-        System.out.println("medium :" + medium.size());
+        System.out.println("Number of Medium tables :" + medium.size());
         for (i = 0; i < medium.size(); i++) {
             mt = mt + medium.get(i);
             mtimes.add(medium.get(i));
         }
-        System.out.println("large :" + large.size());
+        System.out.println("Number of Large tables :" + large.size()+"\n");
         for (i = 0; i < large.size(); i++) {
             lt = lt + large.get(i);
             ltimes.add(large.get(i));
         }
-        System.out.println("Small tables");
-        System.out.println("Small Average Time" + TimeUtils.getFormattedTime(st / Long.valueOf(stimes.size())));
+        System.out.println("Small tables : \n");
+
         StatisticsEvaluator.findPercentile(stimes,1);
-        System.out.println("Medium");
+        System.out.println("Medium tables : \n");
         if(mtimes.size()==0){
             System.out.println("No medium sized tables");
         }
         else {
-            System.out.println("Medium Average Time" + TimeUtils.getFormattedTime(mt / Long.valueOf(mtimes.size())));
+
             StatisticsEvaluator.findPercentile(mtimes, 1);
         }
-        System.out.println("Large");
+        System.out.println("Large tables : \n ");
         if(ltimes.size()==0){
             System.out.println("No large size tables");
         }
         else {
 
 
-            System.out.println("Large Average Time" + TimeUtils.getFormattedTime(lt / Long.valueOf(ltimes.size())));
             StatisticsEvaluator.findPercentile(ltimes, 1);
         }
     }
