@@ -1,0 +1,463 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+Atlas Performance Tools 
+
+Objectives :
+
+I. Write test :
+
+Writ tests include Evaluating Performance of Atlas in ingesting entities and traits.
+
+a) Create Hive tables at large scale and import them into Atlas. The hive tables can vary in size by number of columns and a table can be created from other table (CTAS tables)
+
+b) Measure the time taken for the import of tables.
+
+c) Measure memory usage of each component  such as HBase (titan row count) , Kafka (topics - ATLAS_HOOK and ATLAS_ENTITIES), Solr (number of documents in all 3 indices). This is done to check the usage of components after ingestion of tables.
+
+d) Create tags and find time taken for creation.
+
+e) Associate every tag to an Entity created in Atlas and measure time taken for the same.
+
+f) Measure memory usage of each component  such as HBase (titan row count) , Kafka (topics - ATLAS_HOOK and ATLAS_ENTITIES), Solr (number of documents in all 3 indices). This is done to check the usage of components due to creation of tags.
+
+d) and e) are done using Apache Jmeter.
+
+II. Read test :
+
+Main Objective of Atlas is to produce fast and accurate results for user queries. Read tests include time taken for queries to be executed . This test is almost concentrated on DSL Queries instead of full text queries.
+
+a) Identify queries that user fires in sequence to analyze the user experience in Atlas.
+
+Typical use case :
+
+	1 .  Fire a query to find a table by knowing the table name : hive_table where name ="db.table@cluster"
+
+	2.  Click on the result which takes the user to next page.
+
+	3.  On the next page , find the results such as schema, lineage graph , traits , taxonomy ,terms  etc .,
+
+
+b) Identify entities associated to a trait	
+	
+	1. Query Atlas with DSL : hive_table where hive_table isa tag
+
+
+For a) and b) the load is simulated using Apache Jmeter, an open source tool. The use case can be modeled as a test plan with 'N' number of users querying simultaneously 'M' number of times.
+In Jmeter Terminology , users are called as Threads and number of times a user executes continuously as loops.
+
+Hence with Number of threads = N , Number of loops = M , a test can be simulated where N users query in parallel and each user queries M number of times in a loop.
+
+
+III. Evaluation of result :
+ Once the test plans in Jmeter are completed, the response is captured in a XML file (can be captured in CSV also).
+ The response file contains information of each query executed such as
+	- Start time,
+	- Total time,
+	- Response Code,
+	- Latency etc., 
+
+The complete XML file is parsed and required information can be taken . Time taken for the complete test plan , time taken for each kind of table  and time taken for each query can be calculated from the XML file.
+These results would help in analyzing 
+	• if  time duration depends on size of tables.
+	• Which queries take longer time to process.
+	• How long does it take for a single user to complete his sequence of queries
+
+
+
+Performance Tool :
+
+I. Write test :
+a) Create Hive tables at large scale and import them into Atlas. The hive tables can vary in size by number of columns and a table can be created from other table (CTAS tables)	
+	• Hive tables for performance testing is created at 3 sizes - Small tables, Medium tables and Large tables which differ by number of columns.
+	
+	Procedure :
+
+		TableGenerator.java takes Number of tables , percentage of small , medium and large tables and a directory to store output as inputs. 
+
+	To Run :
+		  TableGenerator.java in  performance-tools/src/main/java/org/apache/atlas/performance/tools/table/generator/TableGenerator.java
+   		
+	 Arguments :
+		specify the location of configuration file while running .Example : "atlaslocation/performance-tools/src/main/java/org/apache/atlas/performance/tools/conf/atlas-perf-tools.properties" 
+	  	 specify the number of tables , small , medium , large percentage, output directory in the atlas-pert-tools.properties
+
+	Output :
+		In the output directory specified in the atlas-pert-tools.properties, 2 files are generated - tables-n.txt, tables-n-ctas.txt (n is the number of tables).
+
+- Start Atlas
+
+	• Logs take up a lot of time since atlas-log4j thread goes to Blocked stage when there are too many I/O operations (verified using Safari ) . Hence all logs except Kafka consumer and kafka producer 	logs are enabled. Having only these logs enabled helps in parsing the application.log file faster .
+
+		Following logs are enabled and all other logs are disabled.
+
+			<logger name="org.apache.atlas.kafka.KafkaConsumer" additivity="false">
+	        			<level value="debug"/>
+		        		<appender-ref ref="FILE"/>
+    			</logger>
+
+		    	<logger name="org.apache.atlas.kafka.KafkaNotification" additivity="false">
+        				<level value="debug"/>
+		        		<appender-ref ref="FILE"/>
+		    	</logger>
+		
+		    	<root>
+        				<priority value="warn"/>
+		        		<appender-ref ref="FILE"/>
+		    	</root>
+
+- Hive table creation 
+	
+	• Create a single table (dummy table, so that Atlas doesn't throw lock exceptions ) using hiveserver2 with
+			
+		beeline -u jdbc:hive2://localhost -n uname -p pwd -e "create table table_0(col_1 int)" 
+
+           • Run the tables-n.txt generated in the output directory (output directory specified in atlas-pert-test.properties) (Regular tables)
+		 
+		beeline -u jdbc:hive2://localhost -n uname -p pwd -f tables-n.txt
+
+	Before running CTAS import , 
+		
+		i) remove the parallelism in Atlas (i.e) if atlas.notification.hook.numthreads is set to 5, comment it. (Copy the atlas/conf/atlas-application.properties to hive/conf/atlas-application.properties without fail ! )
+
+		ii) Recreate topic in Kafka , if ATLAS_HOOK is created with more than 1 partition.
+
+			a) delete the topic.
+
+			b) create it with single partition
+
+		iii) CTAS import stops due to too many open file descriptors with default settings. Hence run ulimit -n 32000 to make maximum open file descriptors to b 32000.
+
+		iv) start hiveserver2 in local mode
+
+	• Run the tables-n-ctas.txt generated in the output directory (output directory specified in atlas-pert-test.properties)  (CTAS tables)
+	
+		beeline -u jdbc:hive2://localhost -n uname -p pwd -f tables-n-ctas.txt
+
+b ) Measure the time taken for the import in Atlas.
+
+- Table creation Time Calculation
+
+	Procedure :
+
+		• Once import is complete, run  regularTableStatisticsCalculate.py  in performance_tools/src/main/java/org/apache/atlas/performance/tools/tables/time/calculator
+
+	Arguments :
+
+		application.log file , number of tables created
+
+		example : python  regularTableStatisticsCalculate.py log-file-location 10000
+	
+	Output :
+
+		1) prints the total time taken for all tables creation and time taken for each table on console  
+		2) appends the above information in a file atlas_stat.txt
+
+- CTAS Table Creation Time Calculation
+
+	Procedure :
+
+		• Once import is complete, run  CTASTableStatisticsCalculate.py  in performance_tools/src/main/java/org/apache/atlas/performance/tools/tables/time/calculator
+
+	Arguments :
+
+		application.log file , number of tables created
+
+		example : python  CTASTableStatisticsCalculate.py log-file-location 10000
+	
+	Output :
+
+		1) prints the total time taken for all CTAS tables creation and time taken for each table on console  
+		2) appends the above information in a file atlas_stat-ctas.txt
+
+d) Create tags and find time taken for creation.
+
+	Procedure :
+		
+		Tags are created using Apache JMeter and run as a test plan. Test plan contains POST requests which can create tags . As an input to the test plan , a file containing all tags is created and fed as input. While creating the input file, another file is created at one shot which contains  entity is to be associated to which tag.
+
+		Output file containing all tags  - tags-attribs.txt
+
+		Output file containing all tags tables association information : tag-tables.txt
+	
+	To Run
+
+	1. Tag association requires GUID of tables , hence entire application.log need to be parsed.
+
+		Prepare test data:
+
+			Run  jmeterTableGenScript.sh in performance_tools/src/main/java/org/apache/atlas/performance/tools/jmeter.test.tables.generator/jmeterTableGenScript.sh
+
+			Arguments :
+		
+				atlas Log file. example : sh jmeterTableGenScript.sh atlas/logs/application.log
+				
+				On running it prompts for the following 
+					
+					• Enter the number of tables :  Ex.1000
+					
+					• Enter small table percentage : Ex. 60 (This information is required for the read test)
+				
+					• Enter medium table percentage : Ex. 30 (This information is required for the read test)
+
+					• Enter the number of table in test plan : Ex.2400 (This information is required for the read test) (if 30 users 20 loops - enter 600  (30*20). Depending on the number of users and loops , specify a number . If not known , 						
+											specify any random higher number like 1000 )
+			Output :
+
+					• table_guid.txt , mixed_table_guid.txt files are created . The former is taken for the tag creation and  later for read test.
+	
+	2. Prepare test data from generated output from jmeterTableGenScript.sh
+
+			To Run
+
+			 	- Run createTags.sh in performance_tools/src/main/java/org/apache/atlas/performance/tools/jmeter.test.tables.generator/createTags.sh
+	
+			Arguments :
+			
+				None	
+	
+				On running , It prompts for 
+			
+					- Total number of tables : Ex.1000
+	
+					- Percentage of tables to contain tags : Ex.50
+
+					-  Number of tags : ex .100
+
+					( if total number of tables is 1000, with the example input above , every 5 tables from 1 - 500 gets tags starting from 1 to 100.  tables 1-5 is assigned tag1 , tables 6-10 is assigned tag2 and so on ..) 
+
+			Output :
+	
+				- tags-attribs.txt and tag-tables.txt are created
+		
+				- tags-attribs.txt is taken as input for PostTags.jmx found in performance_tools/src/main/java/org/apache/atlas/performance/tools/jmeter.run.scripts
+	
+				- tag-tables.txt is taken as input for AssociateTagToEntity.jmx found in same location as mentioned above.
+
+	3. Finally , Tag creation :
+
+			Procedure :
+
+				Tags are created using Apache Jmeter considering each POST request as a query.
+
+			To Run
+
+				PostTags.jmx in  performance_tools/src/main/java/org/apache/atlas/performance/tools/jmeter.run.scripts/PostTags.jmx 
+
+			Input :
+
+				input to the test plan is the file containing all the tags and attributes. - tags-attribs.txt
+
+				the input file with correct location is to be given in <stringProp name="filename">location/tags-attribs.txt</stringProp>
+
+			Modifications :
+
+				PostTags.jmx contains [EDIT HERE] sections where various parameters can be configured.
+
+					[EDIT HERE - DOMAIN ] - replace it with localhost
+					
+					[EDIT HERE - NUMBER OF LOOPS ] - replace it with number of loops .
+
+					[EDIT HERE - NUMBER OF USERS ] - replace it with number of threads or users .
+
+				Once the modifications are done , the test plan can be run :
+
+					i) using GUI - open Jmeter and open the test plan PostTags.jmx
+
+					ii) NON-GUI - run  jmeterlocation/bin/jmeter -n -t PostTags.jmx
+
+
+			Output :
+				
+				Tags are created. Any errors can be seen on GUI as a red sampler ,and on non-GUI with Error count . Response Data is generated as an XML which is parsed to find out toga time. (Procedure and code for parsing in the later section of 				document)
+
+	4. Associating tags to entities :
+
+			Procedure :
+
+				Tags are associated using Apache Jmeter considering each POST request as a query.
+			To Run
+
+				run AssociateTagToEntity.jmx in  performance_tools/src/main/java/org/apache/atlas/performance/tools/jmeter.run.scripts/AssociateTagToEntity.jmx
+			
+			Input :
+
+				input to the test plan is the file containing all the tags and attributes. - tag-tables.txt
+
+				the input file with correct location is to be given in <stringProp name="filename">location/tag-tables.txt</stringProp>
+
+
+			Modifications :
+
+				AssociateTagToEntity.jmx contains [EDIT HERE] sections where various parameters can be configured.
+
+					[EDIT HERE - DOMAIN ] - replace it with localhost
+					
+					[EDIT HERE - NUMBER OF LOOPS ] - replace it with number of loops .
+
+					[EDIT HERE - NUMBER OF USERS ] - replace it with number of threads or users .
+
+				Once the modifications are done , the test plan can be run :
+
+					i) using GUI - open Jmeter and open the test plan AssociateTagToEntity.jmx
+
+					ii) NON-GUI - run  jmeterlocation/bin/jmeter -n -t AssociateTagToEntity.jmx
+
+
+			Output :
+				
+				Tags are associated to entities Any errors can be seen on GUI as a red sampler ,and on non-GUI with Error count . Response Data is generated as an XML which is parsed to find out toga time. (Procedure and code for parsing in the later 				
+				section of document)
+
+II Read Test :
+
+a) Identify queries that user fires in sequence to analyze the user experience in Atlas and create the test plan.
+
+	Procedure :
+
+		run queries in sequence to simulate user experience with many number of users firing continuously
+
+		Sequence of queries :
+
+			1 ) DSL query : hive_table where name="db.table_name@cluster" ( running the query produces results)
+
+			2) REST API : /api/atlas/entities/guid (Clicking on the result of the previous query , it makes a REST API call which takes user to details page)
+
+			3) In the next page following queries are fired :
+
+				i) REST API : schema of table: /api/atlas/lineage/hive/table/$tablename/schema
+ 			
+				ii) REST API : input lineage graph :/api/atlas/lineage/${guid}/inputs/graph
+
+				iii) REST API :  output lineage graph :/api/atlas/lineage/${guid}/outputs/graph
+
+			These 5 queries make the test plan .
+
+	To Run : 
+			
+		run AtlasUserQueries.jmx in performance_tools/src/main/java/org/apache/atlas/performance/tools/jmeter.run.scripts/AtlasUserQueries.jmx
+
+	Input :
+		
+		input to the AtlasUserQueries.jmx is the mixed_table_guid.txt. mixed_table_guid.txt is created from running jmeterTableGenScript.sh . The shell script generates table_guid.txt, a file that contains tables and its corresponding GUIDs. Our test plan requires 		equal number of small tables, medium tables,large tables Hence in the mixed_table_guid.txt , the tables are listed in the order as small , medium,large,small,medium,large and so on so that it the queries of tables will be comparable.
+
+
+	Modifications :
+
+		AtlasUserQueries.jmx contains [EDIT HERE] sections where various parameters can be configured.
+
+			[EDIT HERE - DOMAIN ] - replace it with localhost
+					
+			[EDIT HERE - NUMBER OF LOOPS ] - replace it with number of loops .
+
+			[EDIT HERE - NUMBER OF USERS ] - replace it with number of threads or users .
+		
+			the input file with correct location is to be given in <stringProp name="filename">location/mixed_table_guid.txt</stringProp>
+
+		Once the modifications are done , the test plan can be run :
+
+			i) using GUI - open Jmeter and open the test plan AtlasUserQueries.jmx
+
+			ii) NON-GUI - run  jmeterlocation/bin/jmeter -n -t AtlasUserQueries.jmx
+
+		Testplan can be run for any number of users with any number of loops
+
+		
+		Output :
+				
+			Queries are fired and results are stored in the response file Any errors can be seen on GUI as a red sampler ,and on non-GUI with Error count . Response Data is generated as an XML which is parsed to find out toga time. (Procedure and code for 			
+			parsing in the later section of document)
+
+	
+b) Identify entities associated to a trait	
+		
+		Procedure :
+			
+			1. Query Atlas with DSL : hive_table where hive_table isa tag
+
+		To Run : 
+			
+			run GetEntityGivenTagName_dsl.jmx in /Users/temp/9junmygit/incubator-atlas/performance_tools/src/main/java/org/apache/atlas/performance/tools/jmeter.run.scripts/GetEntityGivenTagName_dsl.jmx
+
+		Input :
+		
+			input to the test plan is the file containing all the tags and attributes. - tags-attribs.txt
+
+			the input file with correct location is to be given in <stringProp name="filename">location/tags-attribs.txt</stringProp>
+
+		Modifications :
+
+			GetEntityGivenTagName_dsl.jmx contains [EDIT HERE] sections where various parameters can be configured.
+
+			[EDIT HERE - DOMAIN ] - replace it with localhost
+					
+			[EDIT HERE - NUMBER OF LOOPS ] - replace it with number of loops .
+
+			[EDIT HERE - NUMBER OF USERS ] - replace it with number of threads or users .
+		
+
+			Once the modifications are done , the test plan can be run :
+
+				i) using GUI - open Jmeter and open the test plan GetEntityGivenTagName_dsl.jmx
+
+				ii) NON-GUI - run  jmeterlocation/bin/jmeter -n -t jGetEntityGivenTagName_dsl.mx
+
+				Testplan can be run for any number of users with any number of loops
+
+		
+		Output :
+				
+				Queries are fired and results are stored in the response file Any errors can be seen on GUI as a red sampler ,and on non-GUI with Error count . Response Data is generated as an XML which is parsed to find out toga time. (Procedure and 
+	
+			code for parsing in the later section of document)
+
+
+III. Evaluation of result :	
+
+		Procedure
+		
+			Parse the complete file generated in every .jmx test plan to measure the time statistics.
+
+		To Run
+
+			Run JMeterResponseCollector.java in performance_tools/src/main/java/org/apache/atlas/performance/tools/response/data/parser 
+
+		Arguments :
+
+			with properties file  
+			ex :  arguments : performance_tools/src/main/java/org/apache/atlas/performance/tools/conf/atlas-perf-test.properties
+
+	
+		Modifications :
+			Edit the atlas-pert-test.properties 
+				- num.loops
+				- num.users
+				- num.queries.per.set***
+				- jmeter.response.file
+				- cpu.consumption.file
+
+			The loops and users value should be given the values with which meter plan was run and response file is generated.
+
+				(*** - num.queries.per.set = 5 (if response file is from running AtlasUserQueries.jmx)
+			         				         = 1 (if response file is from running AssociateTagToEntity.jmx,PostTags.jmx,GetEntityGivenTagName_dsl.jmx) )
+
+		Output
+
+			Once the JMeterResponseCollector is run,  the output of tables and queries is printed on console.
+
+
+	
+		
