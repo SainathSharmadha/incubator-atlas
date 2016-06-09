@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools.result_collector;
+package org.apache.atlas.performance.tools.response.data.parser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +25,8 @@ public class StatisticsEvaluator {
 
 
     static Long findnthPercentile(ArrayList<Long> times, float n) {
+
+
         int size = times.size();
         float nper = (n/100)*(size);
         int iRank=(int)nper/1;
@@ -33,7 +35,7 @@ public class StatisticsEvaluator {
         Float percentile;
 
         if(fRank==0f)
-            percentile=times.get(iRank-1).floatValue();
+            percentile=times.get(iRank).floatValue();
         else
             percentile=fRank*(times.get(iRank)-times.get(iRank-1))+times.get(iRank-1);
 
@@ -41,19 +43,29 @@ public class StatisticsEvaluator {
     }
 
 
-    static void findPercentile(ArrayList<Long> times,Integer type) {
+    static ArrayList<String> findPercentile(ArrayList<Long> times,Integer type) {
 
         Collections.sort(times);
+
+        long sum=0;
+        for(int i=0;i<times.size();i++){
+            sum=sum+times.get(i);
+        }
+
         float[] percentiles={10f,25f,50f,75f,90f,95f};
 
         ArrayList<String> perc=new ArrayList<String>();
         if(type==1) {
             System.out.println("Min  \t" + TimeUtils.getFormattedTime(Collections.min(times)));
             System.out.println("Max  \t" + TimeUtils.getFormattedTime(Collections.max(times)));
-
-
+            System.out.println("Avg  \t" + TimeUtils.getFormattedTime(sum/times.size()));
+            perc.add(TimeUtils.getFormattedTime(Collections.min(times)));
+            perc.add(TimeUtils.getFormattedTime(Collections.max(times)));
+            perc.add(TimeUtils.getFormattedTime(sum/times.size()));
             for (int n = 0; n < percentiles.length; n++) {
-                System.out.println((int)percentiles[n] + "th \t  " + TimeUtils.getFormattedTime(findnthPercentile(times, percentiles[n])) + "\n");
+                System.out.println((int)percentiles[n] + "th \t  "+ TimeUtils.getFormattedTime(findnthPercentile(times, percentiles[n])) + "\n");
+
+                perc.add(TimeUtils.getFormattedTime(findnthPercentile(times, percentiles[n])));
 
             }
         }
@@ -62,12 +74,14 @@ public class StatisticsEvaluator {
         {
             System.out.println("Min  \t" + Collections.min(times));
             System.out.println("Max  \t" +Collections.max(times));
+            System.out.println("Avg  \t" + TimeUtils.getFormattedTime(sum/times.size()));
+
             for (int n = 0; n < percentiles.length; n++) {
                 System.out.println(percentiles[n] + "th \t" + findnthPercentile(times, percentiles[n]) + "\n");
 
             }
         }
-
+return perc;
     }
 
 }

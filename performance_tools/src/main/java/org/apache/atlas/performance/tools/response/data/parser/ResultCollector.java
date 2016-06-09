@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools.result_collector;
+package org.apache.atlas.performance.tools.response.data.parser;
 
+import org.apache.atlas.performance.tools.PropertiesFileReader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,20 +28,19 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class ResultCollector {
     int usersCnt;
     int loopCount;
+    static int prevTable=0;
     ArrayList<User> users = new ArrayList<User>();
     ArrayList<Long> small = new ArrayList<Long>();
     ArrayList<Long> medium = new ArrayList<Long>();
@@ -50,24 +50,28 @@ public class ResultCollector {
     int small_e ;
     int med_e ;
     int large_e ;
-    String cpuUsageFile,responseDataFile;
+    String outputDir= PropertiesFileReader.getOutputDir();
 
-    ResultCollector(int usersCnt,int loopCount,int small_e,int med_e,int large_e,String cpuUsageFile,String responseDataFile){
+    ResultCollector(int usersCnt,int loopCount,int small_e,int med_e,int large_e){
         this.usersCnt=usersCnt;
         this.loopCount=loopCount;
         this.small_e=small_e;
         this.med_e=med_e;
         this.large_e=large_e;
-        this.cpuUsageFile=cpuUsageFile;
-        this.responseDataFile=responseDataFile;
     }
 
-    void getResults() throws IOException, SAXException, ParserConfigurationException {
-        readFiles();
-        analyzeQuerySetsBySize();
-        analyzeQueriesBySize();
-        findCPUConsumption();
+    void getResults() throws IOException, SAXException, ParserConfigurationException, ParseException {
+         readFiles();
+         analyzeQuerySetsBySize();
+         analyzeQueriesBySize();
+         findTotalTime();
+         findCPUConsumption();
     }
+
+    private void findTotalTime() throws IOException, SAXException, ParserConfigurationException, ParseException {
+parseEndSamplerFile(new File(outputDir+"/EndSamplers.xml"));
+    }
+
 
     private void readFiles() throws ParserConfigurationException, IOException, SAXException {
         File file;
@@ -77,9 +81,10 @@ public class ResultCollector {
 
             user = new User("Atlas user 1-" + i);
 
-            file = new File("incubator-atlas/performance_tools/src/main/java/org/apache/atlas/performance/tools/Users/Atlas users 1-" + i + ".xml");
-            parseFile(file,user);
+            file = new File(outputDir+"/Users/Atlas users 1-" + i + ".xml");
+            parseUserFile(file,user);
         }
+
     }
 
     private Document buildDocument(File file) throws ParserConfigurationException, IOException, SAXException {
@@ -90,37 +95,44 @@ public class ResultCollector {
         return doc;
     }
 
-
     private Query constructQueryFromElement(Element element) {
         Long latency = Long.parseLong(element.getAttribute("lt"));
-        String timestamp = element.getAttribute("ts");
+        Long timestamp = Long.parseLong(element.getAttribute("ts"));
         String queryName = element.getAttribute("lb");
         Long connectTime = Long.parseLong(element.getAttribute("ct"));
         Long loadTime = Long.parseLong(element.getAttribute("t"));
         String response = element.getAttribute("rc");
 
         Long timeTaken = connectTime + loadTime;
+
+
         String responseData = element.getElementsByTagName("java.net.URL").item(0).getTextContent();
         String table = "";
         String cluster = "erie-perf-test-cluster";
         String pattern = "(.*)default.(table_([0-9]*)(|_ctas))@" + cluster + "(.*)";
+        String pattern2="(.*)(table_([0-9]*))(.*)";
         Pattern r = Pattern.compile(pattern);
-
-
         Matcher m = r.matcher(responseData);
         if (m.find()) {
             table = m.group(3);
         }
-
-
+        else
+            table=Integer.toString(prevTable);
+        prevTable=Integer.parseInt(table);
         Query query = new Query(queryName, timestamp, latency, connectTime, loadTime, table, timeTaken);
 
     return query;
     }
-private void parseFile(File file,User user) throws ParserConfigurationException, IOException, SAXException {
-            QuerySet querySet;
-            Query query;
-            Document doc=buildDocument(file);
+
+
+private void parseUserFile(File file,User user) throws ParserConfigurationException, IOException, SAXException {
+        QuerySet querySet;
+
+        Query query;
+
+        Document doc=buildDocument(file);
+
+
             NodeList nList = doc.getElementsByTagName("httpSample");
             Integer queryCntr = 0;
             Integer querySetCntr = 0;
@@ -131,7 +143,6 @@ private void parseFile(File file,User user) throws ParserConfigurationException,
                     queryCntr = 1;
                     querySetCntr++;
                 }
-
                 Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     querySet = user.querySets[querySetCntr];
@@ -139,17 +150,39 @@ private void parseFile(File file,User user) throws ParserConfigurationException,
                     query=constructQueryFromElement(element);
                     querySet.addToQuerySet(query);
                 }
-
             }
             users.add(user);
         }
 
+private void parseEndSamplerFile(File file) throws ParserConfigurationException, IOException, SAXException, ParseException {
+    Document doc=buildDocument(file);
+    NodeList nList = doc.getElementsByTagName("httpSample");
+    Element element;
+    Node firstNode,lastNode;
+    Query firstQuery,lastQuery;
+    firstNode=nList.item(0);
+    element=(Element)firstNode;
+    firstQuery=constructQueryFromElement(element);
+    lastNode=nList.item(1);
+    element=(Element)lastNode;
+    lastQuery=constructQueryFromElement(element);
+    Long startTimeStamp=firstQuery.timeStamp;
+    Long lastTimeStamp=lastQuery.timeStamp;
+    Long duration=lastQuery.timeTaken;
+    Long endTime=lastTimeStamp+duration;
+    Timestamp t2=new Timestamp(endTime);
+    Timestamp t1=new Timestamp(startTimeStamp);
+    System.out.println("\n\n Total time taken for test : \t"+TimeUtils.getFormattedTime(t2.getTime()-t1.getTime()));
+}
 
-    private void analyzeQuerySetsBySize(){
+    private void analyzeQuerySetsBySize() throws IOException {
 
+        //BufferedWriter buff=new BufferedWriter(new FileWriter(new File("/Users/temp/OutputFile.txt")));
 
+        ArrayList<Long> timeQuerySet = new ArrayList<Long>();
         int i = 0;
         int jk = 0;
+
         lists=new ArrayList<ArrayList<Query>>();
         for(int y=0;y<numQueriesPerSet;y++) {
             ArrayList<Query> list=new ArrayList<Query>();
@@ -165,12 +198,14 @@ private void parseFile(File file,User user) throws ParserConfigurationException,
                 long tPerQuerySet = 0;
                 Iterator<Query> iter = list.iterator();
                 int tableno = 0;
+
                 while (iter.hasNext()) {
                     query = iter.next();
                     lists.get(jk).add(query);
                     jk++;
                     tPerQuerySet += query.timeTaken;
                 }
+
                 tableno=Integer.parseInt(query.table);
                 switch(getTableSize(tableno)){
                     case 0: {
@@ -196,6 +231,7 @@ private void parseFile(File file,User user) throws ParserConfigurationException,
 
         printResultsOfQuerySets();
 
+
     }
 
 
@@ -210,8 +246,6 @@ int size=0;
 
 return size;
 }
-
-
 
     private void printResultsOfQuerySets(){
         System.out.println("Small : " + small.size()+"\n");
@@ -236,17 +270,27 @@ return size;
             lt = lt + large.get(i);
             ltimes.add(large.get(i));
         }
-
-        System.out.println("\n Small tables");
+        System.out.println("Small tables");
         System.out.println("Small Average Time" + TimeUtils.getFormattedTime(st / Long.valueOf(stimes.size())));
         StatisticsEvaluator.findPercentile(stimes,1);
         System.out.println("Medium");
-        System.out.println("Medium Average Time" + TimeUtils.getFormattedTime(mt / Long.valueOf(mtimes.size())));
-        StatisticsEvaluator.findPercentile(mtimes,1);
+        if(mtimes.size()==0){
+            System.out.println("No medium sized tables");
+        }
+        else {
+            System.out.println("Medium Average Time" + TimeUtils.getFormattedTime(mt / Long.valueOf(mtimes.size())));
+            StatisticsEvaluator.findPercentile(mtimes, 1);
+        }
         System.out.println("Large");
-        System.out.println("Large Average Time" + TimeUtils.getFormattedTime(lt / Long.valueOf(ltimes.size())));
-        StatisticsEvaluator.findPercentile(ltimes,1);
+        if(ltimes.size()==0){
+            System.out.println("No large size tables");
+        }
+        else {
 
+
+            System.out.println("Large Average Time" + TimeUtils.getFormattedTime(lt / Long.valueOf(ltimes.size())));
+            StatisticsEvaluator.findPercentile(ltimes, 1);
+        }
     }
 
 
@@ -285,22 +329,46 @@ return size;
                     qlarge.add(query.timeTaken);
 
             }
-
-            System.out.println(qname +"\n Small");
-            StatisticsEvaluator.findPercentile(qsmall,1);
-            System.out.println("Medium");
-            StatisticsEvaluator.findPercentile(qmedium,1);
-            System.out.println("Large");
-            StatisticsEvaluator.findPercentile(qlarge,1);
-
-
+            System.out.println(qname +"\n small");
+            ArrayList<String> smalls=StatisticsEvaluator.findPercentile(qsmall,1);
+            ArrayList<String> mids=new ArrayList<String>();
+            ArrayList<String> larges=new ArrayList<String>();
+            if(qmedium.size()==0){
+                System.out.println("No medium sized tables");
+            }
+            else {
+                System.out.println("medium");
+                mids = StatisticsEvaluator.findPercentile(qmedium, 1);
+            }
+            if(qlarge.size()==0){
+                System.out.println("No large sized tables");
+            }
+            else {
+                System.out.println("large");
+                larges = StatisticsEvaluator.findPercentile(qlarge, 1);
+            }
+            ArrayList<String> list=new ArrayList<String>();
+            list.add("Min");
+            list.add("Max");
+            list.add("Avg");
+            list.add("10th");
+            list.add("25th");
+            list.add("50th");
+            list.add("75th");
+            list.add("90th");
+            list.add("95th");
+            System.out.println("\t\tSmall\t\t\t Medium\t\t\t Large");
+            for(int i=0;i<smalls.size();i++){
+                System.out.println(list.get(i)+"\t\t"+smalls.get(i)+"\t"+mids.get(i)+"\t"+larges.get(i)+"\n");
+            }
 
         }
     }
 
 
-    private void findCPUConsumption() throws IOException {
-        File cpuDataFile=new File(cpuUsageFile);
+    static  void findCPUConsumption() throws IOException {
+
+        File cpuDataFile=new File(PropertiesFileReader.getCpuFile());
         BufferedReader cpubuff=new BufferedReader(new FileReader(cpuDataFile));
         String line="";
         String splits[];
@@ -311,6 +379,7 @@ return size;
             line=line.trim();
             line = line.replaceAll(" +", "|");
             m=p.matcher(line);
+
             if(m.find()) {
                 splits = m.group(3).split("\\|");
                 Float cpuVal = Float.parseFloat(splits[0]);

@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools;
+package org.apache.atlas.performance.tools.table.generator;
 
+import org.apache.atlas.performance.tools.PropertiesFileReader;
 import org.apache.commons.configuration.ConfigurationException;
 
 import java.io.BufferedWriter;
@@ -27,7 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class TablesGenerator {
+public class TableGenerator {
     BufferedWriter bufferedWriter;
 
     final String[] HIVE_DATA_TYPES={"TINYINT","SMALLINT","BIGINT","INT", "FLOAT","DOUBLE","DECIMAL","TIMESTAMP","DATE", "STRING","VARCHAR(10)","CHAR(10)","BOOLEAN", "BINARY"};
@@ -36,7 +37,7 @@ public class TablesGenerator {
         String dataType=HIVE_DATA_TYPES[randomNum];
         return dataType;
     }
-
+    /* start to end is the range of tables. columns is then number of columns */
     void generateTables(int start,int end,int columns) throws IOException {
         String datatype;
         String strTable="table_",strColumn="_col_";
@@ -57,13 +58,18 @@ public class TablesGenerator {
 
     }
 
-
-    void generateCtasTables(int start,int end) throws IOException {
+    /* start - end is the range of number of tables. tableStart - tableEnd is the range of tables
+     * example : start = 1
+     *           end = 100 ,
+     *           tableStart= 1500
+     *           tableEnd=2000
+     *           100 tables within range 15000 to 2000 will be generated */
+    void generateCtasTables(int start,int end,int tableStart,int tableEnd) throws IOException {
         ArrayList<Integer> tables=new ArrayList<Integer>();
         String str;
         int randTable=0;
         for(int i=start;i<=end;) {
-            randTable = new Random().nextInt((end - start) + 1) + start;
+            randTable = new Random().nextInt((tableEnd - tableStart) + 1) + tableStart;
             if (!tables.contains(randTable)) {
                 tables.add(randTable);
                 str=String.format("create table table_%d_ctas as select * from table_%d;",randTable,randTable);
@@ -78,16 +84,18 @@ public class TablesGenerator {
     void generateOutputFile() throws IOException, ConfigurationException {
 
 
-        Integer numTables=PropertiesFileReader.getNumTables();
-        Float smallTablePercentage=PropertiesFileReader.getSmallTablePercentage();
-        Float mediumTablePercentage=PropertiesFileReader.getMediumTablePercentage();
-        Float ctasTablePercentage=PropertiesFileReader.getCtasTablePercentage();
-        String outputDir=PropertiesFileReader.getOutputDir();
+        Integer numTables= PropertiesFileReader.getNumTables();
+        Float smallTablePercentage= PropertiesFileReader.getSmallTablePercentage();
+        Float mediumTablePercentage= PropertiesFileReader.getMediumTablePercentage();
+        Float ctasTablePercentage= PropertiesFileReader.getCtasTablePercentage();
+        String outputDir= PropertiesFileReader.getOutputDir();
 
 
-        new File(outputDir).mkdir();
-        String regularFile=String.format("%s%s%d%s",outputDir,"tables-",numTables,".txt");
-        String ctasFile=String.format("%s%s%d%s",outputDir,"tables-",numTables,"-ctas.txt");
+        File outputDirFile=new File(outputDir);
+        if(!outputDirFile.exists())
+            outputDirFile.mkdir();
+        String regularFile=String.format("%s/%s%d%s",outputDir,"tables-",numTables,".txt");
+        String ctasFile=String.format("%s/%s%d%s",outputDir,"tables-",numTables,"-ctas.txt");
         new File(regularFile).createNewFile();
         new File(ctasFile).createNewFile();
 
@@ -109,18 +117,22 @@ public class TablesGenerator {
         smallCtasTables=(int)((smallTablePercentage/100)*numCtasTables);
         mediumCtasTables=(int)((mediumTablePercentage/100)*numCtasTables);
         bufferedWriter=new BufferedWriter(new FileWriter(ctasFile));
-        generateCtasTables(1,smallCtasTables);
-        generateCtasTables(smallCtasTables+1,smallCtasTables+mediumCtasTables);
-        generateCtasTables(smallCtasTables+mediumCtasTables+1,numCtasTables);
+        generateCtasTables(1,smallCtasTables,1,smallTables);
+        generateCtasTables(smallCtasTables+1,smallCtasTables+mediumCtasTables,smallTables+1,smallTables+mediumTables);
+        generateCtasTables(smallCtasTables+mediumCtasTables+1,numCtasTables,smallTables+mediumTables+1,numTables);
 
         bufferedWriter.flush();
         bufferedWriter.close();
-
+        PropertiesFileReader.writeToPropertesFile("small.Tables",smallTables);
+        PropertiesFileReader.writeToPropertesFile("medium.Tables",mediumTables);
+        PropertiesFileReader.writeToPropertesFile("large.Tables",numTables);
     }
     public static void main( String[] args ) throws IOException, ConfigurationException {
+        String perfConfDir=args[0];
+        System.setProperty("atlas.perf.dir",perfConfDir);
         PropertiesFileReader.readPropertiesFile();
-        TablesGenerator tablesGenerator=new TablesGenerator();
-        tablesGenerator.generateOutputFile();
+        TableGenerator tableGenerator=new TableGenerator();
+        tableGenerator.generateOutputFile();
     }
 
 }

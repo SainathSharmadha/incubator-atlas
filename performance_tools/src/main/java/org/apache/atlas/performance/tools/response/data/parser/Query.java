@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package org.apache.atlas.performance.tools.result_collector;
+package org.apache.atlas.performance.tools.response.data.parser;
 
 
 public class Query {
-    String name,timeStamp;
-    Long latency,connecTime,loadTime;
+    String name;
+    Long latency,connecTime,loadTime,timeStamp;
     String table;
     Long timeTaken;
-    Query(String name,String timeStamp,Long latency,Long connecTime,Long loadTime,String table,Long timeTaken) {
+    Query(String name,Long timeStamp,Long latency,Long connecTime,Long loadTime,String table,Long timeTaken) {
         this.name=name;
         this.timeStamp=timeStamp;
         this.latency=latency;
