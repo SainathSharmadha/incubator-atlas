@@ -30,10 +30,10 @@ public class TimeUtils {
         String hours = Integer.toString((int)(time / 3600));
 
         if(!minutes.equals("0"))
-            ftime = ftime +minutes+" mins ";
+            ftime = String.format("%s%s mins",ftime,minutes);
         if(!seconds.equals("0"))
-            ftime = ftime +seconds+ " secs ";
-        ftime=ftime+millis+ " ms ";
+            ftime = String.format("%s%s secs",ftime,seconds);
+        ftime=String.format("%s%s ms",ftime,millis);
         return ftime;
     }
 }

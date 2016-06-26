@@ -34,17 +34,20 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.io.FileWriter;
 
 
 public class FileBuilder {
     static String outputDir=PropertiesFileReader.getOutputDir();
 
     public static void createFiles(Integer usersCnt) throws IOException, TransformerException, SAXException, ParserConfigurationException {
-       File f;
+        File f;
+        String fileName;
         for (int i = 1; i <= usersCnt; i++) {
 
             new File(outputDir+"/Users").mkdir();
-            f = new File(outputDir+"/Users/Atlas users 1-" + i + ".xml");
+            fileName=String.format("%s/Users/Atlas users 1-%d.xml",outputDir,i);
+            f=new File(fileName);
             f.createNewFile();
             createEmptyXMLFile(f);
 
@@ -58,7 +61,7 @@ public class FileBuilder {
     }
 
     static void createEmptyXMLFile(File f) throws IOException {
-        Writer writer = new FileWriter(f);
+        Writer writer = new java.io.FileWriter(f);
         writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?> \n <test/>");
         writer.flush();
         writer.close();
@@ -70,22 +73,18 @@ public class FileBuilder {
         File source = new File(PropertiesFileReader.getJmeterResponseFile());
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document sourceDom = builder.parse(source);
-
+        String fileName;
         File target;
-        Document targetDom;
-
         NodeList httpSample = sourceDom.getElementsByTagName("httpSample");
-        System.out.println(httpSample.getLength());
+        System.out.println(String.format("Total Queries :%d", httpSample.getLength()));
         for (int temp = 0; temp < httpSample.getLength(); temp++) {
-            System.out.println("Sampler no :" + temp);
-
+            System.out.println(String.format("Processing Query no : %d",temp));
             Node sourceSection = builder.parse(new InputSource(new FileReader(source))).getElementsByTagName("httpSample").item(temp);
             Element element = (Element) sourceSection;
             String userName = element.getAttribute("tn");
-
-            target = new File(outputDir+"/Users/" + userName + ".xml");
-
-           writeToTargetFile(target,builder,sourceSection);
+            fileName=String.format("%s/Users/%s.xml",outputDir,userName);
+            target=new File(fileName);
+            writeToTargetFile(target,builder,sourceSection);
             if((temp==0)||(temp==httpSample.getLength()-1)){
                 target=new File(outputDir+"/EndSamplers.xml");
                 writeToTargetFile(target,builder,sourceSection);

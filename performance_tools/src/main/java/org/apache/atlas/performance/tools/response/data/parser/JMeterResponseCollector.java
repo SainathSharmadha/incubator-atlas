@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,28 +33,20 @@ import java.util.Properties;
 public class JMeterResponseCollector {
 
     public static void main(String args[]) throws IOException, TransformerException, SAXException, ParserConfigurationException, ParseException, ConfigurationException {
-        System.setProperty("atlas.perf.dir",args[0]);
+        System.setProperty("atlas.perf.dir", args[0]);
+
         PropertiesFileReader.readPropertiesFile();
-        FileBuilder.createFiles(PropertiesFileReader.getNumUsers());
-        User.loopCount=PropertiesFileReader.getNumLoops();
+        ResultWriter resultWriter=new ResultWriter("JmeterResponse.txt");
+       // FileBuilder.createFiles(PropertiesFileReader.getNumUsers());
+        User.loopCount = PropertiesFileReader.getNumLoops();
         QuerySet.setNumQueriesPerSet(PropertiesFileReader.getNumQueriesPerSet());
-        ResultCollector rs=new ResultCollector(PropertiesFileReader.getNumUsers(),
-                                                PropertiesFileReader.getNumLoops(),
-                                                PropertiesFileReader.getSmallTablesLast(),
-                                                PropertiesFileReader.getMediumTablesLast(),
-                                                PropertiesFileReader.getLargeTablesLast());
+        ResultCollector rs = new ResultCollector(PropertiesFileReader.getNumUsers(),
+                PropertiesFileReader.getNumLoops(),
+                PropertiesFileReader.getSmallTablesLast(),
+                PropertiesFileReader.getMediumTablesLast(),
+                PropertiesFileReader.getLargeTablesLast(),
+                resultWriter);
         rs.getResults();
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

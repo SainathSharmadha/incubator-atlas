@@ -18,12 +18,16 @@
 
 package org.apache.atlas.performance.tools.response.data.parser;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class StatisticsEvaluator {
 
-
+FileWriter fileWriter;
+    StatisticsEvaluator(FileWriter writer){
+        this.fileWriter=writer;
+    }
     static Long findnthPercentile(ArrayList<Long> times, float n) {
 
 
@@ -56,15 +60,10 @@ public class StatisticsEvaluator {
 
         ArrayList<String> perc=new ArrayList<String>();
         if(type==1) {
-            System.out.println("Min  \t" + TimeUtils.getFormattedTime(Collections.min(times)));
-            System.out.println("Max  \t" + TimeUtils.getFormattedTime(Collections.max(times)));
-            System.out.println("Avg  \t" + TimeUtils.getFormattedTime(sum/times.size()));
             perc.add(TimeUtils.getFormattedTime(Collections.min(times)));
             perc.add(TimeUtils.getFormattedTime(Collections.max(times)));
             perc.add(TimeUtils.getFormattedTime(sum/times.size()));
             for (int n = 0; n < percentiles.length; n++) {
-                System.out.println((int)percentiles[n] + "th \t  "+ TimeUtils.getFormattedTime(findnthPercentile(times, percentiles[n])) + "\n");
-
                 perc.add(TimeUtils.getFormattedTime(findnthPercentile(times, percentiles[n])));
 
             }

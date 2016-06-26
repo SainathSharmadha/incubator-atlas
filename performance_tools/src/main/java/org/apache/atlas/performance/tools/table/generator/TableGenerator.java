@@ -19,6 +19,7 @@
 package org.apache.atlas.performance.tools.table.generator;
 
 import org.apache.atlas.performance.tools.PropertiesFileReader;
+import org.apache.atlas.performance.tools.PropertiesFileUtils;
 import org.apache.commons.configuration.ConfigurationException;
 
 import java.io.BufferedWriter;
@@ -81,13 +82,10 @@ public class TableGenerator {
 
     }
 
-    void generateOutputFile() throws IOException, ConfigurationException {
+    public void generateOutputFile() throws IOException, ConfigurationException {
 
 
-        Integer numTables= PropertiesFileReader.getNumTables();
-        Float smallTablePercentage= PropertiesFileReader.getSmallTablePercentage();
-        Float mediumTablePercentage= PropertiesFileReader.getMediumTablePercentage();
-        Float ctasTablePercentage= PropertiesFileReader.getCtasTablePercentage();
+        Integer numTables= PropertiesFileUtils.getNumTables();
         String outputDir= PropertiesFileReader.getOutputDir();
 
 
@@ -101,8 +99,8 @@ public class TableGenerator {
 
 
         Integer smallTables,mediumTables;
-        smallTables=(int)((smallTablePercentage/100)*numTables);
-        mediumTables=(int)((mediumTablePercentage/100)*numTables);
+        smallTables=PropertiesFileUtils.getSmallTables();
+        mediumTables=PropertiesFileUtils.getMediumTables();
         bufferedWriter=new BufferedWriter(new FileWriter(regularFile));
         generateTables(1,smallTables,10);
         generateTables(smallTables+1,smallTables+mediumTables,50);
@@ -113,9 +111,9 @@ public class TableGenerator {
 
 
         Integer numCtasTables,smallCtasTables,mediumCtasTables;
-        numCtasTables=(int)((ctasTablePercentage/100)*numTables);
-        smallCtasTables=(int)((smallTablePercentage/100)*numCtasTables);
-        mediumCtasTables=(int)((mediumTablePercentage/100)*numCtasTables);
+        numCtasTables=PropertiesFileUtils.getNumCtasTables();
+        smallCtasTables=PropertiesFileUtils.getSmallCtasTables();
+        mediumCtasTables=PropertiesFileUtils.getMediumCtasTables();
         bufferedWriter=new BufferedWriter(new FileWriter(ctasFile));
         generateCtasTables(1,smallCtasTables,1,smallTables);
         generateCtasTables(smallCtasTables+1,smallCtasTables+mediumCtasTables,smallTables+1,smallTables+mediumTables);
@@ -123,16 +121,15 @@ public class TableGenerator {
 
         bufferedWriter.flush();
         bufferedWriter.close();
-        PropertiesFileReader.writeToPropertesFile("small.Tables",smallTables);
-        PropertiesFileReader.writeToPropertesFile("medium.Tables",mediumTables);
-        PropertiesFileReader.writeToPropertesFile("large.Tables",numTables);
     }
     public static void main( String[] args ) throws IOException, ConfigurationException {
         String perfConfDir=args[0];
         System.setProperty("atlas.perf.dir",perfConfDir);
         PropertiesFileReader.readPropertiesFile();
+        PropertiesFileUtils.main(perfConfDir);
         TableGenerator tableGenerator=new TableGenerator();
         tableGenerator.generateOutputFile();
+
     }
 
 }
