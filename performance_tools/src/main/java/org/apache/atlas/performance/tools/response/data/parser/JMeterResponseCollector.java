@@ -33,24 +33,23 @@ import java.util.Properties;
 
 public class JMeterResponseCollector {
 
-    public static void main(String args[]) throws IOException, TransformerException, SAXException, ParserConfigurationException, ParseException, ConfigurationException {
-        System.setProperty("atlas.perf.dir", args[0]);
 
-        PropertiesFileReader.readPropertiesFile();
+    public static void collectResults() throws IOException, ParserConfigurationException, TransformerException, SAXException, ParseException {
 
-        Integer[]  usersList=PropertiesFileReader.getNumUsers();
-        Integer[]  loopsList=PropertiesFileReader.getNumLoops();
-        ResultWriter resultWriter=new ResultWriter("JmeterResponse.txt");
+        Integer[] usersList = PropertiesFileReader.getNumUsers();
+        Integer[] loopsList = PropertiesFileReader.getNumLoops();
+        ResultWriter resultWriter = new ResultWriter("JmeterResponse.txt");
         QuerySet.setNumQueriesPerSet(PropertiesFileReader.getNumQueriesPerSet());
-        ResultCollector rc ;
-        Integer lastSTable=PropertiesFileUtils.getSmallTables();
-        Integer lastMTable=PropertiesFileUtils.getMediumTables()+lastSTable;
-        Integer lastLTable=PropertiesFileReader.getNumTables();
+        ResultCollector rc;
+        Integer lastSTable = PropertiesFileUtils.getSmallTables();
+        Integer lastMTable = PropertiesFileUtils.getMediumTables() + lastSTable;
+        Integer lastLTable = PropertiesFileReader.getNumTables();
 
-        for(int i=0;i<usersList.length;i++) {
-            FileBuilder.createFiles(usersList[i]);
-            User.loopCount=loopsList[i];
-            resultWriter=new ResultWriter(String.format("JmeterResponse-%du-%dl.txt",usersList[i],loopsList[i]));
+        for (int i = 0; i < usersList.length; i++) {
+            String responseFile=String.format("ResponseData-%du-%dl.xml",usersList[i],loopsList[i]);
+            FileBuilder.createFiles(usersList[i],responseFile);
+            User.loopCount = loopsList[i];
+            resultWriter = new ResultWriter(String.format("JmeterResponse-%du-%dl.txt", usersList[i], loopsList[i]));
             rc = new ResultCollector(usersList[i],
                     loopsList[i],
                     lastSTable,
@@ -60,25 +59,6 @@ public class JMeterResponseCollector {
             rc.getResults();
 
         }
-
-
-
-
-        QuerySet.setNumQueriesPerSet(PropertiesFileReader.getNumQueriesPerSet());
-    /*    ResultCollector rs = new ResultCollector(PropertiesFileReader.getNumUsers(),
-                PropertiesFileReader.getNumLoops(),
-                PropertiesFileReader.getSmallTablesLast(),
-                PropertiesFileReader.getMediumTablesLast(),
-                PropertiesFileReader.getLargeTablesLast(),
-                resultWriter);*/
-
-        ResultCollector rs = new ResultCollector(30,
-                20,
-                PropertiesFileReader.getSmallTablesLast(),
-                PropertiesFileReader.getMediumTablesLast(),
-                PropertiesFileReader.getLargeTablesLast(),
-                resultWriter);
-        rs.getResults();
 
 
     }

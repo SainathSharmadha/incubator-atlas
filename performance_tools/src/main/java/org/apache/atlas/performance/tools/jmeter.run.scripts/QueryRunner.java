@@ -29,7 +29,7 @@ public class QueryRunner
 
         StandardJMeterEngine guidGenEngine;
         QueryTestBuilder queryTestBuilder=new QueryTestBuilder().withJmeterInitialized();
-
+/*
         System.out.println("Posting Tags");
         guidGenEngine =queryTestBuilder.
                 withUserSessions(1,100).
@@ -43,9 +43,9 @@ public class QueryRunner
                 withTestPlan("Associate Tags").
                 withResultGenerator().
                 getEngine();
-        guidGenEngine.run();
+        guidGenEngine.run();*/
 
-     /*   Integer[]  usersList=PropertiesFileReader.getNumUsers();
+        Integer[]  usersList=PropertiesFileReader.getNumUsers();
         Integer[]  loopsList=PropertiesFileReader.getNumLoops();
 
         for(int i=0;i<usersList.length;i++) {

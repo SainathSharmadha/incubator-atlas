@@ -40,7 +40,7 @@ import java.io.FileWriter;
 public class FileBuilder {
     static String outputDir=PropertiesFileReader.getOutputDir();
 
-    public static void createFiles(Integer usersCnt) throws IOException, TransformerException, SAXException, ParserConfigurationException {
+    public static void createFiles(Integer usersCnt,String responseFile) throws IOException, TransformerException, SAXException, ParserConfigurationException {
         File f;
         String fileName;
         for (int i = 1; i <= usersCnt; i++) {
@@ -56,7 +56,7 @@ public class FileBuilder {
         f.createNewFile();
         createEmptyXMLFile(f);
 
-        populateFiles();
+        populateFiles(responseFile);
 
     }
 
@@ -69,8 +69,8 @@ public class FileBuilder {
     }
 
 
-    public static void populateFiles() throws IOException, SAXException, ParserConfigurationException, TransformerException {
-        File source = new File(PropertiesFileReader.getJmeterResponseFile());
+    public static void populateFiles(String responseFile) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+        File source = new File(PropertiesFileReader.getOutputDir()+"/"+responseFile);
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document sourceDom = builder.parse(source);
         String fileName;
