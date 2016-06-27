@@ -1,3 +1,21 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.apache.atlas.performance.tools.jmeter.run.scripts;
 
 import org.apache.atlas.performance.tools.PropertiesFileReader;
@@ -45,8 +63,8 @@ public class QueryTestBuilder {
     public QueryTestBuilder withJmeterInitialized(){
 
         jmeter = new StandardJMeterEngine();
-        jmeterHome=new File("/Users//temp//SoftwareHWX//jmeter//apache-jmeter-2.13");
-        jmeterProperties=new File(jmeterHome.getPath()+"//bin//jmeter.properties");
+        jmeterHome=new File(PropertiesFileReader.getJmeterHome());
+        jmeterProperties=new File(PropertiesFileReader.getJmeterPropertiesFile());
         JMeterUtils.setJMeterHome(jmeterHome.getPath());
         JMeterUtils.loadJMeterProperties(jmeterProperties.getPath());
         System.out.println(jmeterProperties.getPath());
@@ -54,16 +72,7 @@ public class QueryTestBuilder {
         JMeterUtils.initLocale();
         return this;
     }
-    private HeaderManager getHeaderManager() {
-        HeaderManager headerManager = new HeaderManager();
-        Header header = new Header();
-        header.setName("Content-Type");
-        header.setValue("application/json");
-        headerManager.add(header);
-        headerManager.setProperty(HeaderManager.GUI_CLASS, HeaderPanel.class.getName());
-        headerManager.setProperty(HeaderManager.TEST_CLASS, HeaderManager.class.getName());
-        return headerManager;
-    }
+
 
     public QueryTestBuilder withUserSessions(Integer nLoops,Integer nUsers) {
 
@@ -84,22 +93,20 @@ public class QueryTestBuilder {
         return this;
     }
 
-
-
     private AuthManager getAuthorizationManager() {
         AuthManager authManager = new AuthManager();
         authManager.setProperty(TestElement.TEST_CLASS, AuthManager.class.getName());
         authManager.setProperty(TestElement.GUI_CLASS, AuthPanel.class.getName());
         Authorization authorization = new Authorization();
         authorization.setName("Atlas Login");
-        authorization.setURL("http://localhost:21000");
+        authorization.setURL("http://"+PropertiesFileReader.getDomain()+":21000");
         authorization.setUser("admin");
         authorization.setPass("admin");
         authManager.setName("Authorization");
         authManager.addAuth(authorization);
         return authManager;
     }
-    public QueryTestBuilder withTestPlan() throws IOException {
+    public QueryTestBuilder withTestPlan(String testplan) throws IOException {
         testPlanTree = new ListedHashTree();
         testPlan = new TestPlan("Create JMeter Script From Java Code");
         testPlan.setProperty(TestElement.TEST_CLASS, TestPlan.class.getName());
@@ -110,6 +117,18 @@ public class QueryTestBuilder {
         threadGroupHashTree = (ListedHashTree)testPlanTree.add(testPlan, threadGroup);
         threadGroupHashTree.add(authManager);
         QueryRepository qr=new QueryRepository(threadGroupHashTree);
+        if(testplan.equals("Post Tags")) {
+            qr.getPostTags();
+        }
+        else if (testplan.equals("Associate Tags")){
+            qr.getAssociateTagsQueries();
+
+        }
+        else if (testplan.equals("Test User Queries")){
+            qr.testUserQueries();
+
+        }
+
         return this;
 
     }

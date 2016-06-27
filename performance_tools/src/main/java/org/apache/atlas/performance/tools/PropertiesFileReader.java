@@ -25,9 +25,9 @@ import java.io.IOException;
 
 
 public class PropertiesFileReader {
-    static Integer numTables, numUsers, numLoops, numQueriesPerSet, smallTablesLast, mediumTablesLast, largeTablesLast, numTags, numTestPlanTables;
+    static Integer numTables, numQueriesPerSet, smallTablesLast, mediumTablesLast, largeTablesLast, numTags, numTestPlanTables;
     static Float smallTablePercentage, mediumTablePercentage, ctasTablePercentage, tagPercentage;
-    static String atlasLogFile, database, cluster, outputDir, cpuFile, jmeterResponseFile,datePattern;
+    static String atlasLogFile, database, cluster, outputDir, cpuFile, jmeterResponseFile, datePattern, jmeterHome, jmeterPropertiesFile,domain,numUsers,numLoops;
     static PropertiesConfiguration propertiesConfiguration;
 
     public static void readPropertiesFile() throws ConfigurationException, IOException {
@@ -40,8 +40,8 @@ public class PropertiesFileReader {
         ctasTablePercentage = Float.parseFloat((String) propertiesConfiguration.getProperty("ctas.table.percentage"));
         tagPercentage = Float.parseFloat((String) propertiesConfiguration.getProperty("tag.percentage"));
         outputDir = (String) propertiesConfiguration.getProperty("output.file.dir");
-        numUsers = Integer.parseInt((String) propertiesConfiguration.getProperty("num.users"));
-        numLoops = Integer.parseInt((String) propertiesConfiguration.getProperty("num.loops"));
+        numUsers = (String) propertiesConfiguration.getProperty("num.users");
+        numLoops = (String) propertiesConfiguration.getProperty("num.loops");
         numQueriesPerSet = Integer.parseInt((String) propertiesConfiguration.getProperty("num.queries.per.set"));
         smallTablesLast = Integer.parseInt((String) propertiesConfiguration.getProperty("small.tables.end"));
         mediumTablesLast = Integer.parseInt((String) propertiesConfiguration.getProperty("medium.tables.end"));
@@ -53,11 +53,15 @@ public class PropertiesFileReader {
         database = (String) propertiesConfiguration.getProperty("database");
         cluster = (String) propertiesConfiguration.getProperty("cluster");
         numTestPlanTables = Integer.parseInt((String) propertiesConfiguration.getProperty("num.test.plan.tables"));
-        datePattern=(String) propertiesConfiguration.getProperty("datePattern");
-        File output=new File(outputDir);
+        datePattern = (String) propertiesConfiguration.getProperty("datePattern");
+        File output = new File(outputDir);
         if (!output.exists()) {
             new File(outputDir).mkdir();
         }
+        jmeterHome = (String) propertiesConfiguration.getProperty("jmeter.home");
+        jmeterPropertiesFile = (String) propertiesConfiguration.getProperty("jmeter.properties");
+        domain = (String) propertiesConfiguration.getProperty("domain");
+
     }
 
 
@@ -81,12 +85,22 @@ public class PropertiesFileReader {
         return outputDir;
     }
 
-    public static Integer getNumUsers() {
-        return numUsers;
-    }
+    public static Integer[] getNumUsers() {
+        String usersListStr[]=numUsers.split(",");
+        Integer usersList[]=new Integer[usersListStr.length];
+        for(int i=0;i<usersListStr.length;i++){
+            usersList[i]=Integer.parseInt(usersListStr[i]);
+        }
+        return  usersList;
 
-    public static Integer getNumLoops() {
-        return numLoops;
+    }
+    public static Integer[] getNumLoops() {
+        String loopsListStr[]=numLoops.split(",");
+        Integer loopsList[]=new Integer[loopsListStr.length];
+        for(int i=0;i<loopsListStr.length;i++){
+            loopsList[i]=Integer.parseInt(loopsListStr[i]);
+        }
+        return  loopsList;
     }
 
     public static Integer getNumQueriesPerSet() {
@@ -117,16 +131,44 @@ public class PropertiesFileReader {
         return propertiesConfiguration;
     }
 
-    public static Integer getNumTags() {return numTags;}
+    public static Integer getNumTags() {
+        return numTags;
+    }
 
-    public static Float getTagPercentage() {return tagPercentage;}
+    public static Float getTagPercentage() {
+        return tagPercentage;
+    }
 
 
-    public static Integer getNumTestPlanTables() {return numTestPlanTables;}
+    public static Integer getNumTestPlanTables() {
+        return numTestPlanTables;
+    }
 
-    public static String getAtlasLogFile() {return atlasLogFile;}
+    public static String getAtlasLogFile() {
+        return atlasLogFile;
+    }
 
-    public static String getDatabase() {return database;}
+    public static String getDatabase() {
+        return database;
+    }
 
-    public static String getCluster() {return cluster;}
+    public static String getCluster() {
+        return cluster;
+    }
+
+    public static String getDatePattern() {
+        return datePattern;
+    }
+
+    public static String getJmeterHome() {
+        return jmeterHome;
+    }
+
+    public static String getJmeterPropertiesFile() {
+        return jmeterPropertiesFile;
+    }
+
+    public static String getDomain() {
+        return domain;
+    }
 }
