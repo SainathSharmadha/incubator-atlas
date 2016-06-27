@@ -152,7 +152,7 @@ public class QueryRepository {
         POSTRequest postTags = new POSTRequest("Create tags", createTags, body);
         queries[0] = postTags.getHTTPSampler();
         testPlanTree.add(queries);
-        CSVDataSet csvDataSet = getCSVDataSetConfig("/Users/temp/tags-attribs.txt","tag,attribute");
+        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir()+"/tags-attributes.txt","tag,attribute");
         HeaderManager headerManager = getHeaderManager();
         testPlanTree.add(headerManager);
         testPlanTree.add(csvDataSet);
@@ -163,7 +163,7 @@ public class QueryRepository {
     ListedHashTree getAssociateTagsQueries() {
         String body = "{\"jsonClass\":\"org.apache.atlas.typesystem.json.InstanceSerialization$_Struct\",\"typeName\":\"${tag}\",\"values\":{\"${attribute}\":\"${value}\"}}\n";
         POSTRequest postTags = new POSTRequest("Associate Tags", associateTags, body);
-        CSVDataSet csvDataSet = getCSVDataSetConfig("/Users/temp/mixed_table_guid.txt", "tableno,fqn,guid,st,et");
+        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir()+"/tags-tables.txt", "tableno,fqn,guid,tag,attribute,val");
         HeaderManager headerManager = getHeaderManager();
         testPlanTree.add(postTags.getHTTPSampler());
         testPlanTree.add(headerManager);
@@ -185,7 +185,7 @@ public class QueryRepository {
                 getOutputLineage.getHTTPSampler()
         };
         testPlanTree.add(queries);
-        CSVDataSet csvDataSet = getCSVDataSetConfig("/Users/temp/results/testplantables.txt", "tableno,fqn,guid,st,et");
+        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir()+"/testplantables.txt", "tableno,fqn,guid,st,et");
         testPlanTree.add(csvDataSet);
         return testPlanTree;
     }
@@ -193,13 +193,11 @@ public class QueryRepository {
     ListedHashTree getEntityWithTag() {
         HTTPRequest getEntityAssociatedToTag = new HTTPRequest("Get Entity Associated to a Tag", getAssociatedEntity);
         testPlanTree.add(getEntityAssociatedToTag.getHTTPSampler());
-        CSVDataSet csvDataSet = getCSVDataSetConfig("/Users/temp/tags-attribs.txt","tag,attribute");
+        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir()+"/tags-attributes.txt","tag,attribute");
         testPlanTree.add(csvDataSet);
         return testPlanTree;
     }
 
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
+
 }

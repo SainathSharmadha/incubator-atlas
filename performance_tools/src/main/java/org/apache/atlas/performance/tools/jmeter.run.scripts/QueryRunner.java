@@ -24,36 +24,28 @@ import java.io.IOException;
 
 public class QueryRunner
 {
-    public static void main( String[] args ) throws InterruptedException {
-        QueryRunner queryRunner = new QueryRunner();
-        try {
-            queryRunner.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private void run() throws IOException, InterruptedException {
+    public static void run() throws IOException, InterruptedException {
 
         StandardJMeterEngine guidGenEngine;
         QueryTestBuilder queryTestBuilder=new QueryTestBuilder().withJmeterInitialized();
 
+        System.out.println("Posting Tags");
         guidGenEngine =queryTestBuilder.
-                withUserSessions(10,10).
+                withUserSessions(1,100).
                 withTestPlan("Post Tags").
                 withResultGenerator().
                 getEngine();
         guidGenEngine.run();
 
-
         guidGenEngine =queryTestBuilder.
-                withUserSessions(10,10).
+                withUserSessions(1,50).
                 withTestPlan("Associate Tags").
                 withResultGenerator().
                 getEngine();
         guidGenEngine.run();
 
-        Integer[]  usersList=PropertiesFileReader.getNumUsers();
+     /*   Integer[]  usersList=PropertiesFileReader.getNumUsers();
         Integer[]  loopsList=PropertiesFileReader.getNumLoops();
 
         for(int i=0;i<usersList.length;i++) {
@@ -66,12 +58,12 @@ public class QueryRunner
         }
 
 
-        guidGenEngine = queryTestBuilder.
+       /* guidGenEngine = queryTestBuilder.
                 withUserSessions(1,PropertiesFileReader.getNumTags()).
                 withTestPlan("Get Entities Associated To Tags").
                 withResultGenerator().
                 getEngine();
-        guidGenEngine.run();
+        guidGenEngine.run();*/
 
     }
 }

@@ -19,6 +19,7 @@
 package org.apache.atlas.performance.tools.response.data.parser;
 
 import org.apache.atlas.performance.tools.PropertiesFileReader;
+import org.apache.atlas.performance.tools.PropertiesFileUtils;
 import org.apache.commons.configuration.ConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -36,12 +37,43 @@ public class JMeterResponseCollector {
         System.setProperty("atlas.perf.dir", args[0]);
 
         PropertiesFileReader.readPropertiesFile();
+
+        Integer[]  usersList=PropertiesFileReader.getNumUsers();
+        Integer[]  loopsList=PropertiesFileReader.getNumLoops();
         ResultWriter resultWriter=new ResultWriter("JmeterResponse.txt");
-       // FileBuilder.createFiles(PropertiesFileReader.getNumUsers());
-        User.loopCount = PropertiesFileReader.getNumLoops();
         QuerySet.setNumQueriesPerSet(PropertiesFileReader.getNumQueriesPerSet());
-        ResultCollector rs = new ResultCollector(PropertiesFileReader.getNumUsers(),
+        ResultCollector rc ;
+        Integer lastSTable=PropertiesFileUtils.getSmallTables();
+        Integer lastMTable=PropertiesFileUtils.getMediumTables()+lastSTable;
+        Integer lastLTable=PropertiesFileReader.getNumTables();
+
+        for(int i=0;i<usersList.length;i++) {
+            FileBuilder.createFiles(usersList[i]);
+            User.loopCount=loopsList[i];
+            resultWriter=new ResultWriter(String.format("JmeterResponse-%du-%dl.txt",usersList[i],loopsList[i]));
+            rc = new ResultCollector(usersList[i],
+                    loopsList[i],
+                    lastSTable,
+                    lastMTable,
+                    lastLTable,
+                    resultWriter);
+            rc.getResults();
+
+        }
+
+
+
+
+        QuerySet.setNumQueriesPerSet(PropertiesFileReader.getNumQueriesPerSet());
+    /*    ResultCollector rs = new ResultCollector(PropertiesFileReader.getNumUsers(),
                 PropertiesFileReader.getNumLoops(),
+                PropertiesFileReader.getSmallTablesLast(),
+                PropertiesFileReader.getMediumTablesLast(),
+                PropertiesFileReader.getLargeTablesLast(),
+                resultWriter);*/
+
+        ResultCollector rs = new ResultCollector(30,
+                20,
                 PropertiesFileReader.getSmallTablesLast(),
                 PropertiesFileReader.getMediumTablesLast(),
                 PropertiesFileReader.getLargeTablesLast(),

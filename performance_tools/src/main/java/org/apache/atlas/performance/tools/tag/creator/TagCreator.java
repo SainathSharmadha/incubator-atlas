@@ -7,9 +7,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- * Created by temp on 6/16/16.
- */
 public class TagCreator {
 
     public static void createTags() throws IOException {
@@ -24,15 +21,16 @@ public class TagCreator {
         File tagsTablesFile=new File(String.format("%s/tags-tables-temp.txt",PropertiesFileReader.getOutputDir()));
         FileWriter tagTablesFileWriter=new FileWriter(tagsTablesFile);
 
-        Integer tagStart=1,tagEnd=numTags,tableStart=0,tableEnd=0;
+        Integer tagStart=1,tagEnd=numTags,tableStart=0,tableEnd=0,val=0;
         String towrite;
         for(int i=tagStart;i<=tagEnd;i++){
             tableStart=tableEnd+1;
             tableEnd=tableEnd+numTablePerTag;
-            towrite=String.format("tag_%d,tag_%d_attribute\n",i,i);
+            towrite=String.format("tagg_%d,tagg_%d_attribute\n",i,i);
             tagAttributesFileWriter.write(towrite);
             for(int j=tableStart;j<=tableEnd;j++){
-                    towrite=String.format("tag_%d,tag_%d_attribute,val",i,i);
+                    val++;
+                    towrite=String.format("tagg_%d,tagg_%d_attribute,val_%d",i,i,val);
                     tagTablesFileWriter.write(towrite+"\n");
             }
         }

@@ -73,7 +73,6 @@ public class CalculateTime {
                             tableNo = Integer.parseInt(tableNameMatcher.group(1));
                             tables[tableNo].setEndTime(endTime);
                             tables[tableNo].setGuid(guid);
-                            System.out.println("end match");
                         }
                     }
                 } catch (org.json.JSONException e) {
@@ -127,7 +126,6 @@ if(!isCTAS) {
 
         }
             numTestPlanTables=PropertiesFileReader.getNumTestPlanTables();
-        System.out.println(lastSTable+" "+lastMTable+" "+lastLTable);
         int llim=0,ulim=0;
         for(int i=0;i<numTestPlanTables;i++){
             if(i%3==0){

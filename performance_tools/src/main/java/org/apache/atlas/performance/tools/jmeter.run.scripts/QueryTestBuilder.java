@@ -63,6 +63,7 @@ public class QueryTestBuilder {
     public QueryTestBuilder withJmeterInitialized(){
 
         jmeter = new StandardJMeterEngine();
+        System.out.println(PropertiesFileReader.getJmeterHome());
         jmeterHome=new File(PropertiesFileReader.getJmeterHome());
         jmeterProperties=new File(PropertiesFileReader.getJmeterPropertiesFile());
         JMeterUtils.setJMeterHome(jmeterHome.getPath());
@@ -74,7 +75,7 @@ public class QueryTestBuilder {
     }
 
 
-    public QueryTestBuilder withUserSessions(Integer nLoops,Integer nUsers) {
+    public QueryTestBuilder withUserSessions(Integer nUsers,Integer nLoops) {
 
         loopController = new LoopController();
         loopController.setLoops(nLoops);
@@ -88,6 +89,9 @@ public class QueryTestBuilder {
         threadGroup.setProperty(TestElement.TEST_CLASS, ThreadGroup.class.getName());
         threadGroup.setProperty(TestElement.GUI_CLASS, ThreadGroupGui.class.getName());
         threadGroup.setSamplerController(loopController);
+
+        this.nLoops=nLoops;
+        this.nUsers=nUsers;
 
 
         return this;
@@ -118,14 +122,20 @@ public class QueryTestBuilder {
         threadGroupHashTree.add(authManager);
         QueryRepository qr=new QueryRepository(threadGroupHashTree);
         if(testplan.equals("Post Tags")) {
+            System.out.println("Posting tags");
             qr.getPostTags();
+            resultFile="PostTagsResponse.xml";
         }
         else if (testplan.equals("Associate Tags")){
+            System.out.println("Associating tags to entites");
             qr.getAssociateTagsQueries();
+            resultFile="AssociateTagsResponse.xml";
 
         }
         else if (testplan.equals("Test User Queries")){
+            System.out.println("Testing user queries");
             qr.testUserQueries();
+            resultFile=String.format("ResponseData-%du-%dl.xml",nUsers,nLoops);
 
         }
 
@@ -140,7 +150,7 @@ public class QueryTestBuilder {
         if (summariserName.length() > 0) {
             summer = new Summariser(summariserName);
         }
-        String reportFile = PropertiesFileReader.getOutputDir()+"/"+PropertiesFileReader.getJmeterResponseFile();
+       String reportFile = PropertiesFileReader.getOutputDir()+"/"+resultFile;
 
         ResultCollector logger = new ResultCollector(summer);
         logger.setFilename(reportFile);

@@ -22,12 +22,14 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class PropertiesFileReader {
     static Integer numTables, numQueriesPerSet, smallTablesLast, mediumTablesLast, largeTablesLast, numTags, numTestPlanTables;
     static Float smallTablePercentage, mediumTablePercentage, ctasTablePercentage, tagPercentage;
-    static String atlasLogFile, database, cluster, outputDir, cpuFile, jmeterResponseFile, datePattern, jmeterHome, jmeterPropertiesFile,domain,numUsers,numLoops;
+    static String atlasLogFile, database, cluster, outputDir, cpuFile, jmeterResponseFile, jmeterHome, jmeterPropertiesFile,domain;
+    static String[] numUsers,numLoops;
     static PropertiesConfiguration propertiesConfiguration;
 
     public static void readPropertiesFile() throws ConfigurationException, IOException {
@@ -40,8 +42,8 @@ public class PropertiesFileReader {
         ctasTablePercentage = Float.parseFloat((String) propertiesConfiguration.getProperty("ctas.table.percentage"));
         tagPercentage = Float.parseFloat((String) propertiesConfiguration.getProperty("tag.percentage"));
         outputDir = (String) propertiesConfiguration.getProperty("output.file.dir");
-        numUsers = (String) propertiesConfiguration.getProperty("num.users");
-        numLoops = (String) propertiesConfiguration.getProperty("num.loops");
+        numUsers =propertiesConfiguration.getStringArray("num.users");
+        numLoops = propertiesConfiguration.getStringArray("num.loops");
         numQueriesPerSet = Integer.parseInt((String) propertiesConfiguration.getProperty("num.queries.per.set"));
         smallTablesLast = Integer.parseInt((String) propertiesConfiguration.getProperty("small.tables.end"));
         mediumTablesLast = Integer.parseInt((String) propertiesConfiguration.getProperty("medium.tables.end"));
@@ -53,7 +55,6 @@ public class PropertiesFileReader {
         database = (String) propertiesConfiguration.getProperty("database");
         cluster = (String) propertiesConfiguration.getProperty("cluster");
         numTestPlanTables = Integer.parseInt((String) propertiesConfiguration.getProperty("num.test.plan.tables"));
-        datePattern = (String) propertiesConfiguration.getProperty("datePattern");
         File output = new File(outputDir);
         if (!output.exists()) {
             new File(outputDir).mkdir();
@@ -86,22 +87,21 @@ public class PropertiesFileReader {
     }
 
     public static Integer[] getNumUsers() {
-        String usersListStr[]=numUsers.split(",");
-        Integer usersList[]=new Integer[usersListStr.length];
-        for(int i=0;i<usersListStr.length;i++){
-            usersList[i]=Integer.parseInt(usersListStr[i]);
+        Integer usersList[] = new Integer[numUsers.length];
+        for (int i = 0; i < numUsers.length; i++) {
+            usersList[i] = Integer.parseInt(numUsers[i]);
         }
-        return  usersList;
+        return usersList;
 
     }
     public static Integer[] getNumLoops() {
-        String loopsListStr[]=numLoops.split(",");
-        Integer loopsList[]=new Integer[loopsListStr.length];
-        for(int i=0;i<loopsListStr.length;i++){
-            loopsList[i]=Integer.parseInt(loopsListStr[i]);
+        Integer loopsList[]=new Integer[numLoops.length];
+        for(int i=0;i<numLoops.length;i++){
+            loopsList[i]=Integer.parseInt(numLoops[i]);
         }
         return  loopsList;
     }
+
 
     public static Integer getNumQueriesPerSet() {
         return numQueriesPerSet;
@@ -154,10 +154,6 @@ public class PropertiesFileReader {
 
     public static String getCluster() {
         return cluster;
-    }
-
-    public static String getDatePattern() {
-        return datePattern;
     }
 
     public static String getJmeterHome() {
