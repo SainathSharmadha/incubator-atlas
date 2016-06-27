@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,18 +54,18 @@ public class QueryTestBuilder {
     ListedHashTree threadGroupHashTree;
     private ThreadGroup threadGroup;
     private StandardJMeterEngine jmeter;
-    private File jmeterHome,jmeterProperties;
+    private File jmeterHome, jmeterProperties;
     private File jmxOutputFile;
     private String resultFile;
     public LoopController loopController;
-    public Integer nUsers,nLoops;
+    public Integer nUsers, nLoops;
 
-    public QueryTestBuilder withJmeterInitialized(){
+    public QueryTestBuilder withJmeterInitialized() {
 
         jmeter = new StandardJMeterEngine();
         System.out.println(PropertiesFileReader.getJmeterHome());
-        jmeterHome=new File(PropertiesFileReader.getJmeterHome());
-        jmeterProperties=new File(PropertiesFileReader.getJmeterPropertiesFile());
+        jmeterHome = new File(PropertiesFileReader.getJmeterHome());
+        jmeterProperties = new File(PropertiesFileReader.getJmeterPropertiesFile());
         JMeterUtils.setJMeterHome(jmeterHome.getPath());
         JMeterUtils.loadJMeterProperties(jmeterProperties.getPath());
         System.out.println(jmeterProperties.getPath());
@@ -75,7 +75,7 @@ public class QueryTestBuilder {
     }
 
 
-    public QueryTestBuilder withUserSessions(Integer nUsers,Integer nLoops) {
+    public QueryTestBuilder withUserSessions(Integer nUsers, Integer nLoops) {
 
         loopController = new LoopController();
         loopController.setLoops(nLoops);
@@ -83,15 +83,15 @@ public class QueryTestBuilder {
         loopController.setProperty(TestElement.GUI_CLASS, LoopControlPanel.class.getName());
         loopController.initialize();
 
-        threadGroup=new ThreadGroup();
+        threadGroup = new ThreadGroup();
         threadGroup.setName("Atlas Users");
         threadGroup.setNumThreads(nUsers);
         threadGroup.setProperty(TestElement.TEST_CLASS, ThreadGroup.class.getName());
         threadGroup.setProperty(TestElement.GUI_CLASS, ThreadGroupGui.class.getName());
         threadGroup.setSamplerController(loopController);
 
-        this.nLoops=nLoops;
-        this.nUsers=nUsers;
+        this.nLoops = nLoops;
+        this.nUsers = nUsers;
 
 
         return this;
@@ -103,39 +103,38 @@ public class QueryTestBuilder {
         authManager.setProperty(TestElement.GUI_CLASS, AuthPanel.class.getName());
         Authorization authorization = new Authorization();
         authorization.setName("Atlas Login");
-        authorization.setURL("http://"+PropertiesFileReader.getDomain()+":21000");
+        authorization.setURL("http://" + PropertiesFileReader.getDomain() + ":21000");
         authorization.setUser("admin");
         authorization.setPass("admin");
         authManager.setName("Authorization");
         authManager.addAuth(authorization);
         return authManager;
     }
+
     public QueryTestBuilder withTestPlan(String testplan) throws IOException {
         testPlanTree = new ListedHashTree();
         testPlan = new TestPlan("Create JMeter Script From Java Code");
         testPlan.setProperty(TestElement.TEST_CLASS, TestPlan.class.getName());
         testPlan.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
         testPlan.setUserDefinedVariables((Arguments) new ArgumentsPanel().createTestElement());
-        AuthManager authManager=getAuthorizationManager();
+        AuthManager authManager = getAuthorizationManager();
         testPlanTree.add(testPlan);
-        threadGroupHashTree = (ListedHashTree)testPlanTree.add(testPlan, threadGroup);
+        threadGroupHashTree = (ListedHashTree) testPlanTree.add(testPlan, threadGroup);
         threadGroupHashTree.add(authManager);
-        QueryRepository qr=new QueryRepository(threadGroupHashTree);
-        if(testplan.equals("Post Tags")) {
+        QueryRepository qr = new QueryRepository(threadGroupHashTree);
+        if (testplan.equals("Post Tags")) {
             System.out.println("Posting tags");
             qr.getPostTags();
-            resultFile="PostTagsResponse.xml";
-        }
-        else if (testplan.equals("Associate Tags")){
+            resultFile = "PostTagsResponse.xml";
+        } else if (testplan.equals("Associate Tags")) {
             System.out.println("Associating tags to entites");
             qr.getAssociateTagsQueries();
-            resultFile="AssociateTagsResponse.xml";
+            resultFile = "AssociateTagsResponse.xml";
 
-        }
-        else if (testplan.equals("Test User Queries")){
+        } else if (testplan.equals("Test User Queries")) {
             System.out.println("Testing user queries");
             qr.testUserQueries();
-            resultFile=String.format("ResponseData-%du-%dl.xml",nUsers,nLoops);
+            resultFile = String.format("ResponseData-%du-%dl.xml", nUsers, nLoops);
 
         }
 
@@ -144,13 +143,13 @@ public class QueryTestBuilder {
     }
 
     public QueryTestBuilder withResultGenerator() throws IOException {
-        SaveService.saveTree(testPlanTree, new FileOutputStream(PropertiesFileReader.getOutputDir()+"/TestPlan.jmx"));
+        SaveService.saveTree(testPlanTree, new FileOutputStream(PropertiesFileReader.getOutputDir() + "/TestPlan.jmx"));
         Summariser summer = null;
         String summariserName = JMeterUtils.getPropDefault("summariser.name", "summary");
         if (summariserName.length() > 0) {
             summer = new Summariser(summariserName);
         }
-       String reportFile = PropertiesFileReader.getOutputDir()+"/"+resultFile;
+        String reportFile = PropertiesFileReader.getOutputDir() + "/" + resultFile;
 
         ResultCollector logger = new ResultCollector(summer);
         logger.setFilename(reportFile);
@@ -163,9 +162,6 @@ public class QueryTestBuilder {
         jmeter.configure(testPlanTree);
         return jmeter;
     }
-
-
-
 
 
 }

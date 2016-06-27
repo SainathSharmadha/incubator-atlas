@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
 
 public class CalculateTime {
 
-    static File regularTableFile,ctasTableFile,testPlanTablesFile;
+    static File regularTableFile, ctasTableFile, testPlanTablesFile;
 
-    public static void calculateTime(File file,String tableFormat,boolean isCTAS) throws ConfigurationException, IOException {
+    public static void calculateTime(File file, String tableFormat, boolean isCTAS) throws ConfigurationException, IOException {
 
         Table[] tables = new Table[PropertiesFileReader.getNumTables() + 1];
         BufferedReader buff = new BufferedReader(new FileReader(new File("/Users/temp/SoftwareHWX/atlass/apache-atlas-0.7-incubating-SNAPSHOT/logs/application.log")));
@@ -34,7 +34,7 @@ public class CalculateTime {
         Integer tableNo;
         Pattern tablePattern = Pattern.compile(tableFormat);
         Matcher startMatcher, endMatcher, tableNameMatcher;
-        ArrayList<Table> tableArrayList=new ArrayList<Table>();
+        ArrayList<Table> tableArrayList = new ArrayList<Table>();
         while ((responseData = buff.readLine()) != null) {
             startMatcher = startPattern.matcher(responseData);
             endMatcher = endPattern.matcher(responseData);
@@ -44,13 +44,13 @@ public class CalculateTime {
                 tableNameMatcher = tablePattern.matcher(tableName);
                 if (tableNameMatcher.find()) {
                     tableNo = Integer.parseInt(tableNameMatcher.group(1));
-                    if(tables[tableNo]==null) {
+                    if (tables[tableNo] == null) {
                         tables[tableNo] = new Table();
                         tables[tableNo].setTableno(tableNo);
                         tables[tableNo].setTableName(tableName);
                         tables[tableNo].setStartTime(startTime);
                         count++;
-                       tableArrayList.add(tables[tableNo]);
+                        tableArrayList.add(tables[tableNo]);
                     }
 
                 }
@@ -83,28 +83,28 @@ public class CalculateTime {
 
         }
 
-if(!isCTAS) {
-    File f = new File((PropertiesFileReader.getOutputDir() + "/tags-tables.txt"));
-    if (f.exists()) {
-        f.delete();
-    }
-    f.createNewFile();
-    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(f));
+        if (!isCTAS) {
+            File f = new File((PropertiesFileReader.getOutputDir() + "/tags-tables.txt"));
+            if (f.exists()) {
+                f.delete();
+            }
+            f.createNewFile();
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(f));
 
-    BufferedReader reader = new BufferedReader(new FileReader(PropertiesFileReader.getOutputDir() + "/tags-tables-temp.txt"));
-    String tagInfo = "";
+            BufferedReader reader = new BufferedReader(new FileReader(PropertiesFileReader.getOutputDir() + "/tags-tables-temp.txt"));
+            String tagInfo = "";
 
-    for (int i = 0; (tagInfo = reader.readLine()) != null; i++) {
-        if(tables[i]==null){
-            System.out.println("null");
+            for (int i = 0; (tagInfo = reader.readLine()) != null; i++) {
+                if (tables[i] == null) {
+                    System.out.println("null");
+                }
+                if (tables[i] != null)
+                    bufferedWriter.write(tables[i].getTableno() + "," + tables[i].getTableName() + "," + tables[i].getGuid() + "," + tagInfo + "\n");
+            }
+            bufferedWriter.flush();
+            bufferedWriter.close();
         }
-        if(tables[i]!=null)
-        bufferedWriter.write(tables[i].getTableno() + "," + tables[i].getTableName() + "," + tables[i].getGuid() + "," + tagInfo + "\n");
-    }
-    bufferedWriter.flush();
-    bufferedWriter.close();
-}
-        if(file.exists()){
+        if (file.exists()) {
             file.delete();
         }
         file.createNewFile();
@@ -113,37 +113,31 @@ if(!isCTAS) {
         Integer lastMTable;
         Integer lastLTable;
         Integer numTestPlanTables;
-        if(!isCTAS) {
+        if (!isCTAS) {
             lastSTable = PropertiesFileUtils.getSmallTables();
             lastMTable = PropertiesFileUtils.getMediumTables() + lastSTable;
             lastLTable = PropertiesFileUtils.getNumTables();
-        }
-
-        else{
+        } else {
             lastSTable = PropertiesFileUtils.getSmallCtasTables();
             lastMTable = PropertiesFileUtils.getMediumCtasTables() + lastSTable;
             lastLTable = PropertiesFileUtils.getNumCtasTables();
 
         }
-            numTestPlanTables=PropertiesFileReader.getNumTestPlanTables();
-        int llim=0,ulim=0;
-        for(int i=0;i<numTestPlanTables;i++){
-            if(i%3==0){
-                llim=0;
-                ulim=lastSTable;
-            }
-
-            else if(i%3==1){
-                llim=lastSTable;
-                ulim=lastMTable;
-            }
-
-            else {
-                llim=lastMTable;
-                ulim=lastLTable;
+        numTestPlanTables = PropertiesFileReader.getNumTestPlanTables();
+        int llim = 0, ulim = 0;
+        for (int i = 0; i < numTestPlanTables; i++) {
+            if (i % 3 == 0) {
+                llim = 0;
+                ulim = lastSTable;
+            } else if (i % 3 == 1) {
+                llim = lastSTable;
+                ulim = lastMTable;
+            } else {
+                llim = lastMTable;
+                ulim = lastLTable;
             }
             int randomNum = new Random().nextInt((ulim - llim)) + llim;
-            bufferedWriter.write(tableArrayList.get(randomNum).getTableno()+","+tableArrayList.get(randomNum).getTableName()+","+tableArrayList.get(randomNum).getGuid()+","+tableArrayList.get(randomNum).getStartTime()+","+tableArrayList.get(randomNum).getEndTime()+"\n");
+            bufferedWriter.write(tableArrayList.get(randomNum).getTableno() + "," + tableArrayList.get(randomNum).getTableName() + "," + tableArrayList.get(randomNum).getGuid() + "," + tableArrayList.get(randomNum).getStartTime() + "," + tableArrayList.get(randomNum).getEndTime() + "\n");
 
 
         }
@@ -153,48 +147,43 @@ if(!isCTAS) {
     }
 
 
-
-
     public static void mixtables() throws IOException, ConfigurationException {
 
-    BufferedReader regFileReader=new BufferedReader(new FileReader(regularTableFile));
-    BufferedReader ctasFileReader=new BufferedReader(new FileReader(ctasTableFile));
-    BufferedWriter testPlanWriter=new BufferedWriter(new FileWriter(testPlanTablesFile));
-    Integer numTestPlanTables=PropertiesFileReader.getNumTestPlanTables();
-    String tableInfo="";
-    for(int i=0;i<numTestPlanTables;i++){
-        if(i%2==0)
-            tableInfo=regFileReader.readLine();
-        else
-            if((tableInfo=ctasFileReader.readLine())==null) {
-                tableInfo=regFileReader.readLine();
+        BufferedReader regFileReader = new BufferedReader(new FileReader(regularTableFile));
+        BufferedReader ctasFileReader = new BufferedReader(new FileReader(ctasTableFile));
+        BufferedWriter testPlanWriter = new BufferedWriter(new FileWriter(testPlanTablesFile));
+        Integer numTestPlanTables = PropertiesFileReader.getNumTestPlanTables();
+        String tableInfo = "";
+        for (int i = 0; i < numTestPlanTables; i++) {
+            if (i % 2 == 0)
+                tableInfo = regFileReader.readLine();
+            else if ((tableInfo = ctasFileReader.readLine()) == null) {
+                tableInfo = regFileReader.readLine();
             }
 
-        testPlanWriter.write(tableInfo+"\n");
-    }
+            testPlanWriter.write(tableInfo + "\n");
+        }
 
-    testPlanWriter.flush();
-    testPlanWriter.close();
-    regFileReader.close();
-    ctasFileReader.close();
+        testPlanWriter.flush();
+        testPlanWriter.close();
+        regFileReader.close();
+        ctasFileReader.close();
 
-
-
-}
-
-   public  static  void getTestPlanTables() throws IOException, ConfigurationException {
-       TagCreator.createTags();
-       String database=PropertiesFileReader.getDatabase();
-       String cluster=PropertiesFileReader.getCluster();
-       regularTableFile=new File(PropertiesFileReader.getOutputDir()+"/mixedtables.txt");
-       ctasTableFile=new File(PropertiesFileReader.getOutputDir()+"/mixedctastables.txt");
-       testPlanTablesFile=new File(PropertiesFileReader.getOutputDir()+"/testplantables.txt");
-       calculateTime(regularTableFile,String.format("%s.table_([0-9]*)@%s", database, cluster),false);
-       calculateTime(ctasTableFile,String.format("%s.table_([0-9]*)_ctas@%s", database, cluster),true);
-       mixtables();
 
     }
 
+    public static void getTestPlanTables() throws IOException, ConfigurationException {
+        TagCreator.createTags();
+        String database = PropertiesFileReader.getDatabase();
+        String cluster = PropertiesFileReader.getCluster();
+        regularTableFile = new File(PropertiesFileReader.getOutputDir() + "/mixedtables.txt");
+        ctasTableFile = new File(PropertiesFileReader.getOutputDir() + "/mixedctastables.txt");
+        testPlanTablesFile = new File(PropertiesFileReader.getOutputDir() + "/testplantables.txt");
+        calculateTime(regularTableFile, String.format("%s.table_([0-9]*)@%s", database, cluster), false);
+        calculateTime(ctasTableFile, String.format("%s.table_([0-9]*)_ctas@%s", database, cluster), true);
+        mixtables();
+
+    }
 
 
 }

@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,14 +24,14 @@ import java.util.ArrayList;
 public class QuerySet {
     static Integer numQueriesPerSet;
     public boolean isSuccess;
+
     public static void setNumQueriesPerSet(Integer numQueriesPerSet) {
         QuerySet.numQueriesPerSet = numQueriesPerSet;
     }
 
-    ArrayList<Query> querySet=new ArrayList<Query>();
+    ArrayList<Query> querySet = new ArrayList<Query>();
 
-    public void addToQuerySet(Query query)
-    {
+    public void addToQuerySet(Query query) {
         this.querySet.add(query);
     }
 }

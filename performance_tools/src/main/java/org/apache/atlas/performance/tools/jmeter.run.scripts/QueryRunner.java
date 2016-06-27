@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,38 +17,38 @@
  */
 
 package org.apache.atlas.performance.tools.jmeter.run.scripts;
+
 import org.apache.atlas.performance.tools.PropertiesFileReader;
 import org.apache.jmeter.engine.StandardJMeterEngine;
 
 import java.io.IOException;
 
-public class QueryRunner
-{
+public class QueryRunner {
 
     public static void run() throws IOException, InterruptedException {
 
         StandardJMeterEngine guidGenEngine;
-        QueryTestBuilder queryTestBuilder=new QueryTestBuilder().withJmeterInitialized();
-/*
+        QueryTestBuilder queryTestBuilder = new QueryTestBuilder().withJmeterInitialized();
+
         System.out.println("Posting Tags");
-        guidGenEngine =queryTestBuilder.
-                withUserSessions(1,100).
+        guidGenEngine = queryTestBuilder.
+                withUserSessions(1, 100).
                 withTestPlan("Post Tags").
                 withResultGenerator().
                 getEngine();
         guidGenEngine.run();
 
-        guidGenEngine =queryTestBuilder.
-                withUserSessions(1,50).
+        guidGenEngine = queryTestBuilder.
+                withUserSessions(1, 50).
                 withTestPlan("Associate Tags").
                 withResultGenerator().
                 getEngine();
-        guidGenEngine.run();*/
+        guidGenEngine.run();
 
-        Integer[]  usersList=PropertiesFileReader.getNumUsers();
-        Integer[]  loopsList=PropertiesFileReader.getNumLoops();
+        Integer[] usersList = PropertiesFileReader.getNumUsers();
+        Integer[] loopsList = PropertiesFileReader.getNumLoops();
 
-        for(int i=0;i<usersList.length;i++) {
+        for (int i = 0; i < usersList.length; i++) {
             guidGenEngine = queryTestBuilder.
                     withUserSessions(usersList[i], loopsList[i]).
                     withTestPlan("Test User Queries").

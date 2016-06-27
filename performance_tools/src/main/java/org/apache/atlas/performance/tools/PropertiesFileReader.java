@@ -28,8 +28,8 @@ import java.util.ArrayList;
 public class PropertiesFileReader {
     static Integer numTables, numQueriesPerSet, smallTablesLast, mediumTablesLast, largeTablesLast, numTags, numTestPlanTables;
     static Float smallTablePercentage, mediumTablePercentage, ctasTablePercentage, tagPercentage;
-    static String atlasLogFile, database, cluster, outputDir, cpuFile, jmeterResponseFile, jmeterHome, jmeterPropertiesFile,domain;
-    static String[] numUsers,numLoops;
+    static String atlasLogFile, database, cluster, outputDir, cpuFile, jmeterResponseFile, jmeterHome, jmeterPropertiesFile, domain;
+    static String[] numUsers, numLoops;
     static PropertiesConfiguration propertiesConfiguration;
 
     public static void readPropertiesFile() throws ConfigurationException, IOException {
@@ -42,7 +42,7 @@ public class PropertiesFileReader {
         ctasTablePercentage = Float.parseFloat((String) propertiesConfiguration.getProperty("ctas.table.percentage"));
         tagPercentage = Float.parseFloat((String) propertiesConfiguration.getProperty("tag.percentage"));
         outputDir = (String) propertiesConfiguration.getProperty("output.file.dir");
-        numUsers =propertiesConfiguration.getStringArray("num.users");
+        numUsers = propertiesConfiguration.getStringArray("num.users");
         numLoops = propertiesConfiguration.getStringArray("num.loops");
         numQueriesPerSet = Integer.parseInt((String) propertiesConfiguration.getProperty("num.queries.per.set"));
         smallTablesLast = Integer.parseInt((String) propertiesConfiguration.getProperty("small.tables.end"));
@@ -94,12 +94,13 @@ public class PropertiesFileReader {
         return usersList;
 
     }
+
     public static Integer[] getNumLoops() {
-        Integer loopsList[]=new Integer[numLoops.length];
-        for(int i=0;i<numLoops.length;i++){
-            loopsList[i]=Integer.parseInt(numLoops[i]);
+        Integer loopsList[] = new Integer[numLoops.length];
+        for (int i = 0; i < numLoops.length; i++) {
+            loopsList[i] = Integer.parseInt(numLoops[i]);
         }
-        return  loopsList;
+        return loopsList;
     }
 
 

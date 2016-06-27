@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,29 +21,29 @@ package org.apache.atlas.performance.tools.response.data.parser;
 
 public class Query {
     String name;
-    Long latency,connecTime,loadTime,timeStamp;
+    Long latency, connecTime, loadTime, timeStamp;
     String table;
     Long timeTaken;
-    Query(String name,Long timeStamp,Long latency,Long connecTime,Long loadTime,String table,Long timeTaken) {
-        this.name=name;
-        this.timeStamp=timeStamp;
-        this.latency=latency;
-        this.connecTime=connecTime;
-        this.table=table;
-        this.loadTime=loadTime;
-        this.timeTaken=timeTaken;
+
+    Query(String name, Long timeStamp, Long latency, Long connecTime, Long loadTime, String table, Long timeTaken) {
+        this.name = name;
+        this.timeStamp = timeStamp;
+        this.latency = latency;
+        this.connecTime = connecTime;
+        this.table = table;
+        this.loadTime = loadTime;
+        this.timeTaken = timeTaken;
 
     }
 
-    public String getFormattedTime()
-    {
+    public String getFormattedTime() {
         String ftime;
-        long totalTime =timeTaken;
-        long millis=totalTime%1000;
+        long totalTime = timeTaken;
+        long millis = totalTime % 1000;
         long time = totalTime / 1000;
-        String seconds = Integer.toString((int)(time % 60));
-        String minutes = Integer.toString((int)((time % 3600) / 60));
-        String hours = Integer.toString((int)(time / 3600));
+        String seconds = Integer.toString((int) (time % 60));
+        String minutes = Integer.toString((int) ((time % 3600) / 60));
+        String hours = Integer.toString((int) (time / 3600));
         for (int ii = 0; ii < 2; ii++) {
             if (seconds.length() < 2) {
                 seconds = "0" + seconds;
@@ -56,7 +56,7 @@ public class Query {
             }
         }
 
-        ftime=minutes+":"+seconds+":"+millis;
+        ftime = minutes + ":" + seconds + ":" + millis;
         return ftime;
     }
 

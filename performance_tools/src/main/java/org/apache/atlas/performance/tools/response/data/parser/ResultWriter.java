@@ -14,14 +14,14 @@ public class ResultWriter {
 
     ResultWriter(String filename) throws IOException {
         String outputDir = PropertiesFileReader.getOutputDir();
-        this.file = new File(String.format("%s/%s",outputDir,filename));
+        this.file = new File(String.format("%s/%s", outputDir, filename));
         System.out.println(file.getAbsoluteFile());
         this.file.createNewFile();
         writer = new FileWriter(file);
     }
 
     void writeToFile(String content) throws IOException {
-        writer.write(content+"\n");
+        writer.write(content + "\n");
         writer.flush();
     }
 

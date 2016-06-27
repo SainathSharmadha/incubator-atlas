@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,21 +38,21 @@ import java.io.FileWriter;
 
 
 public class FileBuilder {
-    static String outputDir=PropertiesFileReader.getOutputDir();
+    static String outputDir = PropertiesFileReader.getOutputDir();
 
-    public static void createFiles(Integer usersCnt,String responseFile) throws IOException, TransformerException, SAXException, ParserConfigurationException {
+    public static void createFiles(Integer usersCnt, String responseFile) throws IOException, TransformerException, SAXException, ParserConfigurationException {
         File f;
         String fileName;
         for (int i = 1; i <= usersCnt; i++) {
 
-            new File(outputDir+"/Users").mkdir();
-            fileName=String.format("%s/Users/Atlas users 1-%d.xml",outputDir,i);
-            f=new File(fileName);
+            new File(outputDir + "/Users").mkdir();
+            fileName = String.format("%s/Users/Atlas users 1-%d.xml", outputDir, i);
+            f = new File(fileName);
             f.createNewFile();
             createEmptyXMLFile(f);
 
         }
-        f=new File(PropertiesFileReader.getOutputDir()+"/EndSamplers.xml");
+        f = new File(PropertiesFileReader.getOutputDir() + "/EndSamplers.xml");
         f.createNewFile();
         createEmptyXMLFile(f);
 
@@ -70,7 +70,7 @@ public class FileBuilder {
 
 
     public static void populateFiles(String responseFile) throws IOException, SAXException, ParserConfigurationException, TransformerException {
-        File source = new File(PropertiesFileReader.getOutputDir()+"/"+responseFile);
+        File source = new File(PropertiesFileReader.getOutputDir() + "/" + responseFile);
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document sourceDom = builder.parse(source);
         String fileName;
@@ -78,23 +78,23 @@ public class FileBuilder {
         NodeList httpSample = sourceDom.getElementsByTagName("httpSample");
         System.out.println(String.format("Total Queries :%d", httpSample.getLength()));
         for (int temp = 0; temp < httpSample.getLength(); temp++) {
-            System.out.println(String.format("Processing Query no : %d",temp));
+            System.out.println(String.format("Processing Query no : %d", temp));
             Node sourceSection = builder.parse(new InputSource(new FileReader(source))).getElementsByTagName("httpSample").item(temp);
             Element element = (Element) sourceSection;
             String userName = element.getAttribute("tn");
-            fileName=String.format("%s/Users/%s.xml",outputDir,userName);
-            target=new File(fileName);
-            writeToTargetFile(target,builder,sourceSection);
-            if((temp==0)||(temp==httpSample.getLength()-1)){
-                target=new File(outputDir+"/EndSamplers.xml");
-                writeToTargetFile(target,builder,sourceSection);
+            fileName = String.format("%s/Users/%s.xml", outputDir, userName);
+            target = new File(fileName);
+            writeToTargetFile(target, builder, sourceSection);
+            if ((temp == 0) || (temp == httpSample.getLength() - 1)) {
+                target = new File(outputDir + "/EndSamplers.xml");
+                writeToTargetFile(target, builder, sourceSection);
             }
 
         }
 
     }
 
-    static void writeToTargetFile(File targetFile,DocumentBuilder builder,Node sourceSection) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+    static void writeToTargetFile(File targetFile, DocumentBuilder builder, Node sourceSection) throws IOException, SAXException, ParserConfigurationException, TransformerException {
         Document targetDom = builder.parse(new InputSource(new FileReader(targetFile)));
         Node targetSection = targetDom.getElementsByTagName("test").item(0);
 
@@ -104,8 +104,6 @@ public class FileBuilder {
                 new StreamResult(new FileWriter(targetFile))
         );
     }
-
-
 
 
 }

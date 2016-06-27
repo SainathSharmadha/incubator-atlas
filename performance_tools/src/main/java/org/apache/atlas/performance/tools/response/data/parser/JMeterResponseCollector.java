@@ -46,8 +46,8 @@ public class JMeterResponseCollector {
         Integer lastLTable = PropertiesFileReader.getNumTables();
 
         for (int i = 0; i < usersList.length; i++) {
-            String responseFile=String.format("ResponseData-%du-%dl.xml",usersList[i],loopsList[i]);
-            FileBuilder.createFiles(usersList[i],responseFile);
+            String responseFile = String.format("ResponseData-%du-%dl.xml", usersList[i], loopsList[i]);
+            FileBuilder.createFiles(usersList[i], responseFile);
             User.loopCount = loopsList[i];
             resultWriter = new ResultWriter(String.format("JmeterResponse-%du-%dl.txt", usersList[i], loopsList[i]));
             rc = new ResultCollector(usersList[i],

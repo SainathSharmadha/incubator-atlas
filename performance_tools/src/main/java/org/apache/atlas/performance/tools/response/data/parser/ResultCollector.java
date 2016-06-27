@@ -54,13 +54,13 @@ public class ResultCollector {
     FileWriter writer;
     ResultWriter resultWriter;
 
-    ResultCollector(int usersCnt, int loopCount, int small_e, int med_e, int large_e,ResultWriter resultWriter) {
+    ResultCollector(int usersCnt, int loopCount, int small_e, int med_e, int large_e, ResultWriter resultWriter) {
         this.usersCnt = usersCnt;
         this.loopCount = loopCount;
         this.small_e = small_e;
         this.med_e = med_e;
         this.large_e = large_e;
-        this.resultWriter=resultWriter;
+        this.resultWriter = resultWriter;
     }
 
     void getResults() throws IOException, SAXException, ParserConfigurationException, ParseException {
@@ -102,7 +102,7 @@ public class ResultCollector {
         Long latency = Long.parseLong(element.getAttribute("lt"));
         Long timestamp = Long.parseLong(element.getAttribute("ts"));
         String queryName = element.getAttribute("lb");
-       // Long connectTime = Long.parseLong(element.getAttribute("ct"));
+        // Long connectTime = Long.parseLong(element.getAttribute("ct"));
         Long connectTime = 0L;
         Long loadTime = Long.parseLong(element.getAttribute("t"));
         String response = element.getAttribute("rc");
@@ -266,7 +266,7 @@ public class ResultCollector {
             mt = mt + medium.get(i);
             mtimes.add(medium.get(i));
         }
-        FileWriter fw=resultWriter.writer;
+        FileWriter fw = resultWriter.writer;
         resultWriter.writeToFile(String.valueOf(String.format("Number of Large tables :%d \n ", large.size())));
         for (i = 0; i < large.size(); i++) {
             lt = lt + large.get(i);
@@ -286,12 +286,12 @@ public class ResultCollector {
         if (ltimes.size() == 0) {
             resultWriter.writeToFile("No large size tables");
         } else {
-           printStatistics(StatisticsEvaluator.findPercentile(ltimes, 1));
+            printStatistics(StatisticsEvaluator.findPercentile(ltimes, 1));
         }
     }
 
     void printStatistics(ArrayList<String> statistics) throws IOException {
-        ArrayList<String> list=new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<String>();
         list.add("Min");
         list.add("Max");
         list.add("Avg");
@@ -302,8 +302,8 @@ public class ResultCollector {
         list.add("90th");
         list.add("95th");
 
-        for(int i=0;i<statistics.size();i++){
-                resultWriter.writeToFile(String.valueOf(String.format("%s\t\t%s\n\n", list.get(i), statistics.get(i))));
+        for (int i = 0; i < statistics.size(); i++) {
+            resultWriter.writeToFile(String.valueOf(String.format("%s\t\t%s\n\n", list.get(i), statistics.get(i))));
 
         }
     }
@@ -337,7 +337,7 @@ public class ResultCollector {
                     qlarge.add(query.timeTaken);
 
             }
-            resultWriter.writeToFile(String.format("Query : %s",qname));
+            resultWriter.writeToFile(String.format("Query : %s", qname));
             ArrayList<String> smalls = StatisticsEvaluator.findPercentile(qsmall, 1);
             ArrayList<String> mids = new ArrayList<String>();
             ArrayList<String> larges = new ArrayList<String>();

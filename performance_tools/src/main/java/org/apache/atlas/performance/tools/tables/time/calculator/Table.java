@@ -3,7 +3,7 @@ package org.apache.atlas.performance.tools.tables.time.calculator;
 public class Table {
 
     int tableno;
-    String guid,tableName,startTime,endTime;
+    String guid, tableName, startTime, endTime;
 
     public int getTableno() {
         return tableno;
