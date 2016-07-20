@@ -38,7 +38,6 @@ public class QueryRunner {
                 getEngine();
         guidGenEngine.run();
 
-        System.out.println("num entries to tag"+PropertiesFileReader.getNumEntriesToTag());
         guidGenEngine = queryTestBuilder.
                 withUserSessions(1,PropertiesFileReader.getNumEntriesToTag()).
                 withTestPlan("Associate Tags").
