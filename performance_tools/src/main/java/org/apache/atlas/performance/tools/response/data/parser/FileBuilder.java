@@ -55,7 +55,6 @@ public class FileBuilder {
         f = new File(PropertiesFileReader.getOutputDir() + "/EndSamplers.xml");
         f.createNewFile();
         createEmptyXMLFile(f);
-
         populateFiles(responseFile);
 
     }
@@ -71,6 +70,7 @@ public class FileBuilder {
 
     public static void populateFiles(String responseFile) throws IOException, SAXException, ParserConfigurationException, TransformerException {
         File source = new File(PropertiesFileReader.getOutputDir() + "/" + responseFile);
+        source.createNewFile();
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document sourceDom = builder.parse(source);
         String fileName;
