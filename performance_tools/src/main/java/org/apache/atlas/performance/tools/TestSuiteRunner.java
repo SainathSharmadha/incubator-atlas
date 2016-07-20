@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.text.ParseException;
 
 
-
 public class TestSuiteRunner {
     static void runPreDataCreationSuite() throws IOException, ConfigurationException {
         TableGenerator tableGenerator = new TableGenerator();
@@ -49,19 +48,22 @@ public class TestSuiteRunner {
 
     public static void main(String args[]) throws IOException, ConfigurationException, InterruptedException, ParserConfigurationException, SAXException, ParseException, TransformerException {
         String perfConfDir = args[0];
+        String test=args[1];
         System.setProperty("atlas.perf.dir", perfConfDir);
         PropertiesFileReader.readPropertiesFile();
         PropertiesFileUtils.calculateFromPropertiesFile();
-       cleanResultFolder();
+        cleanResultFolder();
+        if(test.equals("pretest"))
         runPreDataCreationSuite();
-        //runPostDataCreationSuite();
+        else
+        runPostDataCreationSuite();
 
     }
 
-    static void cleanResultFolder(){
-      File resultFolder=new File(PropertiesFileReader.getOutputDir());
-        File[] files=resultFolder.listFiles();
-        for(int i=0;i<files.length;i++){
+    static void cleanResultFolder() {
+        File resultFolder = new File(PropertiesFileReader.getOutputDir());
+        File[] files = resultFolder.listFiles();
+        for (int i = 0; i < files.length; i++) {
             files[i].delete();
         }
 
