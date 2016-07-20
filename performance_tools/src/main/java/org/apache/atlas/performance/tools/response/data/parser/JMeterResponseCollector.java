@@ -25,6 +25,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +50,9 @@ public class JMeterResponseCollector {
             String responseFile = String.format("ResponseData-%du-%dl.xml", usersList[i], loopsList[i]);
             FileBuilder.createFiles(usersList[i], responseFile);
             User.loopCount = loopsList[i];
-            resultWriter = new ResultWriter(String.format("JmeterResponse-%du-%dl.txt", usersList[i], loopsList[i]));
+            String jmeterRespFile=String.format("JmeterResponse-%du-%dl.txt", usersList[i], loopsList[i]);
+            new File(jmeterRespFile).createNewFile();
+            resultWriter = new ResultWriter(jmeterRespFile);
             rc = new ResultCollector(usersList[i],
                     loopsList[i],
                     lastSTable,
