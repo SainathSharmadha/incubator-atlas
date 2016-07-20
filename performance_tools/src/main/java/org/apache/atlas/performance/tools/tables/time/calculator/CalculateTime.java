@@ -113,7 +113,10 @@ public class CalculateTime {
             }
 
         }
-
+        if (file.exists()) {
+            file.delete();
+        }
+        file.createNewFile();
         if (ctasTablesPresent==false)
             return;
         if (!isCTAS) {
@@ -140,10 +143,7 @@ int ntables=PropertiesFileUtils.getNumTablesToTag();
             bufferedWriter.flush();
             bufferedWriter.close();
         }
-        if (file.exists()) {
-            file.delete();
-        }
-        file.createNewFile();
+
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
         Integer lastSTable;
         Integer lastMTable;
