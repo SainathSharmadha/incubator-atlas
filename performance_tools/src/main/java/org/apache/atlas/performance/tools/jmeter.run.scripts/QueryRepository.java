@@ -110,11 +110,13 @@ public class QueryRepository {
         this.testPlanTree = testPlanTree;
     }
     final String PORT = "21000";
-    final String getTableGivenName = "/api/atlas/discovery/search/dsl/?query=hive_table+where+name%3D%27${fqn}%27";
+    final String getTableGivenName = "/api/atlas/discovery/search/dsl/?query=hive_table+where+qualifiedName%3D%27${fqn}%27";
     final String getDetailsOfTable = "/api/atlas/entities/${guid}";
-    final String getSchemaOfTable = "/api/atlas/lineage/hive/table/${fqn}/schema";
-    final String iLineage = "/api/atlas/lineage/hive/table/${fqn}/inputs/graph";
-    final String oLineage = "/api/atlas/lineage/hive/table/${fqn}/outputs/graph";
+    final String getSchemaOfTable = "/api/atlas/lineage/${guid}/schema";
+  //  final String iLineage = "/api/atlas/lineage/hive/table/${fqn}/inputs/graph";
+   // final String oLineage = "/api/atlas/lineage/hive/table/${fqn}/outputs/graph";
+  final String iLineage = "/api/atlas/lineage/${guid}/inputs/graph";
+     final String oLineage = "/api/atlas/lineage/${guid}/outputs/graph";
     final String createTags = "/api/atlas/types";
     final String associateTags = "/api/atlas/entities/${guid}/traits";
     final String getAssociatedEntity = "/api/atlas/discovery/search/dsl?query=hive_table+where+hive_table+isa+${tag}";

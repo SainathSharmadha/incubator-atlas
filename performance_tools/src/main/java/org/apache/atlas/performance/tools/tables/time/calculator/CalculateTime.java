@@ -8,7 +8,10 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,10 +21,13 @@ public class CalculateTime {
 
     static File regularTableFile, ctasTableFile, testPlanTablesFile;
 
-    public static void calculateTime(File file, String tableFormat, boolean isCTAS) throws ConfigurationException, IOException {
-
+    public static void calculateTime(File file, String tableFormat, boolean isCTAS) throws ConfigurationException, IOException, ParseException {
+        boolean ctasTablesPresent=false;
+        Integer firstTable,lastTable;
+        firstTable=0;
+        lastTable=0;
         Table[] tables = new Table[PropertiesFileReader.getNumTables() + 1];
-        BufferedReader buff = new BufferedReader(new FileReader(new File("/Users/temp/SoftwareHWX/atlass/apache-atlas-0.7-incubating-SNAPSHOT/logs/application.log")));
+        BufferedReader buff = new BufferedReader(new FileReader(new File(PropertiesFileReader.getAtlasLogFile())));
         String responseData;
         int count = 0;
         String datePattern = "(([2][0-9][0-9][0-9]-[0-2][0-9]-[0-3][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]),([0-9]*))";
@@ -35,6 +41,7 @@ public class CalculateTime {
         Pattern tablePattern = Pattern.compile(tableFormat);
         Matcher startMatcher, endMatcher, tableNameMatcher;
         ArrayList<Table> tableArrayList = new ArrayList<Table>();
+        System.out.println("Parsing tables");
         while ((responseData = buff.readLine()) != null) {
             startMatcher = startPattern.matcher(responseData);
             endMatcher = endPattern.matcher(responseData);
@@ -43,8 +50,11 @@ public class CalculateTime {
                 tableName = startMatcher.group(6);
                 tableNameMatcher = tablePattern.matcher(tableName);
                 if (tableNameMatcher.find()) {
+                    ctasTablesPresent=true;
                     tableNo = Integer.parseInt(tableNameMatcher.group(1));
                     if (tables[tableNo] == null) {
+                        if(firstTable==0)
+                            firstTable=tableNo;
                         tables[tableNo] = new Table();
                         tables[tableNo].setTableno(tableNo);
                         tables[tableNo].setTableName(tableName);
@@ -55,6 +65,7 @@ public class CalculateTime {
 
                 }
             } else if (endMatcher.find()) {
+
                 String endTime = endMatcher.group(1);
                 String jsonMessage = endMatcher.group(5);
 
@@ -71,8 +82,11 @@ public class CalculateTime {
                         tableNameMatcher = tablePattern.matcher(table);
                         if (tableNameMatcher.find()) {
                             tableNo = Integer.parseInt(tableNameMatcher.group(1));
-                            tables[tableNo].setEndTime(endTime);
-                            tables[tableNo].setGuid(guid);
+                            if(tables[tableNo].getEndTime()==null) {
+                                lastTable = tableNo;
+                                tables[tableNo].setEndTime(endTime);
+                                tables[tableNo].setGuid(guid);
+                            }
                         }
                     }
                 } catch (org.json.JSONException e) {
@@ -83,6 +97,8 @@ public class CalculateTime {
 
         }
 
+        if (ctasTablesPresent==false)
+            return;
         if (!isCTAS) {
             File f = new File((PropertiesFileReader.getOutputDir() + "/tags-tables.txt"));
             if (f.exists()) {
@@ -93,13 +109,16 @@ public class CalculateTime {
 
             BufferedReader reader = new BufferedReader(new FileReader(PropertiesFileReader.getOutputDir() + "/tags-tables-temp.txt"));
             String tagInfo = "";
+int ntables=PropertiesFileUtils.getNumTablesToTag();
+            for (int i = 1; (tagInfo = reader.readLine()) != null; i++) {
 
-            for (int i = 0; (tagInfo = reader.readLine()) != null; i++) {
-                if (tables[i] == null) {
-                    System.out.println("null");
+
+                if (i>ntables) {
+                    // since there is no way to add multiple tags to a table by 1 post request as of now
+                    i=1;
                 }
                 if (tables[i] != null)
-                    bufferedWriter.write(tables[i].getTableno() + "," + tables[i].getTableName() + "," + tables[i].getGuid() + "," + tagInfo + "\n");
+                    bufferedWriter.write(tables[i].getTableno() + "," + PropertiesFileReader.getDatabase()+"."+tables[i].getTableName() +"@"+PropertiesFileReader.getCluster()+ "," + tables[i].getGuid() + "," + tagInfo + "\n");
             }
             bufferedWriter.flush();
             bufferedWriter.close();
@@ -137,10 +156,15 @@ public class CalculateTime {
                 ulim = lastLTable;
             }
             int randomNum = new Random().nextInt((ulim - llim)) + llim;
-            bufferedWriter.write(tableArrayList.get(randomNum).getTableno() + "," + tableArrayList.get(randomNum).getTableName() + "," + tableArrayList.get(randomNum).getGuid() + "," + tableArrayList.get(randomNum).getStartTime() + "," + tableArrayList.get(randomNum).getEndTime() + "\n");
+            bufferedWriter.write(tableArrayList.get(randomNum).getTableno() + "," + PropertiesFileReader.getDatabase()+"."+tableArrayList.get(randomNum).getTableName()+"@" +PropertiesFileReader.getCluster()+ "," + tableArrayList.get(randomNum).getGuid() + "," + tableArrayList.get(randomNum).getStartTime() + "," + tableArrayList.get(randomNum).getEndTime() + "\n");
 
 
         }
+
+        String stime=tables[firstTable].getStartTime();
+        String etime=tables[lastTable].getEndTime();
+
+        calculateDifference(stime,etime);
         bufferedWriter.flush();
         bufferedWriter.close();
 
@@ -170,20 +194,40 @@ public class CalculateTime {
         ctasFileReader.close();
 
 
+
     }
 
-    public static void getTestPlanTables() throws IOException, ConfigurationException {
+    public static void getTestPlanTables() throws IOException, ConfigurationException, ParseException {
         TagCreator.createTags();
         String database = PropertiesFileReader.getDatabase();
         String cluster = PropertiesFileReader.getCluster();
         regularTableFile = new File(PropertiesFileReader.getOutputDir() + "/mixedtables.txt");
         ctasTableFile = new File(PropertiesFileReader.getOutputDir() + "/mixedctastables.txt");
         testPlanTablesFile = new File(PropertiesFileReader.getOutputDir() + "/testplantables.txt");
-        calculateTime(regularTableFile, String.format("%s.table_([0-9]*)@%s", database, cluster), false);
-        calculateTime(ctasTableFile, String.format("%s.table_([0-9]*)_ctas@%s", database, cluster), true);
+        //calculateTime(regularTableFile, String.format("%s.table_([0-9]*)@%s", database, cluster), false);
+        //calculateTime(ctasTableFile, String.format("%s.table_([0-9]*)_ctas@%s", database, cluster), true);
+        calculateTime(regularTableFile, String.format("table_([0-9]*)", database, cluster), false);
+        calculateTime(ctasTableFile, String.format("table_([0-9]*)_ctas", database, cluster), true);
         mixtables();
 
     }
 
+
+   public  static void calculateDifference(String startTime,String endTime) throws ParseException {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
+
+        Date d1 = null;
+        Date d2 = null;
+
+            d1 = format.parse(startTime);
+            d2 = format.parse(endTime);
+
+        long diff = d2.getTime() - d1.getTime();
+        long diffSeconds = diff / 1000 % 60;
+        long diffMinutes = diff / (60 * 1000) % 60;
+        long diffHours = diff / (60 * 60 * 1000);
+        System.out.println(diffHours+":"+diffMinutes+":"+diffSeconds);
+    }
 
 }

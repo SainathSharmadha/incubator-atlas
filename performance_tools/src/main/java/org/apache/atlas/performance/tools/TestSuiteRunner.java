@@ -10,8 +10,11 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+
+import static org.apache.atlas.performance.tools.TestSuiteRunner.cleanResultFolder;
 
 public class TestSuiteRunner {
     static void runPreDataCreationSuite() throws IOException, ConfigurationException {
@@ -32,9 +35,18 @@ public class TestSuiteRunner {
         System.setProperty("atlas.perf.dir", perfConfDir);
         PropertiesFileReader.readPropertiesFile();
         PropertiesFileUtils.calculateFromPropertiesFile();
-        //runPreDataCreationSuite();
-        runPostDataCreationSuite();
+       cleanResultFolder();
+        runPreDataCreationSuite();
+        //runPostDataCreationSuite();
 
+    }
+
+    static void cleanResultFolder(){
+      File resultFolder=new File(PropertiesFileReader.getOutputDir());
+        File[] files=resultFolder.listFiles();
+        for(int i=0;i<files.length;i++){
+            files[i].delete();
+        }
 
     }
 }

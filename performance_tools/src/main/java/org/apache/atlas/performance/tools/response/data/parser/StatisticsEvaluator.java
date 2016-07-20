@@ -31,21 +31,24 @@ public class StatisticsEvaluator {
     }
 
     static Long findnthPercentile(ArrayList<Long> times, float n) {
-
-
         int size = times.size();
         float nper = (n / 100) * (size);
+
         int iRank = (int) nper / 1;
 
-        Float fRank = nper % 1;
-        Float percentile;
+        float fRank = nper % 1;
+        float percentile;
 
         if (fRank == 0f)
-            percentile = times.get(iRank).floatValue();
+            percentile = times.get(iRank-1).floatValue();
+
+        else if(iRank==0f)
+            percentile=times.get(0);
+
         else
             percentile = fRank * (times.get(iRank) - times.get(iRank - 1)) + times.get(iRank - 1);
 
-        return percentile.longValue();
+        return (long)percentile;
     }
 
 

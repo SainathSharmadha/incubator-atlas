@@ -57,6 +57,11 @@ public class PropertiesFileUtils {
         numTablesToTag = (int) (numTables * (tagPercentage / 100));
     }
 
+    public static void changeNumTaggedTables(Integer nEntries) throws ConfigurationException {
+PropertiesFileReader.propertiesConfiguration.setProperty("num.entries.tag.file",nEntries);
+        PropertiesFileReader.propertiesConfiguration.save();
+    }
+
     public static void main(String args) throws ConfigurationException, IOException {
         String perfConfDir = args;
         System.setProperty("atlas.perf.dir", perfConfDir);

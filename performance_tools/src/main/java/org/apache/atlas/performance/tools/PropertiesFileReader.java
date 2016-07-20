@@ -26,11 +26,11 @@ import java.util.ArrayList;
 
 
 public class PropertiesFileReader {
-    static Integer numTables, numQueriesPerSet, smallTablesLast, mediumTablesLast, largeTablesLast, numTags, numTestPlanTables;
+    static Integer numTables, numQueriesPerSet, smallTablesLast, mediumTablesLast, largeTablesLast, numTags, numTestPlanTables,numEntriesToTag;
     static Float smallTablePercentage, mediumTablePercentage, ctasTablePercentage, tagPercentage;
     static String atlasLogFile, database, cluster, outputDir, cpuFile, jmeterResponseFile, jmeterHome, jmeterPropertiesFile, domain;
     static String[] numUsers, numLoops;
-    static PropertiesConfiguration propertiesConfiguration;
+    public static PropertiesConfiguration propertiesConfiguration;
 
     public static void readPropertiesFile() throws ConfigurationException, IOException {
 
@@ -45,9 +45,6 @@ public class PropertiesFileReader {
         numUsers = propertiesConfiguration.getStringArray("num.users");
         numLoops = propertiesConfiguration.getStringArray("num.loops");
         numQueriesPerSet = Integer.parseInt((String) propertiesConfiguration.getProperty("num.queries.per.set"));
-        smallTablesLast = Integer.parseInt((String) propertiesConfiguration.getProperty("small.tables.end"));
-        mediumTablesLast = Integer.parseInt((String) propertiesConfiguration.getProperty("medium.tables.end"));
-        largeTablesLast = Integer.parseInt((String) propertiesConfiguration.getProperty("large.tables.end"));
         numTags = Integer.parseInt((String) propertiesConfiguration.getProperty("num.tags"));
         cpuFile = (String) propertiesConfiguration.getProperty("cpu.consumption.file");
         jmeterResponseFile = (String) propertiesConfiguration.getProperty("jmeter.response.file");
@@ -62,6 +59,7 @@ public class PropertiesFileReader {
         jmeterHome = (String) propertiesConfiguration.getProperty("jmeter.home");
         jmeterPropertiesFile = (String) propertiesConfiguration.getProperty("jmeter.properties");
         domain = (String) propertiesConfiguration.getProperty("domain");
+        numEntriesToTag=Integer.parseInt((String) propertiesConfiguration.getProperty("num.entries.tag.file"));
 
     }
 
@@ -163,6 +161,10 @@ public class PropertiesFileReader {
 
     public static String getJmeterPropertiesFile() {
         return jmeterPropertiesFile;
+    }
+
+    public static Integer getNumEntriesToTag() {
+        return numEntriesToTag;
     }
 
     public static String getDomain() {

@@ -113,7 +113,8 @@ public class ResultCollector {
         String responseData = element.getElementsByTagName("java.net.URL").item(0).getTextContent();
         String table = "";
         String cluster = "cluster1";
-        String strPattern = "(.*)default.(table_([0-9]*)(|_ctas))@" + cluster + "(.*)";
+    //    String strPattern = "(.*)default.(table_([0-9]*)(|_ctas))@" + cluster + "(.*)";
+        String strPattern = "(.*)(table_([0-9]*)(|_ctas))@"+"(.*)";
         Pattern pattern = Pattern.compile(strPattern);
         Matcher m = pattern.matcher(responseData);
         if (m.find()) {
@@ -147,6 +148,8 @@ public class ResultCollector {
             }
             Node nNode = nList.item(temp);
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+
                 querySet = user.querySets[querySetCntr];
                 Element element = (Element) nNode;
                 query = constructQueryFromElement(element);

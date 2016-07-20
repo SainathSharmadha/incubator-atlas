@@ -32,14 +32,15 @@ public class QueryRunner {
 
         System.out.println("Posting Tags");
         guidGenEngine = queryTestBuilder.
-                withUserSessions(1, 100).
+                withUserSessions(1,PropertiesFileReader.getNumTags()).
                 withTestPlan("Post Tags").
                 withResultGenerator().
                 getEngine();
         guidGenEngine.run();
 
+        System.out.println("num entries to tag"+PropertiesFileReader.getNumEntriesToTag());
         guidGenEngine = queryTestBuilder.
-                withUserSessions(1, 50).
+                withUserSessions(1,PropertiesFileReader.getNumEntriesToTag()).
                 withTestPlan("Associate Tags").
                 withResultGenerator().
                 getEngine();
