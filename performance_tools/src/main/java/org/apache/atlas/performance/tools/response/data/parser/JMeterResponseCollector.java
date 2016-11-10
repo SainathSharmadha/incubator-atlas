@@ -39,7 +39,7 @@ public class JMeterResponseCollector {
 
         Integer[] usersList = PropertiesFileReader.getNumUsers();
         Integer[] loopsList = PropertiesFileReader.getNumLoops();
-        ResultWriter resultWriter = new ResultWriter("JmeterResponse.txt");
+        ResultWriter resultWriter;
         QuerySet.setNumQueriesPerSet(PropertiesFileReader.getNumQueriesPerSet());
         ResultCollector rc;
         Integer lastSTable = PropertiesFileUtils.getSmallTables();

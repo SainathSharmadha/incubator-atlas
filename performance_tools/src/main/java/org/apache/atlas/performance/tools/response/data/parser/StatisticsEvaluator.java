@@ -40,15 +40,15 @@ public class StatisticsEvaluator {
         float percentile;
 
         if (fRank == 0f)
-            percentile = times.get(iRank-1).floatValue();
+            percentile = times.get(iRank - 1).floatValue();
 
-        else if(iRank==0f)
-            percentile=times.get(0);
+        else if (iRank == 0f)
+            percentile = times.get(0);
 
         else
             percentile = fRank * (times.get(iRank) - times.get(iRank - 1)) + times.get(iRank - 1);
 
-        return (long)percentile;
+        return (long) percentile;
     }
 
 

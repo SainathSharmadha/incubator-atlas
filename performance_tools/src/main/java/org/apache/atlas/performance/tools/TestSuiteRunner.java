@@ -18,6 +18,7 @@
 package org.apache.atlas.performance.tools;
 
 
+import org.apache.atlas.performance.tools.hive.HiveUtil;
 import org.apache.atlas.performance.tools.jmeter.run.scripts.QueryRunner;
 import org.apache.atlas.performance.tools.response.data.parser.JMeterResponseCollector;
 import org.apache.atlas.performance.tools.table.generator.TableGenerator;
@@ -29,14 +30,23 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 
 public class TestSuiteRunner {
-    static void runPreDataCreationSuite() throws IOException, ConfigurationException {
+    static void runPreDataCreationSuite() throws IOException, ConfigurationException, SQLException, ClassNotFoundException, InterruptedException {
         TableGenerator tableGenerator = new TableGenerator();
         tableGenerator.generateOutputFile();
-
+        System.out.println("creating tables ..");
+        String fileName=PropertiesFileReader.getOutputDir()+"/tables-"+PropertiesFileReader.numTables+".txt";
+        File tablesFile=new File(fileName);
+        HiveUtil.createTables(tablesFile,PropertiesFileReader.numTables+1);
+        Thread.sleep(60000);
+        System.out.println("creating CTAS tables ..");
+        fileName=PropertiesFileReader.getOutputDir()+"/tables-"+PropertiesFileReader.numTables+"-ctas.txt";
+        tablesFile=new File(fileName);
+        HiveUtil.createTables(tablesFile,PropertiesFileReader.numTables+1+PropertiesFileUtils.getNumCtasTables());
     }
 
     static void runPostDataCreationSuite() throws IOException, ConfigurationException, InterruptedException, ParserConfigurationException, SAXException, ParseException, TransformerException {
@@ -46,17 +56,17 @@ public class TestSuiteRunner {
 
     }
 
-    public static void main(String args[]) throws IOException, ConfigurationException, InterruptedException, ParserConfigurationException, SAXException, ParseException, TransformerException {
+    public static void main(String[] args) throws IOException, ConfigurationException, InterruptedException, ParserConfigurationException, SAXException, ParseException, TransformerException, SQLException, ClassNotFoundException {
         String perfConfDir = args[0];
-        String test=args[1];
         System.setProperty("atlas.perf.dir", perfConfDir);
         PropertiesFileReader.readPropertiesFile();
         PropertiesFileUtils.calculateFromPropertiesFile();
         cleanResultFolder();
-        if(test.equals("pretest"))
+        //if(testToRun.equals("PostDataTest"))
         runPreDataCreationSuite();
-        else
         runPostDataCreationSuite();
+        //else
+
 
     }
 

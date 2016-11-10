@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -109,24 +109,25 @@ public class QueryRepository {
     QueryRepository(ListedHashTree testPlanTree) {
         this.testPlanTree = testPlanTree;
     }
+
     final String PORT = "21000";
     final String getTableGivenName = "/api/atlas/discovery/search/dsl/?query=hive_table+where+qualifiedName%3D%27${fqn}%27";
     final String getDetailsOfTable = "/api/atlas/entities/${guid}";
     final String getSchemaOfTable = "/api/atlas/lineage/${guid}/schema";
-  //  final String iLineage = "/api/atlas/lineage/hive/table/${fqn}/inputs/graph";
-   // final String oLineage = "/api/atlas/lineage/hive/table/${fqn}/outputs/graph";
-  final String iLineage = "/api/atlas/lineage/${guid}/inputs/graph";
-     final String oLineage = "/api/atlas/lineage/${guid}/outputs/graph";
+    //  final String iLineage = "/api/atlas/lineage/hive/table/${fqn}/inputs/graph";
+    // final String oLineage = "/api/atlas/lineage/hive/table/${fqn}/outputs/graph";
+    final String iLineage = "/api/atlas/lineage/${guid}/inputs/graph";
+    final String oLineage = "/api/atlas/lineage/${guid}/outputs/graph";
     final String createTags = "/api/atlas/types";
     final String associateTags = "/api/atlas/entities/${guid}/traits";
     final String getAssociatedEntity = "/api/atlas/discovery/search/dsl?query=hive_table+where+hive_table+isa+${tag}";
 
-    private CSVDataSet getCSVDataSetConfig(String filename,String variables) {
+    private CSVDataSet getCSVDataSetConfig(String filename, String variables) {
         CSVDataSet csvDataSet = new CSVDataSet();
         csvDataSet.setProperty(TestElement.GUI_CLASS, TestBeanGUI.class.getName());
         csvDataSet.setName("CSV dataset config");
         csvDataSet.setProperty(new StringProperty("filename", filename));
-        csvDataSet.setProperty(new StringProperty("variableNames",variables));
+        csvDataSet.setProperty(new StringProperty("variableNames", variables));
         csvDataSet.setProperty(new StringProperty("delimiter", ","));
         csvDataSet.setProperty(new StringProperty("shareMode", "shareMode.all"));
         csvDataSet.setProperty("quoted", false);
@@ -154,7 +155,7 @@ public class QueryRepository {
         POSTRequest postTags = new POSTRequest("Create tags", createTags, body);
         queries[0] = postTags.getHTTPSampler();
         testPlanTree.add(queries);
-        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir()+"/tags-attributes.txt","tag,attribute");
+        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir() + "/tags-attributes.txt", "tag,attribute");
         HeaderManager headerManager = getHeaderManager();
         testPlanTree.add(headerManager);
         testPlanTree.add(csvDataSet);
@@ -165,7 +166,7 @@ public class QueryRepository {
     ListedHashTree getAssociateTagsQueries() {
         String body = "{\"jsonClass\":\"org.apache.atlas.typesystem.json.InstanceSerialization$_Struct\",\"typeName\":\"${tag}\",\"values\":{\"${attribute}\":\"${value}\"}}\n";
         POSTRequest postTags = new POSTRequest("Associate Tags", associateTags, body);
-        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir()+"/tags-tables.txt", "tableno,fqn,guid,tag,attribute,val");
+        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir() + "/tags-tables.txt", "tableno,fqn,guid,tag,attribute,val");
         HeaderManager headerManager = getHeaderManager();
         testPlanTree.add(postTags.getHTTPSampler());
         testPlanTree.add(headerManager);
@@ -187,7 +188,7 @@ public class QueryRepository {
                 getOutputLineage.getHTTPSampler()
         };
         testPlanTree.add(queries);
-        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir()+"/testplantables.txt", "tableno,fqn,guid,st,et");
+        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir() + "/testplantables.txt", "tableno,fqn,guid,st,et");
         testPlanTree.add(csvDataSet);
         return testPlanTree;
     }
@@ -195,11 +196,10 @@ public class QueryRepository {
     ListedHashTree getEntityWithTag() {
         HTTPRequest getEntityAssociatedToTag = new HTTPRequest("Get Entity Associated to a Tag", getAssociatedEntity);
         testPlanTree.add(getEntityAssociatedToTag.getHTTPSampler());
-        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir()+"/tags-attributes.txt","tag,attribute");
+        CSVDataSet csvDataSet = getCSVDataSetConfig(PropertiesFileReader.getOutputDir() + "/tags-attributes.txt", "tag,attribute");
         testPlanTree.add(csvDataSet);
         return testPlanTree;
     }
-
 
 
 }

@@ -19,10 +19,10 @@ package org.apache.atlas.performance.tools.tables.time.calculator;
 
 public class Table {
 
-    int tableno;
+    Integer tableno;
     String guid, tableName, startTime, endTime;
 
-    public int getTableno() {
+    public Integer getTableno() {
         return tableno;
     }
 

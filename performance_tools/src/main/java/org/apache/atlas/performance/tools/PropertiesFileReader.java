@@ -26,10 +26,10 @@ import java.util.ArrayList;
 
 
 public class PropertiesFileReader {
-    static Integer numTables, numQueriesPerSet, smallTablesLast, mediumTablesLast, largeTablesLast, numTags, numTestPlanTables,numEntriesToTag;
+    static Integer numTables, numQueriesPerSet, smallTablesLast, mediumTablesLast, largeTablesLast, numTags, numTestPlanTables, numEntriesToTag;
     static Float smallTablePercentage, mediumTablePercentage, ctasTablePercentage, tagPercentage;
     static String atlasLogFile, database, cluster, outputDir, cpuFile, jmeterResponseFile, jmeterHome, jmeterPropertiesFile, domain;
-    static String[] numUsers, numLoops;
+    static String[] numUsers, numLoops, numSplits;
     public static PropertiesConfiguration propertiesConfiguration;
 
     public static void readPropertiesFile() throws ConfigurationException, IOException {
@@ -44,6 +44,7 @@ public class PropertiesFileReader {
         outputDir = (String) propertiesConfiguration.getProperty("output.file.dir");
         numUsers = propertiesConfiguration.getStringArray("num.users");
         numLoops = propertiesConfiguration.getStringArray("num.loops");
+        numSplits = propertiesConfiguration.getStringArray("num.splits");
         numQueriesPerSet = Integer.parseInt((String) propertiesConfiguration.getProperty("num.queries.per.set"));
         numTags = Integer.parseInt((String) propertiesConfiguration.getProperty("num.tags"));
         cpuFile = (String) propertiesConfiguration.getProperty("cpu.consumption.file");
@@ -59,7 +60,7 @@ public class PropertiesFileReader {
         jmeterHome = (String) propertiesConfiguration.getProperty("jmeter.home");
         jmeterPropertiesFile = (String) propertiesConfiguration.getProperty("jmeter.properties");
         domain = (String) propertiesConfiguration.getProperty("domain");
-        numEntriesToTag=Integer.parseInt((String) propertiesConfiguration.getProperty("num.entries.tag.file"));
+        numEntriesToTag = Integer.parseInt((String) propertiesConfiguration.getProperty("num.entries.tag.file"));
 
     }
 
@@ -169,5 +170,14 @@ public class PropertiesFileReader {
 
     public static String getDomain() {
         return domain;
+    }
+
+
+    public static Integer[] getNumSplits() {
+        Integer splitList[] = new Integer[numSplits.length];
+        for (int i = 0; i < numSplits.length; i++) {
+            splitList[i] = Integer.parseInt(numSplits[i]);
+        }
+        return splitList;
     }
 }

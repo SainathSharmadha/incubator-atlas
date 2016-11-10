@@ -32,8 +32,6 @@ public class TagCreator {
         Integer numTablesToTag = PropertiesFileUtils.getNumTablesToTag();
         Integer numTablePerTag = numTablesToTag / PropertiesFileReader.getNumTags();
         Integer numTags = PropertiesFileReader.getNumTags();
-
-        System.out.println(numTags + " " + numTablePerTag + "\t" + numTablesToTag);
         File tagsAttributesFile = new File(String.format("%s/tags-attributes.txt", PropertiesFileReader.getOutputDir()));
         tagsAttributesFile.createNewFile();
         FileWriter tagAttributesFileWriter = new FileWriter(tagsAttributesFile);
@@ -43,12 +41,8 @@ public class TagCreator {
             tagMultipleTablesToATag(numTags, numTablePerTag, tagAttributesFileWriter, tagTablesFileWriter);
         else
             tagMultipleTagsToATable(numTags, numTablePerTag, tagAttributesFileWriter, tagTablesFileWriter);
-
-
         tagAttributesFileWriter.flush();
         tagTablesFileWriter.flush();
-
-
     }
 
 
@@ -68,14 +62,12 @@ public class TagCreator {
             }
         }
         PropertiesFileUtils.changeNumTaggedTables(tableEnd);
-
     }
 
     public static void tagMultipleTagsToATable(Integer numTags, Integer numTablePerTag, FileWriter tagAttributesFileWriter, FileWriter tagTablesFileWriter) throws IOException, ConfigurationException {
 
-        Integer tagStart = 1, tagEnd = numTags, tableStart = 0, tableEnd = 0, val = 0;
+        Integer tagStart = 1, tagEnd = numTags, val = 0;
         String towrite;
-        System.out.println("tagMultipleTagsToATable" + tagEnd);
         for (int i = tagStart; i <= tagEnd; i++) {
             val++;
             towrite = String.format("tagg_%d,tagg_%d_attribute,val_%d", i, i, val);
@@ -83,8 +75,6 @@ public class TagCreator {
             tagTablesFileWriter.write(towrite + "\n");
         }
         PropertiesFileUtils.changeNumTaggedTables(tagEnd);
-
-
     }
 
 }

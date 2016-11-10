@@ -29,17 +29,15 @@ public class QueryRunner {
 
         StandardJMeterEngine guidGenEngine;
         QueryTestBuilder queryTestBuilder = new QueryTestBuilder().withJmeterInitialized();
-
-        System.out.println("Posting Tags");
-        guidGenEngine = queryTestBuilder.
-                withUserSessions(1,PropertiesFileReader.getNumTags()).
+       guidGenEngine = queryTestBuilder.
+                withUserSessions(1, PropertiesFileReader.getNumTags()).
                 withTestPlan("Post Tags").
                 withResultGenerator().
                 getEngine();
         guidGenEngine.run();
 
         guidGenEngine = queryTestBuilder.
-                withUserSessions(1,PropertiesFileReader.getNumEntriesToTag()).
+                withUserSessions(1, PropertiesFileReader.getNumEntriesToTag()).
                 withTestPlan("Associate Tags").
                 withResultGenerator().
                 getEngine();

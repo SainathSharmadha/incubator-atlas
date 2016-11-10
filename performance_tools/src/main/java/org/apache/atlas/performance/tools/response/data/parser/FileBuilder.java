@@ -46,7 +46,7 @@ public class FileBuilder {
         for (int i = 1; i <= usersCnt; i++) {
 
             new File(outputDir + "/Users").mkdir();
-            fileName = String.format("%s/Users/Atlas users 1-%d.xml", outputDir, i);
+            fileName = String.format("%s/Users/Atlas-users 1-%d.xml", outputDir, i);
             f = new File(fileName);
             f.createNewFile();
             createEmptyXMLFile(f);

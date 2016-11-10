@@ -54,7 +54,7 @@ public class TableGenerator {
                     str = String.format("%s,%s%d%s%d %s", str, strTable, i, strColumn, col, datatype);
 
             }
-            createStatement = String.format("create table %s%d(%s);", strTable, i, str);
+            createStatement = String.format("create table %s%d(%s)", strTable, i, str);
             bufferedWriter.write(createStatement + "\n");
 
         }
@@ -75,7 +75,7 @@ public class TableGenerator {
             randTable = new Random().nextInt((tableEnd - tableStart) + 1) + tableStart;
             if (!tables.contains(randTable)) {
                 tables.add(randTable);
-                str = String.format("create table table_%d_ctas as select * from table_%d;", randTable, randTable);
+                str = String.format("create table table_%d_ctas as select * from table_%d", randTable, randTable);
                 bufferedWriter.write(str + "\n");
                 i++;
             }

@@ -83,7 +83,7 @@ public class ResultCollector {
         for (int i = 1; i <= usersCnt; i++) {
             uname = String.format("Atlas user 1-%d", i);
             user = new User(uname);
-            filename = String.format("%s/Users/Atlas users 1-%d.xml", outputDir, i);
+            filename = String.format("%s/Users/Atlas-users 1-%d.xml", outputDir, i);
             file = new File(filename);
             parseUserFile(file, user);
         }
@@ -112,9 +112,7 @@ public class ResultCollector {
 
         String responseData = element.getElementsByTagName("java.net.URL").item(0).getTextContent();
         String table = "";
-        String cluster = "cluster1";
-    //    String strPattern = "(.*)default.(table_([0-9]*)(|_ctas))@" + cluster + "(.*)";
-        String strPattern = "(.*)(table_([0-9]*)(|_ctas))@"+"(.*)";
+        String strPattern = "(.*)(table_([0-9]*)(|_ctas))@" + "(.*)";
         Pattern pattern = Pattern.compile(strPattern);
         Matcher m = pattern.matcher(responseData);
         if (m.find()) {
@@ -130,12 +128,8 @@ public class ResultCollector {
 
     private void parseUserFile(File file, User user) throws ParserConfigurationException, IOException, SAXException {
         QuerySet querySet;
-
         Query query;
-
         Document doc = buildDocument(file);
-
-
         NodeList nList = doc.getElementsByTagName("httpSample");
         Integer queryCntr = 0;
         Integer querySetCntr = 0;
@@ -148,8 +142,6 @@ public class ResultCollector {
             }
             Node nNode = nList.item(temp);
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-
                 querySet = user.querySets[querySetCntr];
                 Element element = (Element) nNode;
                 query = constructQueryFromElement(element);
@@ -368,7 +360,7 @@ public class ResultCollector {
             list.add("95th");
             resultWriter.writeToFile("\t\tSmall\t\t\tMedium\t\t\tLarge");
             for (int i = 0; i < smalls.size(); i++) {
-                resultWriter.writeToFile(String.valueOf(String.format("%s\t\t%s\t\t%s\t\t%s\n\n", list.get(i), smalls.get(i), mids.get(i), larges.get(i))));
+                resultWriter.writeToFile("\t"+((smalls.size()>i)?smalls.get(i):"none")+"\t"+((mids.size()>i)?mids.get(i):"none")+"\t"+((larges.size()>i)?larges.get(i):"none")+"\n");
             }
         }
     }

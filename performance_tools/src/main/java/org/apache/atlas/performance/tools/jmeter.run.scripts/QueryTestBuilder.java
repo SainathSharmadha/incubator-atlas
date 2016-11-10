@@ -84,7 +84,7 @@ public class QueryTestBuilder {
         loopController.initialize();
 
         threadGroup = new ThreadGroup();
-        threadGroup.setName("Atlas Users");
+        threadGroup.setName("Atlas-users");
         threadGroup.setNumThreads(nUsers);
         threadGroup.setProperty(TestElement.TEST_CLASS, ThreadGroup.class.getName());
         threadGroup.setProperty(TestElement.GUI_CLASS, ThreadGroupGui.class.getName());
